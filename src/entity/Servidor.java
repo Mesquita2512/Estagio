@@ -2,20 +2,26 @@ package entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+//@Entity
 @Table(name = "Servidor")
 public class Servidor {
 	
 	@Id
 	@Column(name = "Id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@Column(nullable = false, name = "Siape")
 	private long siape;
+	
 	@Column(nullable = false, name = "Nome")
 	private String nome;
+	
 	@Column(nullable = false, name = "Email")
 	private String email;
 
