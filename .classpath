@@ -7,7 +7,7 @@
 	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/classmate-1.5.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/FastInfoset-1.2.15.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/hibernate-commons-annotations-5.1.2.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/hibernate-core-5.5.7.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/hibernate-core-5.5.7.Final.jar" sourcepath="C:/Users/mesqu/.m2/repository/org/hibernate/hibernate-core/5.5.7.Final/hibernate-core-5.5.7.Final-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/hibernate-jpamodelgen-5.5.7.Final.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/istack-commons-runtime-3.0.7.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mesqu/OneDrive/Documentos/GitHub/Estagio/lib/jandex-2.2.3.Final.jar"/>
