@@ -2,8 +2,6 @@ package entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -11,13 +9,13 @@ public class Servidor {
 	
 	@Id
 	@Column(nullable = false, name = "Siape")
-	private long siape;
+	protected long siape;
 	
 	@Column(nullable = false, name = "Nome")
-	private String nome;
+	protected String nome;
 	
 	@Column(nullable = false, name = "Email")
-	private String email;
+	protected String email;
 
 	
 	public Servidor() {

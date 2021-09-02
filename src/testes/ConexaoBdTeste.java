@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import fabricaConexao.FabricaJpa;
 
-public class TestaConexao {
+public class ConexaoBdTeste {
 
 	public static void main(String[] args) {
 		EntityManager entityManenger = FabricaJpa.getEntityManagerFactory().createEntityManager();
@@ -13,7 +13,7 @@ public class TestaConexao {
 			System.out.print("conexao realizada com sucesso");
 		} else {
 			System.out.println("nao foi possivel realizar a conexao");
-		}
+		} // TODO Auto-generated method stub
 
 	}
 

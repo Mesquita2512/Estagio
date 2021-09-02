@@ -6,6 +6,9 @@
 	<persistence-unit name="materiais" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>entity.Servidor</class>
+		<class>entity.Material</class>
+		<class>entity.Admin</class>
+	
 		
 		<validation-mode>NONE</validation-mode>
 		<properties>
