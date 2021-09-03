@@ -1,26 +1,46 @@
 package entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Emprestimo {
 
+	@Id
+	@Column(name = "Id")
 	private long id;
+
+	@OneToOne
+	@JoinColumn(name = "Siape_Servidor")
 	private Servidor servidor;
+
+	@OneToOne
+	@JoinColumn(name = "Siape_Admin")
 	private Admin admin;
+
+	@OneToOne
+	@JoinColumn(name = "Id_Material")
 	private Material material;
-	private String des_Material_Emprestado;
+
+	@Column(name = "Qtd_Emprestada")
 	private int qtd_emprestado;
+
+	@Column(name = "Observacoes")
 	private String observacoes;
 
 	public Emprestimo() {
 		super();
 	}
 
-	public Emprestimo(Servidor servidor, Admin admin, Material material, String des_Material_Emprestado,
-			int qtd_emprestado, String observacoes) {
+	public Emprestimo(Servidor servidor, Admin admin, Material material, int qtd_emprestado, String observacoes) {
 		super();
 		this.servidor = servidor;
 		this.admin = admin;
 		this.material = material;
-		this.des_Material_Emprestado = des_Material_Emprestado;
 		this.qtd_emprestado = qtd_emprestado;
 		this.observacoes = observacoes;
 	}
@@ -47,14 +67,6 @@ public class Emprestimo {
 
 	public void setMaterial(Material material) {
 		this.material = material;
-	}
-
-	public String getDes_Material_Emprestado() {
-		return des_Material_Emprestado;
-	}
-
-	public void setDes_Material_Emprestado(String des_Material_Emprestado) {
-		this.des_Material_Emprestado = des_Material_Emprestado;
 	}
 
 	public int getQtd_emprestado() {
@@ -98,8 +110,7 @@ public class Emprestimo {
 	@Override
 	public String toString() {
 		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", admin=" + admin + ", material=" + material
-				+ ", des_Material_Emprestado=" + des_Material_Emprestado + ", qtd_emprestado=" + qtd_emprestado
-				+ ", observacoes=" + observacoes + "]";
+				+ ", qtd_emprestado=" + qtd_emprestado + ", observacoes=" + observacoes + "]";
 	}
 
 }

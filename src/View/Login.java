@@ -6,16 +6,25 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
+
+import config.Numeros;
+import dao.AdminDao;
+import entity.Admin;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login {
 
 	private JFrame frmTelaLogin;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtSiape;
+	private JTextField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -38,6 +47,7 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
+		txtSiape.setDocument(new Numeros());
 	}
 
 	/**
@@ -51,13 +61,23 @@ public class Login {
 		frmTelaLogin.setBounds(100, 100, 400, 300);
 		frmTelaLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtSiape = new JTextField(15);
+		txtSiape.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		txtSenha = new JTextField(45);
+		txtSenha.setColumns(10);
 
-		JButton btnNewButton = new JButton("ENTRAR");
+		JButton btn_Entrar = new JButton("ENTRAR");
+		btn_Entrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminDao adao = new AdminDao();
+				Admin admin = new Admin();
+				int siape = Integer.parseInt(txtSiape.getText());
+				
+				admin = adao.buscarPorSiape(siape);
+				JOptionPane.showMessageDialog(null, admin.getNome()+ "---"+admin.getSenha());
+			}
+		});
 
 		JLabel lblSiape = new JLabel("Siape");
 		lblSiape.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -74,11 +94,11 @@ public class Login {
 								.createParallelGroup(Alignment.TRAILING).addComponent(lblSiape).addComponent(lblSenha))
 						.addGap(18)
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 176,
+								.addComponent(txtSiape, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 176,
 										Short.MAX_VALUE)
-								.addComponent(textField_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 176,
+								.addComponent(txtSenha, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 176,
 										Short.MAX_VALUE)
-								.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
+								.addComponent(btn_Entrar, GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
 						.addGap(81))
 				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup().addGap(111)
 						.addComponent(lblLogin, GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE).addGap(107)));
@@ -86,12 +106,12 @@ public class Login {
 				.addGroup(groupLayout.createSequentialGroup().addGap(35)
 						.addComponent(lblLogin, GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE).addGap(18)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblSiape)
-								.addGroup(groupLayout.createSequentialGroup().addGap(1).addComponent(textField)))
+								.addGroup(groupLayout.createSequentialGroup().addGap(1).addComponent(txtSiape)))
 						.addGap(24)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addGroup(groupLayout.createSequentialGroup().addGap(1).addComponent(textField_1))
+								.addGroup(groupLayout.createSequentialGroup().addGap(1).addComponent(txtSenha))
 								.addComponent(lblSenha))
-						.addGap(28).addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
+						.addGap(28).addComponent(btn_Entrar, GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
 						.addGap(65)));
 		frmTelaLogin.getContentPane().setLayout(groupLayout);
 	}
