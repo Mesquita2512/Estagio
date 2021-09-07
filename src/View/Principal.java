@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.GroupLayout;
@@ -11,8 +10,6 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -22,13 +19,17 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Principal {
 
 	private JFrame frmTelaPrincipal;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txt_Matrial_Busca;
+	private JTextField txt_Servidor_Busca;
+
+	Controla_views control_View = new Controla_views();
+	Login login = new Login();
 
 	/**
 	 * Launch the application.
@@ -58,197 +59,143 @@ public class Principal {
 	 */
 	private void initialize() {
 		frmTelaPrincipal = new JFrame();
+		frmTelaPrincipal.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagens/Icon_Fundo.jpg")));
 		frmTelaPrincipal.setResizable(false);
 		frmTelaPrincipal.setForeground(new Color(169, 169, 169));
 		frmTelaPrincipal.setBackground(new Color(169, 169, 169));
 		frmTelaPrincipal.setTitle("Tela Principal");
 		frmTelaPrincipal.setBounds(100, 100, 600, 450);
 		frmTelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		table = new JTable();
 		table.setColumnSelectionAllowed(true);
-		
+
 		JLabel lblMaterialservidor = new JLabel("Material");
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setColumns(10);
-		
+
+		txt_Matrial_Busca = new JTextField();
+		txt_Matrial_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txt_Matrial_Busca.setColumns(10);
+
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String siape = "";
+				siape = System.getProperty("siape", siape);
+				System.out.println("Testa Buscar Siape Admin" + siape);
+
+			}
+		});
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
+
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					Cadastro_Emprestimo window = new Cadastro_Emprestimo();
 					window.getFrmNovoEmprestimo().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
-		
+
 		JLabel lblServidor = new JLabel("Servidor");
 		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_1.setColumns(10);
+
+		txt_Servidor_Busca = new JTextField();
+		txt_Servidor_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txt_Servidor_Busca.setColumns(10);
+
+		JButton btn_Sair = new JButton("Sair");
+		btn_Sair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				control_View.fecharSistema();
+				getFrmTelaPrincipal().setVisible(false);
+
+			}
+		});
+		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btn_Sair.setBackground(new Color(255, 69, 0));
 		GroupLayout groupLayout = new GroupLayout(frmTelaPrincipal.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(59)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(59)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(397)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblMaterialservidor)
-							.addGap(18)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnBuscar)))
-					.addContainerGap(80, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(19)
-					.addComponent(btnNewButton)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addGroup(groupLayout.createSequentialGroup().addGap(397).addComponent(table,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addComponent(lblMaterialservidor).addGap(18)
+								.addComponent(txt_Matrial_Busca, GroupLayout.PREFERRED_SIZE, 106,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(
+										txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(btn_Sair, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+										.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE))))
+				.addContainerGap(64, Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(19).addComponent(btnNewButton).addGap(18)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMaterialservidor, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txt_Matrial_Busca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnBuscar))
-					.addPreferredGap(ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
-					.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(101))
-		);
+				.addPreferredGap(ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+				.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGap(18).addComponent(btn_Sair).addGap(60)));
 		frmTelaPrincipal.getContentPane().setLayout(groupLayout);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		frmTelaPrincipal.setJMenuBar(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("");
-		mnNewMenu.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_ServidorPQ.png")));
-		mnNewMenu.setForeground(new Color(0, 0, 255));
-		mnNewMenu.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmEmprestimo_1 = new JMenuItem("Novo");
-		mntmEmprestimo_1.setForeground(new Color(0, 0, 255));
-		mntmEmprestimo_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu.add(mntmEmprestimo_1);
-		
-		JMenuItem mntmItemmaterial_2 = new JMenuItem("Editar/Excluir");
-		mntmItemmaterial_2.setForeground(new Color(0, 0, 255));
-		mntmItemmaterial_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu.add(mntmItemmaterial_2);
-		
-		JMenuItem mntmAdministrador_1_1 = new JMenuItem("Listar");
-		mntmAdministrador_1_1.setForeground(new Color(0, 0, 255));
-		mntmAdministrador_1_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu.add(mntmAdministrador_1_1);
-		
-		JMenu mnNewMenu_1 = new JMenu("");
-		mnNewMenu_1.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_MateriaisPQ.png")));
-		mnNewMenu_1.setForeground(new Color(255, 0, 0));
-		mnNewMenu_1.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		menuBar.add(mnNewMenu_1);
-		
-		JMenuItem mntmEmprestimo_2 = new JMenuItem("Cadastrar");
-		mntmEmprestimo_2.setForeground(new Color(255, 0, 0));
-		mntmEmprestimo_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu_1.add(mntmEmprestimo_2);
-		
-		JMenuItem mntmItemmaterial_1 = new JMenuItem("Editar/Excluir");
-		mntmItemmaterial_1.setForeground(new Color(255, 0, 0));
-		mntmItemmaterial_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu_1.add(mntmItemmaterial_1);
-		
-		JMenuItem mntmAdministrador_1_2 = new JMenuItem("Listar");
-		mntmAdministrador_1_2.setForeground(new Color(255, 0, 0));
-		mntmAdministrador_1_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu_1.add(mntmAdministrador_1_2);
-		
-		JMenu mnListar = new JMenu("");
-		mnListar.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdminPQ.png")));
-		mnListar.setForeground(new Color(255, 153, 51));
-		mnListar.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		menuBar.add(mnListar);
-		
-		JMenuItem mntmEmprestimos = new JMenuItem("Novo Usu\u00E1rio");
-		mntmEmprestimos.setForeground(new Color(255, 153, 51));
-		mntmEmprestimos.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnListar.add(mntmEmprestimos);
-		
-		JMenuItem mntmItensmateriasi = new JMenuItem("Editar/Excluir Usu\u00E1rio");
-		mntmItensmateriasi.setForeground(new Color(255, 153, 51));
-		mntmItensmateriasi.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnListar.add(mntmItensmateriasi);
-		
-		JMenuItem mntmAdministrador_1_3 = new JMenuItem("Listar");
-		mntmAdministrador_1_3.setForeground(new Color(255, 153, 51));
-		mntmAdministrador_1_3.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnListar.add(mntmAdministrador_1_3);
-		
-		JMenu mnRelatrios = new JMenu("");
-		mnRelatrios.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_Relatorios.png")));
-		mnRelatrios.setForeground(new Color(204, 51, 0));
-		mnRelatrios.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		menuBar.add(mnRelatrios);
-		
-		JMenuItem mntmMateriaisEmprestados = new JMenuItem("Materiais Emprestados");
-		mntmMateriaisEmprestados.setForeground(new Color(204, 51, 0));
-		mntmMateriaisEmprestados.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnRelatrios.add(mntmMateriaisEmprestados);
-		
-		JMenuItem mntmMateriasEmEstoque = new JMenuItem("Materias em estoque");
-		mntmMateriasEmEstoque.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mntmMateriasEmEstoque.setForeground(new Color(204, 51, 0));
-		mnRelatrios.add(mntmMateriasEmEstoque);
-		
-		JMenuItem mntmMateriaisDevolvidos = new JMenuItem("Materiais Devolvidos");
-		mntmMateriaisDevolvidos.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mntmMateriaisDevolvidos.setForeground(new Color(204, 51, 0));
-		mnRelatrios.add(mntmMateriaisDevolvidos);
-		
-		JMenuItem mntmServidores_1 = new JMenuItem("Servidores");
-		mntmServidores_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mntmServidores_1.setForeground(new Color(204, 51, 0));
-		mnRelatrios.add(mntmServidores_1);
-		
-		JMenuItem mntmAdministardores = new JMenuItem("Administardores");
-		mntmAdministardores.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mntmAdministardores.setForeground(new Color(204, 51, 0));
-		mnRelatrios.add(mntmAdministardores);
-		
-		JMenu mnNewMenu_2 = new JMenu("");
-		mnNewMenu_2.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
-		mnNewMenu_2.setForeground(new Color(204, 51, 255));
-		mnNewMenu_2.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		menuBar.add(mnNewMenu_2);
-		
-		JMenuItem mntmSistema = new JMenuItem("Sistema");
-		mntmSistema.setForeground(new Color(204, 51, 255));
-		mntmSistema.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnNewMenu_2.add(mntmSistema);
-		
-		JMenuItem mntmDesenvolvedor = new JMenuItem("Desenvolvedor");
-		mntmDesenvolvedor.setForeground(new Color(204, 51, 255));
-		mnNewMenu_2.add(mntmDesenvolvedor);
+
+		JButton btn_Servidor = new JButton("Servidor");
+		btn_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Servidor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				control_View.abreTelaServidor();
+				getFrmTelaPrincipal().setVisible(false);
+
+			}
+		});
+		btn_Servidor.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_ServidorPQ.png")));
+		menuBar.add(btn_Servidor);
+
+		JButton btn_Materiais = new JButton("Materiais");
+		btn_Materiais.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				control_View.abreTelaMateriais();
+				getFrmTelaPrincipal().setVisible(false);
+
+			}
+		});
+		btn_Materiais.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Materiais.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_MateriaisPQ.png")));
+		menuBar.add(btn_Materiais);
+
+		JButton btn_Relatorios = new JButton("Relat\u00F3rios");
+		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Relatorios.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_Relatorios.png")));
+		menuBar.add(btn_Relatorios);
+
+		JButton btnNewButton_1 = new JButton("Sobre");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
+		menuBar.add(btnNewButton_1);
 	}
 
 	@SuppressWarnings("unused")
@@ -259,11 +206,13 @@ public class Principal {
 					showMenu(e);
 				}
 			}
+
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					showMenu(e);
 				}
 			}
+
 			private void showMenu(MouseEvent e) {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
@@ -287,10 +236,10 @@ public class Principal {
 	}
 
 	public JTextField getTextField() {
-		return textField;
+		return txt_Matrial_Busca;
 	}
 
 	public void setTextField(JTextField textField) {
-		this.textField = textField;
+		this.txt_Matrial_Busca = textField;
 	}
 }

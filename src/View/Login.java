@@ -23,10 +23,17 @@ public class Login {
 	private JTextField txtSiape;
 	private JPasswordField txtSenha;
 
+	Controla_views control_View = new Controla_views();
+	AdminDao adao = new AdminDao();
+	Admin admin = new Admin();
+
+	int siape;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -66,20 +73,16 @@ public class Login {
 		btn_Entrar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				AdminDao adao = new AdminDao();
-				Admin admin = new Admin();
-				int siape = Integer.parseInt(txtSiape.getText());
-				admin = adao.buscarPorSiape(siape);
+
+				admin = adao.buscarPorSiape(Integer.parseInt(txtSiape.getText()));
 
 				if (admin == null) {
 					JOptionPane.showMessageDialog(null, "Dados Inválidos");
 				} else {
-					try {
-						Principal windowPrincipal = new Principal();
-						windowPrincipal.getFrmTelaPrincipal().setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					String siape = String.valueOf(admin.getSiape());
+					System.setProperty("siape", siape);//Salva o Siape do Administrador para uso posterior
+					control_View.abreTelaPrincipal();
+					getFrmTelaLogin().setVisible(false);
 
 				}
 
@@ -125,4 +128,37 @@ public class Login {
 				.addGap(65)));
 		frmTelaLogin.getContentPane().setLayout(groupLayout);
 	}
+
+	public JFrame getFrmTelaLogin() {
+		return frmTelaLogin;
+	}
+
+	public void setFrmTelaLogin(JFrame frmTelaLogin) {
+		this.frmTelaLogin = frmTelaLogin;
+	}
+
+	public JTextField getTxtSiape() {
+		return txtSiape;
+	}
+
+	public void setTxtSiape(JTextField txtSiape) {
+		this.txtSiape = txtSiape;
+	}
+
+	public JPasswordField getTxtSenha() {
+		return txtSenha;
+	}
+
+	public void setTxtSenha(JPasswordField txtSenha) {
+		this.txtSenha = txtSenha;
+	}
+
+	public Controla_views getTelaPrincipal() {
+		return control_View;
+	}
+
+	public void setTelaPrincipal(Controla_views telaPrincipal) {
+		this.control_View = telaPrincipal;
+	}
+
 }
