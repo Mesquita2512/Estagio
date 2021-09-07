@@ -1,5 +1,7 @@
 package testes;
 
+import java.util.Date;
+
 import dao.AdminDao;
 import dao.EmprestimoDao;
 import dao.MaterialDao;
@@ -27,7 +29,7 @@ public class EmprestimoTeste {
 		Material material = mDao.buscarPorId(1);
 
 		EmprestimoDao eDao = new EmprestimoDao();
-		Emprestimo emprestimo = new Emprestimo(servidor, admin, material, 2, "NADA A COMENTAR");
+		Emprestimo emprestimo = new Emprestimo(servidor, admin, material, 2,new Date(), new Date(), "NADA A COMENTAR");
 
 		eDao.salvar(emprestimo);
 

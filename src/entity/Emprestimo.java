@@ -1,17 +1,23 @@
 package entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Emprestimo {
 
 	@Id
 	@Column(name = "Id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@OneToOne
@@ -29,6 +35,14 @@ public class Emprestimo {
 	@Column(name = "Qtd_Emprestada")
 	private int qtd_emprestado;
 
+	@Column(name = "Data_Entrega", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date data_Entrega;
+
+	@Column(name = "Data_Devolucao")
+	@Temporal(TemporalType.DATE)
+	private Date data_Devolução;
+
 	@Column(name = "Observacoes")
 	private String observacoes;
 
@@ -36,12 +50,15 @@ public class Emprestimo {
 		super();
 	}
 
-	public Emprestimo(Servidor servidor, Admin admin, Material material, int qtd_emprestado, String observacoes) {
+	public Emprestimo(Servidor servidor, Admin admin, Material material, int qtd_emprestado, Date data_Entrega,
+			Date data_Devolução, String observacoes) {
 		super();
 		this.servidor = servidor;
 		this.admin = admin;
 		this.material = material;
 		this.qtd_emprestado = qtd_emprestado;
+		this.data_Entrega = data_Entrega;
+		this.data_Devolução = data_Devolução;
 		this.observacoes = observacoes;
 	}
 
@@ -107,10 +124,27 @@ public class Emprestimo {
 		return true;
 	}
 
+	public Date getData_Entrega() {
+		return data_Entrega;
+	}
+
+	public void setData_Entrega(Date data_Entrega) {
+		this.data_Entrega = data_Entrega;
+	}
+
+	public Date getData_Devolução() {
+		return data_Devolução;
+	}
+
+	public void setData_Devolução(Date data_Devolução) {
+		this.data_Devolução = data_Devolução;
+	}
+
 	@Override
 	public String toString() {
 		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", admin=" + admin + ", material=" + material
-				+ ", qtd_emprestado=" + qtd_emprestado + ", observacoes=" + observacoes + "]";
+				+ ", qtd_emprestado=" + qtd_emprestado + ", data_Entrega=" + data_Entrega + ", data_Devolução="
+				+ data_Devolução + ", observacoes=" + observacoes + "]";
 	}
 
 }
