@@ -13,14 +13,19 @@ public class Material {
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(name = "Descricao")
+	
+	@Column(name = "Descricao", nullable = false)
 	private String descricao;
-	@Column(name = "Quantidade")
+	
+	@Column(name = "Quantidade", nullable = false)
 	private int qtd;
+	
 	@Column(name = "Qtd_Emprestado")
 	private int qtd_emprestado;
+	
 	@Column(name = "Valor_Estimado")
 	private double val_estimado;
+	
 	@Column(name = "Estado_De_Conservacao")
 	private String est_conservacao;
 

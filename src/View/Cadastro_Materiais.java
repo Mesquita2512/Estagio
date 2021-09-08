@@ -6,12 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import config.Numeros;
+import dao.MaterialDao;
 import entity.Material;
 
 import javax.swing.JButton;
@@ -35,6 +38,7 @@ public class Cadastro_Materiais {
 
 	Controla_views control_view = new Controla_views();
 	Material material = new Material();
+	MaterialDao mDao = new MaterialDao();
 
 	/**
 	 * Launch the application.
@@ -106,13 +110,45 @@ public class Cadastro_Materiais {
 		btn_Salvar = new JButton("Salvar");
 		btn_Salvar.setBackground(new Color(34, 139, 34));
 		btn_Salvar.setForeground(new Color(0, 0, 0));
+		btn_Salvar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Salvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
+				material.setDescricao(txt_Descricao.getText());
+				txt_Descricao.setText("");
+
+				if (txt_Quantidade.getText().equals("")) {
+					material.setQtd(0);
+					txt_Quantidade.setText("");
+				} else {
+					material.setQtd(Integer.parseInt(txt_Quantidade.getText()));
+					txt_Quantidade.setText("");
+				}
+
+				if (txt_Val_aprox.getText().equals("    .  ")) {
+					material.setVal_estimado(0);
+					txt_Val_aprox.setText("");
+				} else {
+					material.setVal_estimado(Double.parseDouble(txt_Val_aprox.getText()));
+					txt_Val_aprox.setText("");
+				}
+
+				material.setEst_conservacao(txt_Est_conservacao.getText());
+				txt_Est_conservacao.setText("");
+
+				material.setQtd_emprestado(0);
+
+				if (material.getDescricao().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "A descrição do material deve ser informada");
+				} else if (material.getQtd() <= 0) {
+					JOptionPane.showMessageDialog(null, "A quantidade de material deve ser superior a zero!!!");
+				} else if (mDao.Salvar(material)) {
+					material = new Material();
+					JOptionPane.showMessageDialog(null, "Material salvo com sucesso!!!");
+				}
+
 			}
 		});
-		btn_Salvar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		btn_Limpar = new JButton("Limpar");
 		btn_Limpar.addActionListener(new ActionListener() {
@@ -121,7 +157,7 @@ public class Cadastro_Materiais {
 				txt_Est_conservacao.setText("");
 				txt_Quantidade.setText("");
 				txt_Val_aprox.setText("");
-				
+
 			}
 		});
 		btn_Limpar.setBackground(new Color(0, 191, 255));
@@ -131,10 +167,10 @@ public class Cadastro_Materiais {
 		btn_Voltar = new JButton("Voltar");
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				control_view.abreTelaPrincipal();
 				getFrmCadastroDeMateriais().setVisible(false);
-				
+
 			}
 		});
 		btn_Voltar.setBackground(new Color(240, 230, 140));
