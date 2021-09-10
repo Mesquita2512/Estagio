@@ -72,18 +72,27 @@ public class Login {
 
 		btn_Entrar.addActionListener(new ActionListener() {
 
+			
 			public void actionPerformed(ActionEvent arg0) {
 
+				if (txtSiape.getText().equals("")) {
+
+					JOptionPane.showMessageDialog(null, "Siape não pode ser nulo");
+					return;
+				}
+			
 				admin = adao.buscarPorSiape(Integer.parseInt(txtSiape.getText()));
+				
 
 				if (admin == null) {
-					JOptionPane.showMessageDialog(null, "Dados Inválidos");
-				} else {
+					JOptionPane.showMessageDialog(null, "Siape Inválido");
+					return;
+				}
+				 else {
 					String siape = String.valueOf(admin.getSiape());
-					System.setProperty("siape", siape);//Salva o Siape do Administrador para uso posterior
+					System.setProperty("siape", siape);// Salva o Siape do Administrador para uso posterior
 					control_View.abreTelaPrincipal();
 					getFrmTelaLogin().setVisible(false);
-
 				}
 
 			}

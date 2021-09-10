@@ -7,21 +7,14 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
-import javax.swing.text.MaskFormatter;
-
 import config.Numeros;
 import dao.MaterialDao;
 import entity.Material;
-
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
 public class Cadastro_Materiais {
@@ -34,7 +27,7 @@ public class Cadastro_Materiais {
 	private JButton btn_Salvar;
 	private JButton btn_Limpar;
 	private JButton btn_Voltar;
-	private JButton btnSair;
+	private JButton btn_Sair;
 
 	Controla_views control_view = new Controla_views();
 	Material material = new Material();
@@ -62,6 +55,7 @@ public class Cadastro_Materiais {
 	public Cadastro_Materiais() {
 		initialize();
 		txt_Quantidade.setDocument(new Numeros());
+		txt_Val_aprox.setDocument(new config.DoubleMonterario());
 	}
 
 	/**
@@ -95,13 +89,7 @@ public class Cadastro_Materiais {
 		txt_Quantidade = new JTextField();
 		txt_Quantidade.setColumns(10);
 
-		txt_Val_aprox = null;
-		try {
-			txt_Val_aprox = new JFormattedTextField(new MaskFormatter("####.##"));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		txt_Val_aprox = new JTextField();
 		txt_Val_aprox.setColumns(10);
 
 		txt_Est_conservacao = new JTextField();
@@ -114,8 +102,10 @@ public class Cadastro_Materiais {
 		btn_Salvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				int qtdCarateres = 0;
+				int qtdPontos = 0;
+
 				material.setDescricao(txt_Descricao.getText());
-				txt_Descricao.setText("");
 
 				if (txt_Quantidade.getText().equals("")) {
 					material.setQtd(0);
@@ -125,16 +115,34 @@ public class Cadastro_Materiais {
 					txt_Quantidade.setText("");
 				}
 
-				if (txt_Val_aprox.getText().equals("    .  ")) {
+				if (txt_Val_aprox.getText().equals("")) {
 					material.setVal_estimado(0);
 					txt_Val_aprox.setText("");
-				} else {
+
+					// Tratar o double para nao ter mais de um ponto
+				} else if (txt_Val_aprox.getText().contains(".")) {
+
+					while (qtdCarateres < txt_Val_aprox.getText().length()) {
+						if (txt_Val_aprox.getText().substring(qtdCarateres, qtdCarateres + 1).equals(".")) {
+							qtdPontos++;
+
+						}
+						qtdCarateres++;
+					}
+					if (qtdPontos > 1) {
+						JOptionPane.showMessageDialog(null, "Informe um valor válido");
+						return;
+					}
+
+				}
+
+				else {
+
 					material.setVal_estimado(Double.parseDouble(txt_Val_aprox.getText()));
 					txt_Val_aprox.setText("");
 				}
 
 				material.setEst_conservacao(txt_Est_conservacao.getText());
-				txt_Est_conservacao.setText("");
 
 				material.setQtd_emprestado(0);
 
@@ -143,6 +151,8 @@ public class Cadastro_Materiais {
 				} else if (material.getQtd() <= 0) {
 					JOptionPane.showMessageDialog(null, "A quantidade de material deve ser superior a zero!!!");
 				} else if (mDao.Salvar(material)) {
+					txt_Descricao.setText("");
+					txt_Est_conservacao.setText("");
 					material = new Material();
 					JOptionPane.showMessageDialog(null, "Material salvo com sucesso!!!");
 				}
@@ -177,8 +187,8 @@ public class Cadastro_Materiais {
 		btn_Voltar.setForeground(new Color(0, 0, 0));
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		btnSair = new JButton("Sair");
-		btnSair.addActionListener(new ActionListener() {
+		btn_Sair = new JButton("Sair");
+		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				control_view.fecharSistema();
@@ -186,8 +196,8 @@ public class Cadastro_Materiais {
 
 			}
 		});
-		btnSair.setBackground(new Color(255, 69, 0));
-		btnSair.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Sair.setBackground(new Color(255, 69, 0));
+		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout groupLayout = new GroupLayout(frmCadastroDeMateriais.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 				.createSequentialGroup().addGap(73)
@@ -218,7 +228,7 @@ public class Cadastro_Materiais {
 																.addGap(18)
 																.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE,
 																		77, GroupLayout.PREFERRED_SIZE)
-																.addGap(18).addComponent(btnSair,
+																.addGap(18).addComponent(btn_Sair,
 																		GroupLayout.PREFERRED_SIZE, 67,
 																		GroupLayout.PREFERRED_SIZE))
 														.addComponent(txt_Est_conservacao, Alignment.LEADING,
@@ -249,7 +259,7 @@ public class Cadastro_Materiais {
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_Salvar)
 						.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 				.addContainerGap(101, Short.MAX_VALUE)));
 		frmCadastroDeMateriais.getContentPane().setLayout(groupLayout);
 	}
