@@ -11,16 +11,15 @@ public class ServidorDaoTeste {
 
 	//Teste Salvar Servidor, Atenção com o Siape que é a chave Primário...
 		
-		 servidor = new Servidor(123125, "joao da silva", "ureadossecas@kbckbc.com");
-		ServidorDao aDao = new ServidorDao();
-		aDao.salvar(servidor);
+		servidor = new Servidor(121100, "joao da silva", "ureadossecas@kbckbc.com");
+		sDao.salvar(servidor);
 		System.out.println(servidor);
 		
 		
 		
 		//Teste para Buscar Servidor pelo Siape
-		servidor = sDao.buscarPorSiape(123125);
-		System.out.println("-----" + servidor.toString() + "-----");
+		//servidor = sDao.buscarPorSiape(123125);
+		//System.out.println("-----" + servidor.toString() + "-----");
 		
 
 	}

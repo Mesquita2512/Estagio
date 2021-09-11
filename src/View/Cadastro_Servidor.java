@@ -1,19 +1,20 @@
 package View;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import config.Numeros;
+import dao.AdminDao;
+import dao.ServidorDao;
+import entity.Admin;
+import entity.Servidor;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -32,8 +33,10 @@ public class Cadastro_Servidor {
 
 	Controla_views control_View = new Controla_views();
 	Login login = new Login();
-
-	boolean servidor = true;
+	Admin admin = new Admin();
+	AdminDao aDao = new AdminDao();
+	Servidor servidor = new Servidor();
+	ServidorDao sDao = new ServidorDao();
 
 	/**
 	 * Launch the application.
@@ -121,12 +124,14 @@ public class Cadastro_Servidor {
 					txt_Senha_conf.setVisible(true);
 					lb_Senha.setVisible(true);
 					lb_Senha_Conf.setVisible(true);
-					servidor = false;
 				} else {
 					txt_Senha.setVisible(false);
 					txt_Senha_conf.setVisible(false);
 					lb_Senha.setVisible(false);
 					lb_Senha_Conf.setVisible(false);
+
+					txt_Senha.setText("");
+					txt_Senha_conf.setText("");
 
 				}
 
@@ -152,7 +157,64 @@ public class Cadastro_Servidor {
 					return;
 				}
 
-				confirme_Servidor_Admin.setSelected(false);
+				if (confirme_Servidor_Admin.isSelected()) {
+
+					String senha = new String(txt_Senha.getPassword());
+					String senhaConf = new String(txt_Senha_conf.getPassword());
+					if(senha.equals("") && senhaConf.equals("")) {
+						JOptionPane.showMessageDialog(null, "As senhas não podem serem nulas!!!");
+						return;
+					}
+					
+					if (senha.equals(senhaConf)) {
+						admin.setNome(txt_Nom_Servidor.getText().trim());
+						admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
+						admin.setEmail(txt_Email_Servidor.getText());
+						admin.setSenha(new String(txt_Senha.getPassword()).trim());
+
+						sDao.salvar(admin);
+
+						JOptionPane.showMessageDialog(null, "Novo Administrador salvo com sucesso!!!");
+
+						txt_Nom_Servidor.setText("");
+						txt_Siape_Servidor.setText("");
+						txt_Email_Servidor.setText("");
+						txt_Senha.setText("");
+						txt_Senha_conf.setText("");
+
+						txt_Senha.setVisible(false);
+						txt_Senha_conf.setVisible(false);
+						lb_Senha.setVisible(false);
+						lb_Senha_Conf.setVisible(false);
+						
+						confirme_Servidor_Admin.setSelected(false);
+						return;
+
+					} 
+					
+					else {
+						System.out.println(senha);
+						System.out.println(senhaConf);
+						JOptionPane.showMessageDialog(null, "As senhas não conferem!!!");
+						txt_Senha.setText("");
+						txt_Senha_conf.setText("");
+						return;
+					}
+
+				} else {
+					servidor.setNome(txt_Nom_Servidor.getText().trim());
+					servidor.setSiape(Integer.parseInt(txt_Siape_Servidor.getText().trim()));
+					servidor.setEmail(txt_Email_Servidor.getText().trim());
+
+					sDao.salvar(servidor);
+
+					JOptionPane.showMessageDialog(null, "Servidor salvo com sucesso!!!");
+
+					txt_Nom_Servidor.setText("");
+					txt_Siape_Servidor.setText("");
+					txt_Email_Servidor.setText("");
+
+				}
 				txt_Senha.setVisible(false);
 				txt_Senha_conf.setVisible(false);
 				lb_Senha.setVisible(false);

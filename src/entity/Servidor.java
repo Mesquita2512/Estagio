@@ -22,12 +22,17 @@ public class Servidor {
 		super();
 	}
 
+	
+
+
 	public Servidor(long siape, String nome, String email) {
 		super();
 		this.siape = siape;
 		this.nome = nome;
 		this.email = email;
 	}
+
+
 
 
 	public long getSiape() {
