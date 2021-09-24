@@ -1,9 +1,10 @@
 package dao;
 
+import java.util.List;
+
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionalException;
-
 import entity.Material;
 import fabricaConexao.FabricaJpa;
 
@@ -33,6 +34,11 @@ public class MaterialDao {
 		}
 
 		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Material> getListaMaterial() {
+		return (List<Material>) gDao.listarTodos(Material.class);
 	}
 
 }

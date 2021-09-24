@@ -15,6 +15,7 @@ import dao.MaterialDao;
 import entity.Material;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class Cadastro_Materiais {
@@ -29,6 +30,7 @@ public class Cadastro_Materiais {
 	private JButton btn_Voltar;
 	private JButton btn_Sair;
 
+	private List<Material> listaDeMateriais;
 	Controla_views control_view = new Controla_views();
 	Material material = new Material();
 	MaterialDao mDao = new MaterialDao();
@@ -270,6 +272,14 @@ public class Cadastro_Materiais {
 
 	public void setFrmCadastroDeMateriais(JFrame frmCadastroDeMateriais) {
 		this.frmCadastroDeMateriais = frmCadastroDeMateriais;
+	}
+
+	public List<Material> getListaDeMateriais() {
+		return listaDeMateriais;
+	}
+
+	public void setListaDeMateriais(List<Material> listaDeMateriais) {
+		this.listaDeMateriais = listaDeMateriais;
 	}
 
 }

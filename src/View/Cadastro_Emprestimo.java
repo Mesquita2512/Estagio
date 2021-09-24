@@ -145,6 +145,13 @@ public class Cadastro_Emprestimo {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 
 		JButton btnBuscar = new JButton("buscar materiais");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				control_View.abreTelaBuscaMateriais();
+				
+				
+			}
+		});
 		btnBuscar.setBackground(new Color(240, 230, 140));
 
 		JButton btnBuscarServidores = new JButton("buscar servidores");
