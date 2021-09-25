@@ -42,6 +42,7 @@ public class Material {
 		this.est_conservacao = est_conservacao;
 	}
 
+
 	public String getDescricao() {
 		return descricao;
 	}

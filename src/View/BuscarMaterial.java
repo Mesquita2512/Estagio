@@ -1,133 +1,145 @@
 package View;
 
-
-import java.awt.EventQueue;
-import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import dao.MaterialDao;
-import entity.Material;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import java.awt.Font;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import dao.MaterialDao;
+import entity.Material;
+import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class BuscarMaterial extends JFrame {
+public class BuscarMaterial extends JDialog {
 
-	MaterialDao mDao = new MaterialDao();
-	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField textField;
-	private JLabel lblNewLabel;
-	
-	private List<Material> listaDeMateriais;
-	@SuppressWarnings("rawtypes")
-	JList listaFrame = new JList();
-	
-	
+	private final JPanel contentPanel = new JPanel();
+	private JTextField txtCodigoNome;
+	private JTable tb_Material;
 
-	
-	
-	public void buscarTodos() {
-		listaDeMateriais = mDao.getListaMaterial();
-		System.out.println(getListaDeMateriais().toString());
-		//listaFrame =  (JList<Material>) getListaDeMateriais();
-	}
-	
+	private List<Material> listaDeMateriais;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BuscarMaterial frame = new BuscarMaterial();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			BuscarMaterial dialog = new BuscarMaterial();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the dialog.
 	 */
 	public BuscarMaterial() {
-		setTitle("Buscar Material");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 450);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		
-		buscarTodos();
-		add(BorderLayout.CENTER, listaFrame);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setColumns(10);
-		
-		JLabel lblBuscaDeMateriasi = new JLabel("Busca de Materiais");
-		lblBuscaDeMateriasi.setVerticalAlignment(SwingConstants.TOP);
-		lblBuscaDeMateriasi.setForeground(new Color(0, 0, 205));
-		lblBuscaDeMateriasi.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		
-		lblNewLabel = new JLabel("C\u00F3digo ou Nome:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(new ActionListener() {
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setToolTipText("Buscar Material");
+		getContentPane().add(contentPanel, BorderLayout.WEST);
+
+		JLabel lblBuscarMaterial = new JLabel("Buscar Material");
+		lblBuscarMaterial.setForeground(new Color(0, 0, 205));
+		lblBuscarMaterial.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		JLabel lblCdigoOuNome = new JLabel("C\u00F3digo ou Nome");
+		lblCdigoOuNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
+		txtCodigoNome = new JTextField();
+		txtCodigoNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtCodigoNome.setColumns(10);
+
+		JButton btnBuscarMaterial = new JButton("Buscar");
+		btnBuscarMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				setListaDeMateriais(mDao.getListaMaterial());
-				
+
+			
+				MaterialDao mDao = new MaterialDao();
+				Material mat = new Material();
+
+				BuscarMaterial bm = new BuscarMaterial();
+				bm.setListaDeMateriais(mDao.getListaMaterial());
+
+				int val = bm.getListaDeMateriais().size();
+				int inc = 0;
+
+				DefaultTableModel tabelaBd = (DefaultTableModel) tb_Material.getModel();
+				tabelaBd.setNumRows(0);
+
+				while (val > 0) {
+					mat = bm.getListaDeMateriais().get(inc);
+
+					tabelaBd.addRow(new Object[] { mat.getDescricao(), mat.getQtd(), mat.getQtd_emprestado(),
+							mat.getVal_estimado() });
+
+					val--;
+					inc++;
+
+				}
+
 			}
 		});
-		btnBuscar.setForeground(new Color(72, 61, 139));
-		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(90)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblBuscaDeMateriasi, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel)
-							.addGap(18)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(31)
-							.addComponent(btnBuscar)))
-					.addContainerGap(138, Short.MAX_VALUE))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(29)
-					.addComponent(lblBuscaDeMateriasi)
-					.addGap(31)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBuscar))
-					.addContainerGap(297, Short.MAX_VALUE))
-		);
-		contentPane.setLayout(gl_contentPane);
+		btnBuscarMaterial.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
+		JScrollPane scrollPane = new JScrollPane();
+		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup().addGap(57).addGroup(gl_contentPanel
+						.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 449, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBuscarMaterial, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPanel.createSequentialGroup().addComponent(lblCdigoOuNome).addGap(18)
+								.addComponent(txtCodigoNome, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
+								.addGap(18).addComponent(btnBuscarMaterial).addContainerGap()))));
+		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPanel
+				.createSequentialGroup().addGap(11).addComponent(lblBuscarMaterial).addGap(29)
+				.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup().addGap(3).addComponent(lblCdigoOuNome))
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtCodigoNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnBuscarMaterial)))
+				.addGap(64).addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+				.addGap(23)));
+
+		tb_Material = new JTable();
+		tb_Material.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
+				new String[] { "Nome", "Qtd Estoque", "Qtd Emprestada", "Valor (R$)" }));
+		scrollPane.setViewportView(tb_Material);
+		contentPanel.setLayout(gl_contentPanel);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
 	}
-	
+
 	public List<Material> getListaDeMateriais() {
 		return listaDeMateriais;
 	}

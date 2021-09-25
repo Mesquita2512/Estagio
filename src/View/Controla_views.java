@@ -44,7 +44,7 @@ public class Controla_views {
 	public void abreTelaBuscaMateriais() {
 
 		try {
-			BuscarMatrial dialog = new BuscarMatrial();
+			BuscarMaterial dialog = new BuscarMaterial();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
