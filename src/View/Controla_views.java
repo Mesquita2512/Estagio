@@ -2,7 +2,11 @@ package View;
 
 import javax.swing.JDialog;
 
+import entity.Material;
+
 public class Controla_views {
+	
+	Material material = new Material();
 
 	public void abreTelaLogin() {
 		try {
@@ -18,6 +22,16 @@ public class Controla_views {
 
 			Principal windowPrincipal = new Principal();
 			windowPrincipal.getFrmTelaPrincipal().setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void abreTelaCadastroEmprestimo() {
+		
+		try {
+			Cadastro_Emprestimo cadEmp = new Cadastro_Emprestimo();
+			cadEmp.getFrmNovoEmprestimo().setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

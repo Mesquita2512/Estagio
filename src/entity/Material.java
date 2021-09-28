@@ -83,6 +83,16 @@ public class Material {
 	public void setQtd_emprestado(int qtd_emprestado) {
 		this.qtd_emprestado = qtd_emprestado;
 	}
+	
+	
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	@Override
 	public int hashCode() {

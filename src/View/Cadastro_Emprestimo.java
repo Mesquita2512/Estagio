@@ -11,11 +11,13 @@ import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import config.Numeros;
+import entity.Material;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.concurrent.SynchronousQueue;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 
@@ -28,6 +30,7 @@ public class Cadastro_Emprestimo {
 
 	Controla_views control_View = new Controla_views();
 	private JTextField txt_Observacoes;
+	Material material = new Material();
 
 	/**
 	 * Launch the application.
@@ -56,6 +59,9 @@ public class Cadastro_Emprestimo {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+
+	
+
 	private void initialize() {
 		frmNovoEmprestimo = new JFrame();
 		frmNovoEmprestimo.setResizable(false);
@@ -112,7 +118,6 @@ public class Cadastro_Emprestimo {
 				getTxt_Material().setText("");
 				getTxt_Quantidade().setText("");
 				getTxt_Observacoes().setText("");
-				
 
 			}
 		});
@@ -147,9 +152,9 @@ public class Cadastro_Emprestimo {
 		JButton btnBuscar = new JButton("buscar materiais");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				control_View.abreTelaBuscaMateriais();
-				
-				
+
 			}
 		});
 		btnBuscar.setBackground(new Color(240, 230, 140));
@@ -159,84 +164,88 @@ public class Cadastro_Emprestimo {
 
 		JFormattedTextField txt_Data = new JFormattedTextField(new Date());
 		txt_Data.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
+
 		txt_Observacoes = new JTextField();
 		txt_Observacoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Observacoes.setColumns(10);
+
+		JButton btn_teste = new JButton("Teste");
+		btn_teste.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				txt_Material.setText(control_View.material.getDescricao());
+
+			}
+		});
+		btn_teste.setForeground(Color.BLACK);
+		btn_teste.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_teste.setBackground(new Color(34, 139, 34));
 		GroupLayout groupLayout = new GroupLayout(frmNovoEmprestimo.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(43)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblCadastrarEmprstimo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup().addGap(43)
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblCadastrarEmprstimo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 480,
+								Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+								.createParallelGroup(Alignment.LEADING).addComponent(lblNewLabel)
 								.addComponent(lblNewLabel_1_2)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblNewLabel_1_1))
-								.addComponent(lblNewLabel_1)
-								.addComponent(lblNewLabel_1_3))
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(txt_Material, Alignment.LEADING)
-										.addComponent(txt_Quantidade, Alignment.LEADING)
-										.addComponent(txt_EntregueA, Alignment.LEADING)
-										.addComponent(txt_Data, Alignment.LEADING))
-									.addGap(101)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(btnBuscarServidores, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(btnBuscar, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btn_Salvar, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btn_Limpar)
-									.addGap(18)
-									.addComponent(btn_Voltar, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-									.addGap(14)
-									.addComponent(btn_Sair))
-								.addComponent(txt_Observacoes, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))))
-					.addGap(79))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(20)
-					.addComponent(lblCadastrarEmprstimo)
-					.addGap(38)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(txt_Material, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup().addGap(3).addComponent(lblNewLabel_1_1))
+								.addComponent(lblNewLabel_1).addComponent(lblNewLabel_1_3)).addGap(18)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+										.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(txt_Material, Alignment.LEADING)
+												.addComponent(txt_Quantidade, Alignment.LEADING)
+												.addComponent(txt_EntregueA, Alignment.LEADING)
+												.addComponent(txt_Data, Alignment.LEADING))
+										.addGap(101)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(btnBuscarServidores, Alignment.TRAILING,
+														GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+														Short.MAX_VALUE)
+												.addComponent(btnBuscar, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+														156, Short.MAX_VALUE)))
+										.addComponent(txt_Observacoes, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+										.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(btn_Salvar, GroupLayout.PREFERRED_SIZE, 122,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(btn_teste, GroupLayout.PREFERRED_SIZE, 122,
+																GroupLayout.PREFERRED_SIZE)
+														.addGroup(groupLayout.createSequentialGroup()
+																.addComponent(btn_Limpar).addGap(18)
+																.addComponent(btn_Voltar, GroupLayout.DEFAULT_SIZE, 91,
+																		Short.MAX_VALUE)
+																.addGap(14).addComponent(btn_Sair)))))))
+				.addGap(79)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(20).addComponent(lblCadastrarEmprstimo).addGap(38)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
+						.addComponent(txt_Material, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnBuscar))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1)
-						.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(12)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_1)
-						.addComponent(txt_EntregueA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_1).addComponent(
+						txt_Quantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE))
+				.addGap(12)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_1_1)
+						.addComponent(txt_EntregueA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnBuscarServidores))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_2)
-						.addComponent(txt_Data, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_3)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(groupLayout
+						.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_1_2).addComponent(txt_Data,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_1_3)
 						.addComponent(txt_Observacoes, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-					.addGap(66)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btn_Salvar)
-						.addComponent(btn_Limpar)
-						.addComponent(btn_Sair)
-						.addComponent(btn_Voltar))
-					.addContainerGap(53, Short.MAX_VALUE))
-		);
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(btn_teste, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addGap(30)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_Salvar)
+						.addComponent(btn_Limpar).addComponent(btn_Sair).addComponent(btn_Voltar))
+				.addContainerGap(53, Short.MAX_VALUE)));
 		frmNovoEmprestimo.getContentPane().setLayout(groupLayout);
 	}
 
@@ -279,5 +288,5 @@ public class Cadastro_Emprestimo {
 	public void setTxt_Observacoes(JTextField txt_Observacoes) {
 		this.txt_Observacoes = txt_Observacoes;
 	}
-	
+
 }

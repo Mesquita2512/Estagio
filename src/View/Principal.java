@@ -93,12 +93,7 @@ public class Principal {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				try {
-					Cadastro_Emprestimo window = new Cadastro_Emprestimo();
-					window.getFrmNovoEmprestimo().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				control_View.abreTelaCadastroEmprestimo();
 
 			}
 		});
