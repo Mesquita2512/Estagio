@@ -147,7 +147,6 @@ public class BuscarMaterial extends JDialog {
 						int captaId = Integer.parseInt(capta);
 
 						mat = mDao.buscarPorId(captaId);
-						
 		
 						dispose();
 

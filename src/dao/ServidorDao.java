@@ -1,9 +1,12 @@
 package dao;
 
+import java.util.List;
+
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionalException;
 
+import entity.Material;
 import entity.Servidor;
 import fabricaConexao.FabricaJpa;
 
@@ -32,6 +35,11 @@ public class ServidorDao {
 		}
 
 		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Servidor> getListaServidor() {
+		return (List<Servidor>) daoG.listarTodos(Servidor.class);
 	}
 
 }
