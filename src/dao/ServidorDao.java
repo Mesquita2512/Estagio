@@ -4,9 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.TransactionalException;
-
-import entity.Material;
 import entity.Servidor;
 import fabricaConexao.FabricaJpa;
 
@@ -40,6 +39,24 @@ public class ServidorDao {
 	@SuppressWarnings("unchecked")
 	public List<Servidor> getListaServidor() {
 		return (List<Servidor>) daoG.listarTodos(Servidor.class);
+	}
+	
+	//Buscra os servidor com descrição informada
+	@SuppressWarnings("unchecked")
+	public List<Servidor> listarServidorPorNome( String nome) {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Servidor> lista;
+		try {
+			
+			String jpql = "from Servidor where upper(nome) like upper(" + nome + ")";
+			TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
+		}
+
+		return lista;
 	}
 
 }

@@ -16,6 +16,7 @@ public class BuscarMaterial {
 		this.listaDeMateriais = listaDeMateriais;
 	}
 
+	
 	public static void main(String[] args) {
 
 		MaterialDao mDao = new MaterialDao();
@@ -30,7 +31,23 @@ public class BuscarMaterial {
 		while (val > 0) {
 
 			mat = bm.getListaDeMateriais().get(inc);
-			System.out.println(mat);
+			System.out.println(mat+"Lista de todos os Materiais");
+			val--;
+			inc++;
+
+		}
+		
+		
+		bm.setListaDeMateriais(mDao.listarMaterialPorNome("'%lApis%'"));
+		
+		
+		System.out.println(bm.getListaDeMateriais().size());
+		 val = bm.getListaDeMateriais().size();
+		 inc = 0;
+		while (val > 0) {
+
+			mat = bm.getListaDeMateriais().get(inc);
+			System.out.println(mat+"Lista dos materias filtrados");
 			val--;
 			inc++;
 

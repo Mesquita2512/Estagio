@@ -2,13 +2,10 @@ package View;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import config.Numeros;
 import dao.MaterialDao;
 import dao.ServidorDao;
@@ -44,6 +41,23 @@ public class Cadastro_Emprestimo {
 	Material material = new Material();
 	private JTable tb_Material;
 	private JTable tb_Servidor;
+	private JButton btn_Voltar;
+	private JButton btn_Sair;
+	private JButton btn_ConfirmarServidor;
+	private JLabel lblCadastrarEmprstimo;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_1_3;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1_1;
+	private JLabel lblNewLabel_1_2;
+	private JFormattedTextField txt_Data;
+	private JButton btn_Salvar;
+	private JButton btnBuscarServidores;
+	private JButton btn_BuscarTodos;
+	private JButton btn_ConfimarMaterial;
+	private JScrollPane sp_Material;
+	private JButton btn_Limpar;
+	private JScrollPane sp_Servidor;
 
 	/**
 	 * Launch the application.
@@ -67,6 +81,28 @@ public class Cadastro_Emprestimo {
 	public Cadastro_Emprestimo() {
 		initialize();
 		txt_Quantidade.setDocument(new Numeros());
+		frmNovoEmprestimo.getContentPane().setLayout(null);
+		frmNovoEmprestimo.getContentPane().add(btn_Voltar);
+		frmNovoEmprestimo.getContentPane().add(btn_Sair);
+		frmNovoEmprestimo.getContentPane().add(btn_ConfirmarServidor);
+		frmNovoEmprestimo.getContentPane().add(lblCadastrarEmprstimo);
+		frmNovoEmprestimo.getContentPane().add(lblNewLabel_1);
+		frmNovoEmprestimo.getContentPane().add(lblNewLabel_1_3);
+		frmNovoEmprestimo.getContentPane().add(lblNewLabel);
+		frmNovoEmprestimo.getContentPane().add(lblNewLabel_1_1);
+		frmNovoEmprestimo.getContentPane().add(lblNewLabel_1_2);
+		frmNovoEmprestimo.getContentPane().add(txt_Observacoes);
+		frmNovoEmprestimo.getContentPane().add(txt_Quantidade);
+		frmNovoEmprestimo.getContentPane().add(txt_Material);
+		frmNovoEmprestimo.getContentPane().add(txt_EntregueA);
+		frmNovoEmprestimo.getContentPane().add(txt_Data);
+		frmNovoEmprestimo.getContentPane().add(btn_Salvar);
+		frmNovoEmprestimo.getContentPane().add(btnBuscarServidores);
+		frmNovoEmprestimo.getContentPane().add(btn_BuscarTodos);
+		frmNovoEmprestimo.getContentPane().add(btn_ConfimarMaterial);
+		frmNovoEmprestimo.getContentPane().add(sp_Material);
+		frmNovoEmprestimo.getContentPane().add(btn_Limpar);
+		frmNovoEmprestimo.getContentPane().add(sp_Servidor);
 	}
 
 	/**
@@ -81,61 +117,76 @@ public class Cadastro_Emprestimo {
 		frmNovoEmprestimo.setBounds(100, 100, 800, 500);
 		frmNovoEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel lblCadastrarEmprstimo = new JLabel("Cadastrar Empr\u00E9stimo");
+		lblCadastrarEmprstimo = new JLabel("Cadastrar Empr\u00E9stimo");
+		lblCadastrarEmprstimo.setBounds(43, 20, 706, 55);
 		lblCadastrarEmprstimo.setForeground(new Color(0, 0, 139));
 		lblCadastrarEmprstimo.setFont(new Font("Tahoma", Font.PLAIN, 45));
 
-		JLabel lblNewLabel = new JLabel("\u00CDtem/Material");
+		lblNewLabel = new JLabel("\u00CDtem/Material");
+		lblNewLabel.setBounds(43, 106, 78, 17);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lblNewLabel_1 = new JLabel("Quantidade");
+		lblNewLabel_1 = new JLabel("Quantidade");
+		lblNewLabel_1.setBounds(43, 151, 70, 17);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lblNewLabel_1_1 = new JLabel("Entregue a");
+		lblNewLabel_1_1 = new JLabel("Entregue a");
+		lblNewLabel_1_1.setBounds(43, 246, 70, 17);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lblNewLabel_1_2 = new JLabel("Data");
+		lblNewLabel_1_2 = new JLabel("Data");
+		lblNewLabel_1_2.setBounds(48, 199, 29, 17);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lblNewLabel_1_3 = new JLabel("Obs");
+		lblNewLabel_1_3 = new JLabel("Obs");
+		lblNewLabel_1_3.setBounds(43, 301, 24, 17);
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Material = new JTextField();
+		txt_Material.setBounds(137, 103, 129, 23);
 		txt_Material.setEnabled(true);
 		txt_Material.setEditable(true);
 		txt_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material.setColumns(10);
 
 		txt_Quantidade = new JTextField();
+		txt_Quantidade.setBounds(139, 148, 129, 23);
 		txt_Quantidade.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Quantidade.setColumns(10);
 
 		txt_EntregueA = new JTextField();
+		txt_EntregueA.setBounds(139, 243, 129, 23);
 		txt_EntregueA.setEditable(true);
 		txt_EntregueA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_EntregueA.setColumns(10);
 
-		JScrollPane sp_Material = new JScrollPane();
+		sp_Material = new JScrollPane();
+		sp_Material.setBounds(286, 148, 463, 71);
 		sp_Material.setVisible(false);
 
-		JScrollPane sp_Servidor = new JScrollPane();
+		sp_Servidor = new JScrollPane();
+		sp_Servidor.setBounds(286, 297, 463, 67);
 		sp_Servidor.setVisible(false);
 
-		JButton btn_ConfimarMaterial = new JButton("Confirmar");
+		btn_ConfimarMaterial = new JButton("Confirmar");
+		btn_ConfimarMaterial.setBounds(645, 225, 104, 25);
 		btn_ConfimarMaterial.setVisible(false);
 		btn_ConfimarMaterial.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btn_ConfimarMaterial.setBackground(new Color(240, 230, 140));
 
-		JButton btn_ConfirmarServidor = new JButton("Confirmar");
+		btn_ConfirmarServidor = new JButton("Confirmar");
+		btn_ConfirmarServidor.setBounds(645, 370, 104, 23);
 		btn_ConfirmarServidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				String capta = "";
-				capta = tb_Servidor.getValueAt(tb_Servidor.getSelectedRow(), 0).toString();
-				if (capta.equals("")) {
-					JOptionPane.showMessageDialog(null, "veo");
-				} else {
 
+				String capta = "";
+
+				if (tb_Servidor.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um servidor da lista");
+				} else if (tb_Servidor.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um servidor da lista");
+				} else {
+					capta = tb_Servidor.getValueAt(tb_Servidor.getSelectedRow(), 0).toString();
 					int captaId = Integer.parseInt(capta);
 
 					serv = sDao.buscarPorSiape(captaId);
@@ -153,7 +204,8 @@ public class Cadastro_Emprestimo {
 		btn_ConfirmarServidor.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btn_ConfirmarServidor.setVisible(false);
 
-		JButton btn_Salvar = new JButton("SALVAR");
+		btn_Salvar = new JButton("SALVAR");
+		btn_Salvar.setBounds(127, 404, 123, 25);
 		btn_Salvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -162,7 +214,8 @@ public class Cadastro_Emprestimo {
 		btn_Salvar.setBackground(new Color(34, 139, 34));
 		btn_Salvar.setForeground(Color.BLACK);
 
-		JButton btn_Limpar = new JButton("Limpar");
+		btn_Limpar = new JButton("Limpar");
+		btn_Limpar.setBounds(286, 404, 118, 25);
 		btn_Limpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -177,7 +230,8 @@ public class Cadastro_Emprestimo {
 		btn_Limpar.setBackground(new Color(0, 191, 255));
 		btn_Limpar.setForeground(new Color(0, 0, 0));
 
-		JButton btn_Voltar = new JButton("Voltar");
+		btn_Voltar = new JButton("Voltar");
+		btn_Voltar.setBounds(433, 404, 135, 25);
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -189,7 +243,8 @@ public class Cadastro_Emprestimo {
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
 
-		JButton btn_Sair = new JButton("Sair");
+		btn_Sair = new JButton("Sair");
+		btn_Sair.setBounds(598, 404, 151, 25);
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -201,7 +256,8 @@ public class Cadastro_Emprestimo {
 		});
 		btn_Sair.setBackground(new Color(255, 69, 0));
 
-		JButton btn_BuscarTodos = new JButton("buscar");
+		btn_BuscarTodos = new JButton("buscar");
+		btn_BuscarTodos.setBounds(286, 104, 110, 23);
 		btn_BuscarTodos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btn_BuscarTodos.setBackground(new Color(240, 230, 140));
 
@@ -235,7 +291,28 @@ public class Cadastro_Emprestimo {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Vamos Buscar alguma coisa?");
+					String material = txt_Material.getText();
+					material = "'%" + material + "%'";
+					setListaDeMateriais(mDao.listarMaterialPorNome(material));
+					int val = getListaDeMateriais().size();
+					int inc = 0;
+
+					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Material.getModel();
+					tabelaBd.setNumRows(0);
+
+					sp_Material.setVisible(true);
+					btn_ConfimarMaterial.setVisible(true);
+
+					while (val > 0) {
+						mat = getListaDeMateriais().get(inc);
+
+						tabelaBd.addRow(new Object[] { mat.getId(), mat.getDescricao(), mat.getQtd(),
+								mat.getQtd_emprestado() });
+
+						val--;
+						inc++;
+
+					}
 					txt_Material.setEditable(true);
 
 				}
@@ -243,11 +320,10 @@ public class Cadastro_Emprestimo {
 			}
 		});
 
-		JButton btnBuscarServidores = new JButton("buscar");
+		btnBuscarServidores = new JButton("buscar");
+		btnBuscarServidores.setBounds(284, 244, 112, 23);
 		btnBuscarServidores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				
 
 				if (txt_EntregueA.getText().equals("")) {
 
@@ -264,7 +340,7 @@ public class Cadastro_Emprestimo {
 
 					sp_Servidor.setVisible(true);
 					btn_ConfirmarServidor.setVisible(true);
-					
+
 					while (val > 0) {
 						serv = getListaDeServidores().get(inc);
 
@@ -276,7 +352,27 @@ public class Cadastro_Emprestimo {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Vamos Buscar alguma coisa?");
+					String servidor = txt_EntregueA.getText();
+					servidor = "'%" + servidor + "%'";
+					setListaDeServidores(sDao.listarServidorPorNome(servidor));
+					int val = getListaDeServidores().size();
+					int inc = 0;
+
+					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Servidor.getModel();
+					tabelaBd.setNumRows(0);
+
+					sp_Servidor.setVisible(true);
+					btn_ConfirmarServidor.setVisible(true);
+
+					while (val > 0) {
+						serv = getListaDeServidores().get(inc);
+
+						tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail()});
+
+						val--;
+						inc++;
+
+					}
 					txt_EntregueA.setEditable(true);
 
 				}
@@ -287,22 +383,25 @@ public class Cadastro_Emprestimo {
 		btnBuscarServidores.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnBuscarServidores.setBackground(new Color(240, 230, 140));
 
-		JFormattedTextField txt_Data = new JFormattedTextField(new Date());
+		txt_Data = new JFormattedTextField(new Date());
+		txt_Data.setBounds(139, 196, 129, 23);
 		txt_Data.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Observacoes = new JTextField();
+		txt_Observacoes.setBounds(139, 298, 127, 61);
 		txt_Observacoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Observacoes.setColumns(10);
 
 		btn_ConfimarMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				String capta = "";
-				capta = tb_Material.getValueAt(tb_Material.getSelectedRow(), 0).toString();
-				if (capta.equals("")) {
-					JOptionPane.showMessageDialog(null, "veo");
-				} else {
 
+				String capta = "";
+				if (tb_Material.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Material da lista");
+				} else if (tb_Material.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um material da lista");
+				} else {
+					capta = tb_Material.getValueAt(tb_Material.getSelectedRow(), 0).toString();
 					int captaId = Integer.parseInt(capta);
 
 					mat = mDao.buscarPorId(captaId);
@@ -318,108 +417,12 @@ public class Cadastro_Emprestimo {
 			}
 		});
 
-		GroupLayout groupLayout = new GroupLayout(frmNovoEmprestimo.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(433)
-							.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-							.addGap(30)
-							.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(btn_ConfirmarServidor, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGap(43)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblCadastrarEmprstimo, GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblNewLabel_1)
-												.addComponent(lblNewLabel_1_3)
-												.addGroup(groupLayout.createSequentialGroup()
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblNewLabel)
-														.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblNewLabel_1_2))
-													.addGap(18)
-													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(txt_Observacoes, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-															.addComponent(txt_Quantidade, Alignment.TRAILING)
-															.addComponent(txt_Material, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-															.addComponent(txt_EntregueA, Alignment.TRAILING)
-															.addComponent(txt_Data, Alignment.TRAILING)))))
-											.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(btn_Salvar, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-												.addGap(18)))
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addGroup(groupLayout.createSequentialGroup()
-												.addGap(18)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-													.addComponent(btnBuscarServidores, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-													.addComponent(btn_BuscarTodos, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-													.addComponent(btn_ConfimarMaterial, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-													.addComponent(sp_Material, GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)))
-											.addGroup(groupLayout.createSequentialGroup()
-												.addGap(18)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-													.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-													.addComponent(sp_Servidor, GroupLayout.PREFERRED_SIZE, 463, GroupLayout.PREFERRED_SIZE)))))))))
-					.addGap(45))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(20)
-					.addComponent(lblCadastrarEmprstimo)
-					.addGap(31)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(btn_BuscarTodos)
-						.addComponent(txt_Material, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel_1)
-								.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txt_Data, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1_2)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(sp_Material, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btn_ConfimarMaterial, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnBuscarServidores)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewLabel_1_1)
-							.addComponent(txt_EntregueA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_3)
-						.addComponent(txt_Observacoes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(sp_Servidor, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btn_ConfirmarServidor)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btn_Sair)
-						.addComponent(btn_Voltar)
-						.addComponent(btn_Limpar)
-						.addComponent(btn_Salvar))
-					.addContainerGap(40, Short.MAX_VALUE))
-		);
-
 		tb_Servidor = new JTable();
 		tb_Servidor.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Siape", "Nome", "Email" }) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] { false, true, true };
 
 			public boolean isCellEditable(int row, int column) {
@@ -442,7 +445,6 @@ public class Cadastro_Emprestimo {
 		tb_Material.getColumnModel().getColumn(2).setPreferredWidth(72);
 		tb_Material.getColumnModel().getColumn(3).setResizable(false);
 		sp_Material.setViewportView(tb_Material);
-		frmNovoEmprestimo.getContentPane().setLayout(groupLayout);
 
 	}
 
