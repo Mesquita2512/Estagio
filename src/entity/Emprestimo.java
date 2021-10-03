@@ -21,18 +21,18 @@ public class Emprestimo {
 	private long id;
 
 	@OneToOne
-	@JoinColumn(name = "Siape_Servidor")
+	@JoinColumn(name = "Siape_Servidor", nullable = false)
 	private Servidor servidor;
 
 	@OneToOne
-	@JoinColumn(name = "Siape_Admin")
+	@JoinColumn(name = "Siape_Admin", nullable = false)
 	private Admin admin;
 
 	@OneToOne
-	@JoinColumn(name = "Id_Material")
+	@JoinColumn(name = "Id_Material", nullable = false)
 	private Material material;
 
-	@Column(name = "Qtd_Emprestada")
+	@Column(name = "Qtd_Emprestada", nullable = false)
 	private int qtd_emprestado;
 
 	@Column(name = "Data_Entrega", nullable = false)
