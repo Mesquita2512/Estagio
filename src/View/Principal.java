@@ -94,6 +94,7 @@ public class Principal {
 			public void actionPerformed(ActionEvent arg0) {
 
 				control_View.abreTelaCadastroEmprestimo();
+				getFrmTelaPrincipal().dispose();
 
 			}
 		});
@@ -106,12 +107,12 @@ public class Principal {
 		txt_Servidor_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Servidor_Busca.setColumns(10);
 
-		JButton btn_Sair = new JButton("Sair");
+		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				control_View.fecharSistema();
-				getFrmTelaPrincipal().setVisible(false);
+				getFrmTelaPrincipal().dispose();
 
 			}
 		});
@@ -162,7 +163,7 @@ public class Principal {
 			public void actionPerformed(ActionEvent e) {
 
 				control_View.abreTelaServidor();
-				getFrmTelaPrincipal().setVisible(false);
+				getFrmTelaPrincipal().dispose();
 
 			}
 		});

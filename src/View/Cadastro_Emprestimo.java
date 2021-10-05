@@ -18,6 +18,8 @@ import entity.Servidor;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -36,23 +38,22 @@ public class Cadastro_Emprestimo {
 	private List<Material> listaDeMateriais;
 	private List<Servidor> listaDeServidores;
 	Date date = new Date();
-	
+
 	MaterialDao mDao = new MaterialDao();
 	Material mat = new Material();
-	
+
 	Servidor serv = new Servidor();
 	ServidorDao sDao = new ServidorDao();
-	
+
 	Admin adm = new Admin();
 	AdminDao aDao = new AdminDao();
 
 	Emprestimo emp = new Emprestimo();
 	EmprestimoDao eDao = new EmprestimoDao();
-	
+
 	Controla_views control_View = new Controla_views();
 	private JTextField txt_Observacoes;
-	
-	
+
 	private JTable tb_Material;
 	private JTable tb_Servidor;
 	private JButton btn_Voltar;
@@ -73,6 +74,7 @@ public class Cadastro_Emprestimo {
 	private JScrollPane sp_Servidor;
 
 	JDateChooser dc_dataEntrega = new JDateChooser();
+
 	/**
 	 * Launch the application.
 	 */
@@ -116,11 +118,10 @@ public class Cadastro_Emprestimo {
 		frmNovoEmprestimo.getContentPane().add(sp_Material);
 		frmNovoEmprestimo.getContentPane().add(btn_Limpar);
 		frmNovoEmprestimo.getContentPane().add(sp_Servidor);
-		
+
 		dc_dataEntrega.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		dc_dataEntrega.setBounds(139, 194, 127, 25);
 		dc_dataEntrega.setDate(new Date());
-		dc_dataEntrega.setEnabled(false);
 		frmNovoEmprestimo.getContentPane().add(dc_dataEntrega);
 	}
 
@@ -224,53 +225,69 @@ public class Cadastro_Emprestimo {
 		btn_ConfirmarServidor.setVisible(false);
 
 		btn_Salvar = new JButton("SALVAR");
-		btn_Salvar.setBounds(127, 404, 123, 25);
+		btn_Salvar.setBounds(139, 404, 123, 25);
 		btn_Salvar.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
-				
-				if(mat.getId() == 0) {
+				Date dataAtual = new Date();
+				Date dataRemota = null;
+
+				try {
+					dataRemota = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				if (mat.getId() == 0) {
 					JOptionPane.showMessageDialog(null, "Realize a busca de um material para anexar ao emprestimo!!!");
-					
-				}else if(txt_Quantidade.getText().equals("") || Integer.parseInt(txt_Quantidade.getText()) == 0 ) {
+
+				} else if (txt_Quantidade.getText().equals("") || Integer.parseInt(txt_Quantidade.getText()) == 0) {
 					JOptionPane.showMessageDialog(null, "Informe um valor válido!!!");
-				}else if (mat.getQtd() < Integer.parseInt(txt_Quantidade.getText())) {
+				} else if (mat.getQtd() < Integer.parseInt(txt_Quantidade.getText())) {
 					JOptionPane.showMessageDialog(null, "Não temos a quantidade informada desse material em estoque,"
 							+ " informe um Valor menor!!!");
-				}else if(!dc_dataEntrega.isValid()) {
+				} else if (dc_dataEntrega.getDate() == null || dc_dataEntrega.getDate().compareTo(dataAtual) > 0
+						|| dc_dataEntrega.getDate().compareTo(dataRemota) < 0) {
 					JOptionPane.showMessageDialog(null, "Date inválida, favor verifique a data informada");
-					
-					
-				}else if(serv.getSiape() == 0){
-					JOptionPane.showMessageDialog(null, "Realize a busca de de um servidor para anexar ao emprestimo!!!");
-					
-				}else {
-					
+
+				} else if (serv.getSiape() == 0) {
+					JOptionPane.showMessageDialog(null,
+							"Realize a busca de de um servidor para anexar ao emprestimo!!!");
+
+				} else {
+
 					String siape = System.getProperty("siape");
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
-					
+
 					emp.setServidor(serv);
 					emp.setMaterial(mat);
 					emp.setQtd_emprestado(Integer.parseInt(txt_Quantidade.getText()));
 					emp.setObservacoes(txt_Observacoes.getText());
-					emp.setData_Entrega(dc_dataEntrega.getDate());	
+					emp.setData_Entrega(dc_dataEntrega.getDate());
 					emp.setAdmin(adm);
-					//Falta atualizar o material
+
+					mat.setQtd(mat.getQtd() - Integer.parseInt(txt_Quantidade.getText()));
+					mat.setQtd_emprestado(Integer.parseInt(txt_Quantidade.getText()));
+					mDao.atualizar(mat);
 					eDao.salvar(emp);
-					
-					getTxt_EntregueA().setText("");		
+
+					getTxt_EntregueA().setText("");
 					getTxt_Material().setText("");
 					getTxt_Quantidade().setText("");
 					getTxt_Observacoes().setText("");
-					
+
 					txt_EntregueA.setEditable(true);
 					txt_Material.setEditable(true);
-					
+
 					serv = new Servidor();
 					mat = new Material();
 					emp = new Emprestimo();
-						
+
+					JOptionPane.showMessageDialog(null, "Material emprestado com sucesso!!!");
+
 				}
-				
+
 			}
 		});
 		btn_Salvar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -282,14 +299,14 @@ public class Cadastro_Emprestimo {
 		btn_Limpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				getTxt_EntregueA().setText("");		
+				getTxt_EntregueA().setText("");
 				getTxt_Material().setText("");
 				getTxt_Quantidade().setText("");
 				getTxt_Observacoes().setText("");
-				
+
 				txt_EntregueA.setEditable(true);
 				txt_Material.setEditable(true);
-				
+
 				serv = new Servidor();
 				mat = new Material();
 
@@ -305,21 +322,21 @@ public class Cadastro_Emprestimo {
 			public void actionPerformed(ActionEvent e) {
 
 				control_View.abreTelaPrincipal();
-				getFrmNovoEmprestimo().setVisible(false);
+				getFrmNovoEmprestimo().dispose();
 
 			}
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
 
-		btn_Sair = new JButton("Sair");
+		btn_Sair = new JButton("Logout");
 		btn_Sair.setBounds(598, 404, 151, 25);
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				control_View.fecharSistema();
-				getFrmNovoEmprestimo().setVisible(false);
+				getFrmNovoEmprestimo().dispose();
 
 			}
 		});
@@ -384,7 +401,6 @@ public class Cadastro_Emprestimo {
 						mat = new Material();
 					}
 					txt_Material.setEditable(true);
-					
 
 				}
 
@@ -439,7 +455,7 @@ public class Cadastro_Emprestimo {
 					while (val > 0) {
 						serv = getListaDeServidores().get(inc);
 
-						tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail()});
+						tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail() });
 
 						val--;
 						inc++;

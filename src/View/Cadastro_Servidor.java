@@ -2,14 +2,11 @@ package View;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JRadioButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import config.Numeros;
 import dao.AdminDao;
 import dao.ServidorDao;
@@ -37,6 +34,17 @@ public class Cadastro_Servidor {
 	AdminDao aDao = new AdminDao();
 	Servidor servidor = new Servidor();
 	ServidorDao sDao = new ServidorDao();
+	private JLabel lblNewLabel;
+	private JLabel ln_Nome_Servidor;
+	private JLabel lb_Siape_Servidor;
+	private JLabel lb_Email_Servidor;
+	private JLabel lb_Senha_Conf;
+	private JButton btn_Salvar;
+	private JLabel lb_Senha;
+	private JRadioButton confirme_Servidor_Admin;
+	private JButton btn_Limpar;
+	private JButton btn_Voltar;
+	private JButton btn_Sair;
 
 	/**
 	 * Launch the application.
@@ -60,6 +68,23 @@ public class Cadastro_Servidor {
 	public Cadastro_Servidor() {
 		initialize();
 		txt_Siape_Servidor.setDocument(new Numeros());
+		frmCasdastroServidor.getContentPane().setLayout(null);
+		frmCasdastroServidor.getContentPane().add(lblNewLabel);
+		frmCasdastroServidor.getContentPane().add(ln_Nome_Servidor);
+		frmCasdastroServidor.getContentPane().add(lb_Siape_Servidor);
+		frmCasdastroServidor.getContentPane().add(txt_Nom_Servidor);
+		frmCasdastroServidor.getContentPane().add(txt_Siape_Servidor);
+		frmCasdastroServidor.getContentPane().add(lb_Email_Servidor);
+		frmCasdastroServidor.getContentPane().add(txt_Email_Servidor);
+		frmCasdastroServidor.getContentPane().add(lb_Senha_Conf);
+		frmCasdastroServidor.getContentPane().add(btn_Salvar);
+		frmCasdastroServidor.getContentPane().add(lb_Senha);
+		frmCasdastroServidor.getContentPane().add(confirme_Servidor_Admin);
+		frmCasdastroServidor.getContentPane().add(btn_Limpar);
+		frmCasdastroServidor.getContentPane().add(btn_Voltar);
+		frmCasdastroServidor.getContentPane().add(btn_Sair);
+		frmCasdastroServidor.getContentPane().add(txt_Senha);
+		frmCasdastroServidor.getContentPane().add(txt_Senha_conf);
 	}
 
 	/**
@@ -71,47 +96,59 @@ public class Cadastro_Servidor {
 		frmCasdastroServidor.setBounds(100, 100, 600, 450);
 		frmCasdastroServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel lblNewLabel = new JLabel("Cadastro de Servidor");
+		lblNewLabel = new JLabel("Cadastro de Servidor");
+		lblNewLabel.setBounds(94, 39, 414, 55);
 		lblNewLabel.setForeground(new Color(0, 0, 139));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 45));
 
-		JLabel ln_Nome_Servidor = new JLabel("Nome *");
+		ln_Nome_Servidor = new JLabel("Nome *");
+		ln_Nome_Servidor.setBounds(94, 124, 48, 17);
 		ln_Nome_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_Siape_Servidor = new JLabel("Siape *");
+		lb_Siape_Servidor = new JLabel("Siape *");
+		lb_Siape_Servidor.setBounds(94, 168, 56, 17);
 		lb_Siape_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_Email_Servidor = new JLabel("Email *");
+		lb_Email_Servidor = new JLabel("Email *");
+		lb_Email_Servidor.setBounds(94, 209, 56, 17);
 		lb_Email_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_Senha = new JLabel("Senha");
+		lb_Senha = new JLabel("Senha");
+		lb_Senha.setBounds(94, 284, 56, 17);
 		lb_Senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lb_Senha.setVisible(false);
 
-		JLabel lb_Senha_Conf = new JLabel("Confirma\u00E7\u00E3o");
+		lb_Senha_Conf = new JLabel("Confirma\u00E7\u00E3o");
+		lb_Senha_Conf.setBounds(94, 322, 145, 17);
 		lb_Senha_Conf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lb_Senha_Conf.setVisible(false);
 
-		JRadioButton confirme_Servidor_Admin = new JRadioButton("O servidor \u00E9 usu\u00E1rio do sistema?");
+		confirme_Servidor_Admin = new JRadioButton("O servidor \u00E9 usu\u00E1rio do sistema?");
+		confirme_Servidor_Admin.setBounds(243, 240, 265, 25);
 		confirme_Servidor_Admin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Nom_Servidor = new JTextField();
+		txt_Nom_Servidor.setBounds(154, 121, 354, 23);
 		txt_Nom_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Nom_Servidor.setColumns(10);
 
 		txt_Siape_Servidor = new JTextField();
+		txt_Siape_Servidor.setBounds(154, 162, 354, 23);
 		txt_Siape_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Siape_Servidor.setColumns(10);
 
 		txt_Email_Servidor = new JTextField();
+		txt_Email_Servidor.setBounds(154, 203, 354, 23);
 		txt_Email_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Email_Servidor.setColumns(10);
 
 		txt_Senha = new JPasswordField();
+		txt_Senha.setBounds(243, 278, 265, 23);
 		txt_Senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Senha.setVisible(false);
 
 		txt_Senha_conf = new JPasswordField();
+		txt_Senha_conf.setBounds(243, 319, 265, 23);
 		txt_Senha_conf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Senha_conf.setVisible(false);
 
@@ -138,7 +175,8 @@ public class Cadastro_Servidor {
 			}
 		});
 
-		JButton btn_Salvar = new JButton("Salvar");
+		btn_Salvar = new JButton("Salvar");
+		btn_Salvar.setBounds(94, 360, 129, 25);
 		btn_Salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -225,7 +263,8 @@ public class Cadastro_Servidor {
 		btn_Salvar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Salvar.setBackground(new Color(34, 139, 34));
 
-		JButton btn_Limpar = new JButton("Limpar");
+		btn_Limpar = new JButton("Limpar");
+		btn_Limpar.setBounds(243, 360, 81, 25);
 		btn_Limpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -245,107 +284,31 @@ public class Cadastro_Servidor {
 		btn_Limpar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Limpar.setBackground(new Color(0, 191, 255));
 
-		JButton btn_Voltar = new JButton("Voltar");
+		btn_Voltar = new JButton("Voltar");
+		btn_Voltar.setBounds(334, 360, 73, 25);
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				control_View.abreTelaPrincipal();
-				getFrmCasdastroServidor().setVisible(false);
+				getFrmCasdastroServidor().dispose();
 
 			}
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
 
-		JButton btn_Sair = new JButton("Logout");
+		btn_Sair = new JButton("Logout");
+		btn_Sair.setBounds(417, 360, 91, 25);
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				control_View.fecharSistema();
-				getFrmCasdastroServidor().setVisible(false);
+				getFrmCasdastroServidor().dispose();
 
 			}
 		});
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.setBackground(new Color(255, 69, 0));
-
-		GroupLayout groupLayout = new GroupLayout(frmCasdastroServidor.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(94)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(ln_Nome_Servidor).addComponent(lb_Siape_Servidor,
-												GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED).addGroup(
-										groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(txt_Nom_Servidor, GroupLayout.DEFAULT_SIZE, 354,
-														Short.MAX_VALUE)
-												.addComponent(txt_Siape_Servidor, GroupLayout.DEFAULT_SIZE, 354,
-														Short.MAX_VALUE)))
-						.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(lb_Email_Servidor, GroupLayout.PREFERRED_SIZE, 56,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(txt_Email_Servidor, 354, 354, 354))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lb_Senha_Conf, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-										.addComponent(btn_Salvar, GroupLayout.PREFERRED_SIZE, 129,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lb_Senha, GroupLayout.PREFERRED_SIZE, 56,
-												GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(confirme_Servidor_Admin, Alignment.TRAILING,
-												GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE, 81,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 73,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(btn_Sair, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-												.addPreferredGap(ComponentPlacement.RELATED))
-										.addComponent(txt_Senha, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-										.addComponent(txt_Senha_conf, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))))
-				.addGap(79)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(39).addComponent(lblNewLabel).addGap(27)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(ln_Nome_Servidor)
-								.addComponent(txt_Nom_Servidor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lb_Siape_Servidor, GroupLayout.PREFERRED_SIZE, 17,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Siape_Servidor, GroupLayout.PREFERRED_SIZE, 23,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lb_Email_Servidor, GroupLayout.PREFERRED_SIZE, 17,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Email_Servidor, GroupLayout.PREFERRED_SIZE, 23,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(14).addComponent(confirme_Servidor_Admin).addGap(13)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(txt_Senha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lb_Senha, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lb_Senha_Conf, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Senha_conf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_Salvar)
-								.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addGap(23)));
-		frmCasdastroServidor.getContentPane().setLayout(groupLayout);
 	}
 
 	public JFrame getFrmCasdastroServidor() {

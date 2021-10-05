@@ -100,7 +100,7 @@ public class Login {
 					String siape = String.valueOf(admin.getSiape());
 					System.setProperty("siape", siape);// Salva o Siape do Administrador para uso posterior
 					control_View.abreTelaPrincipal();
-					getFrmTelaLogin().setVisible(false);
+					getFrmTelaLogin().dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Senha Inválida!!!");
 

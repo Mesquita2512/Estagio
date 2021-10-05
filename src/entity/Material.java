@@ -17,7 +17,7 @@ public class Material {
 	@Column(name = "Descricao", nullable = false)
 	private String descricao;
 	
-	@Column(name = "Quantidade", nullable = false)
+	@Column(name = "Qtd_Estoque", nullable = false)
 	private int qtd;
 	
 	@Column(name = "Qtd_Emprestado")

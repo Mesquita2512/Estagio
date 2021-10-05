@@ -18,6 +18,11 @@ public class MaterialDao {
 		return gDao.salvar(material);
 
 	}
+	
+	// Atualiza um material no banco de dados
+	public boolean atualizar(Material material) {
+		return gDao.atualizar(material);
+	}
 
 	// Buscar um material pelo Id
 	public Material buscarPorId(long id) {

@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Cadastro_Materiais {
 
@@ -155,6 +156,7 @@ public class Cadastro_Materiais {
 				} else if (mDao.Salvar(material)) {
 					txt_Descricao.setText("");
 					txt_Est_conservacao.setText("");
+					txt_Val_aprox.setText("");
 					material = new Material();
 					JOptionPane.showMessageDialog(null, "Material salvo com sucesso!!!");
 				}
@@ -181,7 +183,7 @@ public class Cadastro_Materiais {
 			public void actionPerformed(ActionEvent e) {
 
 				control_view.abreTelaPrincipal();
-				getFrmCadastroDeMateriais().setVisible(false);
+				getFrmCadastroDeMateriais().dispose();
 
 			}
 		});
@@ -189,7 +191,7 @@ public class Cadastro_Materiais {
 		btn_Voltar.setForeground(new Color(0, 0, 0));
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		btn_Sair = new JButton("Sair");
+		btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -201,68 +203,62 @@ public class Cadastro_Materiais {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout groupLayout = new GroupLayout(frmCadastroDeMateriais.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(73)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(lblNewLabel)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(73)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel)
 						.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(btn_Salvar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblNewLabel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblNewLabel_1_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 86,
-												Short.MAX_VALUE)
-										.addComponent(lblNewLabel_1_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblNewLabel_1_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addGap(18).addGroup(
-										groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, 272,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(txt_Val_aprox, GroupLayout.PREFERRED_SIZE, 272,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(txt_Descricao, 272, 272, 272)
-												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-														.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-																.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE,
-																		93, GroupLayout.PREFERRED_SIZE)
-																.addGap(18)
-																.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE,
-																		77, GroupLayout.PREFERRED_SIZE)
-																.addGap(18).addComponent(btn_Sair,
-																		GroupLayout.PREFERRED_SIZE, 67,
-																		GroupLayout.PREFERRED_SIZE))
-														.addComponent(txt_Est_conservacao, Alignment.LEADING,
-																GroupLayout.PREFERRED_SIZE, 272,
-																GroupLayout.PREFERRED_SIZE)))))
-				.addContainerGap(77, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(29).addComponent(lblNewLabel).addGap(27)
-				.addGroup(groupLayout
-						.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_1).addComponent(txt_Descricao,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btn_Salvar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblNewLabel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblNewLabel_1_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+								.addComponent(lblNewLabel_1_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblNewLabel_1_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txt_Val_aprox, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txt_Descricao, 272, 272, 272)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txt_Est_conservacao, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(77, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(29)
+					.addComponent(lblNewLabel)
+					.addGap(27)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(txt_Descricao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txt_Val_aprox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txt_Val_aprox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txt_Est_conservacao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(40)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_Salvar)
+						.addComponent(txt_Est_conservacao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(40)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btn_Salvar)
 						.addComponent(btn_Limpar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap(101, Short.MAX_VALUE)));
+						.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(101, Short.MAX_VALUE))
+		);
 		frmCadastroDeMateriais.getContentPane().setLayout(groupLayout);
 	}
 

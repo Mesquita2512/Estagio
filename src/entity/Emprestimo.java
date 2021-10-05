@@ -35,6 +35,9 @@ public class Emprestimo {
 	@Column(name = "Qtd_Emprestada", nullable = false)
 	private int qtd_emprestado;
 
+	@Column(name = "Qtd_Devolvida")
+	private int qtd_devolvida;
+
 	@Column(name = "Data_Entrega", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date data_Entrega;
@@ -50,16 +53,25 @@ public class Emprestimo {
 		super();
 	}
 
-	public Emprestimo(Servidor servidor, Admin admin, Material material, int qtd_emprestado, Date data_Entrega,
-			Date data_Devolução, String observacoes) {
+	public Emprestimo(Servidor servidor, Admin admin, Material material, int qtd_emprestado, int qtd_devolvida,
+			Date data_Entrega, Date data_Devolução, String observacoes) {
 		super();
 		this.servidor = servidor;
 		this.admin = admin;
 		this.material = material;
 		this.qtd_emprestado = qtd_emprestado;
+		this.qtd_devolvida = qtd_devolvida;
 		this.data_Entrega = data_Entrega;
 		this.data_Devolução = data_Devolução;
 		this.observacoes = observacoes;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Servidor getServidor() {
@@ -92,6 +104,14 @@ public class Emprestimo {
 
 	public void setQtd_emprestado(int qtd_emprestado) {
 		this.qtd_emprestado = qtd_emprestado;
+	}
+
+	public int getQtd_devolvida() {
+		return qtd_devolvida;
+	}
+
+	public void setQtd_devolvida(int qtd_devolvida) {
+		this.qtd_devolvida = qtd_devolvida;
 	}
 
 	public String getObservacoes() {
@@ -143,8 +163,8 @@ public class Emprestimo {
 	@Override
 	public String toString() {
 		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", admin=" + admin + ", material=" + material
-				+ ", qtd_emprestado=" + qtd_emprestado + ", data_Entrega=" + data_Entrega + ", data_Devolução="
-				+ data_Devolução + ", observacoes=" + observacoes + "]";
+				+ ", qtd_emprestado=" + qtd_emprestado + ", qtd_devolvida=" + qtd_devolvida + ", data_Entrega="
+				+ data_Entrega + ", data_Devolução=" + data_Devolução + ", observacoes=" + observacoes + "]";
 	}
 
 }
