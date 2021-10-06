@@ -48,7 +48,7 @@ public class MaterialDao {
 		return (List<Material>) gDao.listarTodos(Material.class);
 	}
 	
-	//Buscra os material com descrição informada
+	//Buscar os material com descrição informada
 	@SuppressWarnings("unchecked")
 	public List<Material> listarMaterialPorNome( String descricao) {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();

@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTable;
@@ -20,17 +21,31 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import dao.EmprestimoDao;
+import entity.Emprestimo;
 
 public class Principal {
 
 	private JFrame frmTelaPrincipal;
-	private JTable table;
-	private JTextField txt_Matrial_Busca;
+	private JTextField txt_Material_Busca;
 	private JTextField txt_Servidor_Busca;
 
 	Controla_views control_View = new Controla_views();
 	Login login = new Login();
 
+	Emprestimo emp = new Emprestimo();
+	EmprestimoDao eDao = new EmprestimoDao();
+
+	private List<Emprestimo> listaEmprestimo;
+
+	private JTable tb_Emprestimos;
+	private JTable table;
+
+	JButton btnDevolver = new JButton("Devolver");
+	JButton btnEditar = new JButton("Editar");
+	JButton btnExcluir = new JButton("Excluir");
 	/**
 	 * Launch the application.
 	 */
@@ -65,29 +80,56 @@ public class Principal {
 		frmTelaPrincipal.setForeground(new Color(169, 169, 169));
 		frmTelaPrincipal.setBackground(new Color(169, 169, 169));
 		frmTelaPrincipal.setTitle("Tela Principal");
-		frmTelaPrincipal.setBounds(100, 100, 600, 450);
+		frmTelaPrincipal.setBounds(100, 100, 750, 480);
 		frmTelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		table = new JTable();
-		table.setColumnSelectionAllowed(true);
 
 		JLabel lblMaterialservidor = new JLabel("Material");
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		txt_Matrial_Busca = new JTextField();
-		txt_Matrial_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txt_Matrial_Busca.setColumns(10);
+		txt_Material_Busca = new JTextField();
+		txt_Material_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txt_Material_Busca.setColumns(10);
 
+		
+		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(new Color(0, 206, 209));
+		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
+				if (txt_Material_Busca.getText().equals("")) {
+
+					setListaEmprestimo(eDao.getListaEmprestimo());
+
+					int val = getListaEmprestimo().size();
+					int inc = 0;
+
+					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Emprestimos.getModel();
+					tabelaBd.setNumRows(0);
+
+					while (val > 0) {
+						emp = getListaEmprestimo().get(inc);
+
+						tabelaBd.addRow(new Object[] { emp.getMaterial().getDescricao(), emp.getQtd_devolvida(),
+								emp.getQtd_emprestado(), emp.getServidor().getNome(), emp.getData_Entrega(), btnDevolver,
+								btnEditar, btnExcluir});
+
+						val--;
+						inc++;
+						emp = new Emprestimo();
+
+					}
+
+				}
+
 				String siape = "";
 				siape = System.getProperty("siape", siape);
 				System.out.println("Testa Buscar Siape Admin" + siape);
 
 			}
 		});
-		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
 
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -116,49 +158,77 @@ public class Principal {
 
 			}
 		});
-		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.setBackground(new Color(255, 69, 0));
+
+		JScrollPane sp_Empretimos = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmTelaPrincipal.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(59)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup().addGap(397).addComponent(table,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup().addComponent(lblMaterialservidor).addGap(18)
-								.addComponent(txt_Matrial_Busca, GroupLayout.PREFERRED_SIZE, 106,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(
-										txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(btn_Sair, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE))))
-				.addContainerGap(64, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(btn_Sair))
+						.addGroup(groupLayout.createSequentialGroup().addGap(25).addGroup(groupLayout
+								.createParallelGroup(Alignment.LEADING)
+								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup().addGap(49)
+										.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+										.addComponent(lblMaterialservidor).addGap(18)
+										.addComponent(txt_Material_Busca, GroupLayout.PREFERRED_SIZE, 106,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 106,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(18).addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 88,
+												GroupLayout.PREFERRED_SIZE))
+								.addComponent(sp_Empretimos, GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE))))
+				.addGap(33)));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(19).addComponent(btnNewButton).addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMaterialservidor, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txt_Matrial_Busca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBuscar))
-				.addPreferredGap(ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-				.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(18).addComponent(btn_Sair).addGap(60)));
+				.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+						.createSequentialGroup()
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar)
+								.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 23,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txt_Material_Busca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblMaterialservidor, GroupLayout.PREFERRED_SIZE, 21,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(31))
+						.addGroup(groupLayout.createSequentialGroup().addComponent(btnNewButton).addGap(18)))
+				.addComponent(sp_Empretimos, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btn_Sair).addGap(28)));
+
+		tb_Emprestimos = new JTable();
+		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tb_Emprestimos.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Material", "Qtd Dev", "Qtd ent", "Servidor", "Data", "Devolver", "Editar", "Excluir"
+			}
+		));
+		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(175);
+		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(55);
+		tb_Emprestimos.getColumnModel().getColumn(2).setPreferredWidth(55);
+		tb_Emprestimos.getColumnModel().getColumn(3).setPreferredWidth(150);
+		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(100);
+		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(60);
+		tb_Emprestimos.getColumnModel().getColumn(6).setPreferredWidth(60);
+		tb_Emprestimos.getColumnModel().getColumn(7).setPreferredWidth(60);
+		sp_Empretimos.setViewportView(tb_Emprestimos);
 		frmTelaPrincipal.getContentPane().setLayout(groupLayout);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmTelaPrincipal.setJMenuBar(menuBar);
 
-		JButton btn_Servidor = new JButton("Servidor");
-		btn_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JButton btn_Servidor = new JButton("Servidores");
+		btn_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn_Servidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -179,17 +249,17 @@ public class Principal {
 
 			}
 		});
-		btn_Materiais.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Materiais.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn_Materiais.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		menuBar.add(btn_Materiais);
 
 		JButton btn_Relatorios = new JButton("Relat\u00F3rios");
-		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn_Relatorios.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_Relatorios.png")));
 		menuBar.add(btn_Relatorios);
 
 		JButton btnNewButton_1 = new JButton("Sobre");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
 		menuBar.add(btnNewButton_1);
 	}
@@ -232,10 +302,19 @@ public class Principal {
 	}
 
 	public JTextField getTextField() {
-		return txt_Matrial_Busca;
+		return txt_Material_Busca;
 	}
 
 	public void setTextField(JTextField textField) {
-		this.txt_Matrial_Busca = textField;
+		this.txt_Material_Busca = textField;
 	}
+
+	public List<Emprestimo> getListaEmprestimo() {
+		return listaEmprestimo;
+	}
+
+	public void setListaEmprestimo(List<Emprestimo> listaEmprestimo) {
+		this.listaEmprestimo = listaEmprestimo;
+	}
+
 }

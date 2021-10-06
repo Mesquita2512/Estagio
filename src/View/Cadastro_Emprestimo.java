@@ -28,8 +28,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
-public class Cadastro_Emprestimo {
+public class Cadastro_Emprestimo extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frmNovoEmprestimo;
 	private JTextField txt_Material;
 	private JTextField txt_Quantidade;

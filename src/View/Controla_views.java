@@ -1,7 +1,5 @@
 package View;
 
-import javax.swing.JDialog;
-
 import entity.Material;
 
 public class Controla_views {
@@ -55,16 +53,7 @@ public class Controla_views {
 		}
 	}
 
-	public void abreTelaBuscaMateriais() {
-
-		try {
-			BuscarMaterial dialog = new BuscarMaterial();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	public void fecharSistema() {
 		System.setProperty("siape", "0");
