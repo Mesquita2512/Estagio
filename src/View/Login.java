@@ -97,10 +97,13 @@ public class Login {
 				}
 				if (admin.getSiape() == Integer.parseInt(txtSiape.getText())
 						&& admin.getSenha().equals(verificaSenhaNula)) {
+					
 					String siape = String.valueOf(admin.getSiape());
 					System.setProperty("siape", siape);// Salva o Siape do Administrador para uso posterior
+					
 					control_View.abreTelaPrincipal();
 					getFrmTelaLogin().dispose();
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Senha Inválida!!!");
 

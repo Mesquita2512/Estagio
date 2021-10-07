@@ -3,12 +3,14 @@ package View;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.List;
 import java.awt.Font;
 import java.awt.Color;
@@ -23,8 +25,13 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import dao.AdminDao;
 import dao.EmprestimoDao;
+import dao.MaterialDao;
+import entity.Admin;
 import entity.Emprestimo;
+import entity.Material;
 
 public class Principal {
 
@@ -38,14 +45,17 @@ public class Principal {
 	Emprestimo emp = new Emprestimo();
 	EmprestimoDao eDao = new EmprestimoDao();
 
+	Material mat = new Material();
+	MaterialDao mDao = new MaterialDao();
+
+	Admin adm = new Admin();
+	AdminDao aDao = new AdminDao();
+
 	private List<Emprestimo> listaEmprestimo;
 
 	private JTable tb_Emprestimos;
 	private JTable table;
 
-	JButton btnDevolver = new JButton("Devolver");
-	JButton btnEditar = new JButton("Editar");
-	JButton btnExcluir = new JButton("Excluir");
 	/**
 	 * Launch the application.
 	 */
@@ -90,15 +100,13 @@ public class Principal {
 		txt_Material_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material_Busca.setColumns(10);
 
-		
-		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBackground(new Color(0, 206, 209));
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				if (txt_Material_Busca.getText().equals("")) {
+				
+				if (txt_Material_Busca.getText().equals("") && txt_Servidor_Busca.getText().equals("")) {
 
 					setListaEmprestimo(eDao.getListaEmprestimo());
 
@@ -111,9 +119,8 @@ public class Principal {
 					while (val > 0) {
 						emp = getListaEmprestimo().get(inc);
 
-						tabelaBd.addRow(new Object[] { emp.getMaterial().getDescricao(), emp.getQtd_devolvida(),
-								emp.getQtd_emprestado(), emp.getServidor().getNome(), emp.getData_Entrega(), btnDevolver,
-								btnEditar, btnExcluir});
+						tabelaBd.addRow(new Object[] {emp.getId(), emp.getMaterial().getDescricao(), emp.getQtd_emprestado(),
+								emp.getQtd_devolvida(), emp.getServidor().getNome(), emp.getData_Entrega() });
 
 						val--;
 						inc++;
@@ -125,11 +132,9 @@ public class Principal {
 
 				String siape = "";
 				siape = System.getProperty("siape", siape);
-				System.out.println("Testa Buscar Siape Admin" + siape);
 
 			}
 		});
-		
 
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -162,32 +167,90 @@ public class Principal {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 
 		JScrollPane sp_Empretimos = new JScrollPane();
+
+		JButton btn_Sair_1 = new JButton("Excluir Emprestimo");
+		btn_Sair_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Sair_1.setBackground(new Color(222, 184, 135));
+
+		JButton btn_Editar = new JButton("Editar Emprestimo");
+		btn_Editar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Editar.setBackground(new Color(189, 183, 107));
+
+		JButton btn_Devolver = new JButton("Devolver Material");
+		btn_Devolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String capta = "";
+				if (tb_Emprestimos.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
+				} else if (tb_Emprestimos.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Emprestimo da lista");
+				} else {
+					capta = tb_Emprestimos.getValueAt(tb_Emprestimos.getSelectedRow(), 0).toString();
+					String siape = System.getProperty("siape");
+					int captaId = Integer.parseInt(capta);
+					
+					emp = eDao.buscarPorId(captaId);
+					mat = mDao.buscarPorId(emp.getMaterial().getId());
+					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
+					
+					mat.setQtd(emp.getQtd_emprestado() + mat.getQtd());
+					
+
+					
+					emp.setAdminRecebe(adm);
+					emp.setQtd_devolvida(emp.getQtd_emprestado());
+					mat.setQtd_emprestado(mat.getQtd_emprestado() - emp.getQtd_devolvida());
+					emp.setData_Devolução(new Date());
+					
+					mDao.atualizar(mat);
+					eDao.atualizarEmprestimo(emp);
+
+					emp = new Emprestimo();
+					mat = new Material();
+					adm = new Admin();
+					
+					JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
+
+				}
+
+			}
+		});
+		btn_Devolver.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Devolver.setBackground(new Color(0, 255, 127));
 		GroupLayout groupLayout = new GroupLayout(frmTelaPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup()
+				.createSequentialGroup().addGap(25)
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(btn_Sair))
-						.addGroup(groupLayout.createSequentialGroup().addGap(25).addGroup(groupLayout
-								.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup().addGap(49)
-										.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-										.addComponent(lblMaterialservidor).addGap(18)
-										.addComponent(txt_Material_Busca, GroupLayout.PREFERRED_SIZE, 106,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(18)
-										.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(18)
-										.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 106,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(18).addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 88,
-												GroupLayout.PREFERRED_SIZE))
-								.addComponent(sp_Empretimos, GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE))))
+						.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(btn_Devolver, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(btn_Editar, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(btn_Sair_1, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+								.addComponent(btn_Sair))
+						.addGroup(groupLayout.createSequentialGroup().addGap(49)
+								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+								.addComponent(lblMaterialservidor).addGap(18)
+								.addComponent(txt_Material_Busca, GroupLayout.PREFERRED_SIZE, 106,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 106,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
+						.addComponent(sp_Empretimos, GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE))
 				.addGap(33)));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.createSequentialGroup().addContainerGap(24, Short.MAX_VALUE)
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
 						.createSequentialGroup()
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar)
@@ -201,26 +264,29 @@ public class Principal {
 						.addGap(31))
 						.addGroup(groupLayout.createSequentialGroup().addComponent(btnNewButton).addGap(18)))
 				.addComponent(sp_Empretimos, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btn_Sair).addGap(28)));
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_Sair)
+						.addComponent(btn_Devolver, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btn_Editar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btn_Sair_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+				.addGap(28)));
 
 		tb_Emprestimos = new JTable();
 		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tb_Emprestimos.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"Material", "Qtd Dev", "Qtd ent", "Servidor", "Data", "Devolver", "Editar", "Excluir"
+				"Id", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data"
 			}
 		));
-		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(175);
-		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(55);
+		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(50);
+		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(175);
 		tb_Emprestimos.getColumnModel().getColumn(2).setPreferredWidth(55);
-		tb_Emprestimos.getColumnModel().getColumn(3).setPreferredWidth(150);
-		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(100);
-		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(60);
-		tb_Emprestimos.getColumnModel().getColumn(6).setPreferredWidth(60);
-		tb_Emprestimos.getColumnModel().getColumn(7).setPreferredWidth(60);
+		tb_Emprestimos.getColumnModel().getColumn(3).setPreferredWidth(55);
+		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(150);
+		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(100);
 		sp_Empretimos.setViewportView(tb_Emprestimos);
 		frmTelaPrincipal.getContentPane().setLayout(groupLayout);
 
@@ -316,5 +382,4 @@ public class Principal {
 	public void setListaEmprestimo(List<Emprestimo> listaEmprestimo) {
 		this.listaEmprestimo = listaEmprestimo;
 	}
-
 }

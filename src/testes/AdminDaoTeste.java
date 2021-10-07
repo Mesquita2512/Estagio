@@ -11,14 +11,14 @@ public class AdminDaoTeste {
 	//Teste para Salvar um Administrador, atenção para o Siape
 		
 		
-		   admin1 = new Admin(123123, "joao da silva", "ureadossecas@kbckbc.com",
+		   admin1 = new Admin(2525, "Antonio Mesquita", "ureadossecas@kbckbc.com",
 		  "1234");
 		   
 		   aDao.salvar(admin1);
 		
 
 		// Teste para buscar um servidor pelo Siape
-		admin1 = aDao.buscarPorSiape(123120);
+		admin1 = aDao.buscarPorSiape(2525);
 
 		System.out.println("-----" + admin1 + "-----");
 

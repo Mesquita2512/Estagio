@@ -25,8 +25,12 @@ public class Emprestimo {
 	private Servidor servidor;
 
 	@OneToOne
-	@JoinColumn(name = "Siape_Admin", nullable = false)
-	private Admin admin;
+	@JoinColumn(name = "Siape_Admin_Entrega", nullable = false)
+	private Admin adminEntrega;
+
+	@OneToOne
+	@JoinColumn(name = "Siape_Admin_Recebe")
+	private Admin adminRecebe;
 
 	@OneToOne
 	@JoinColumn(name = "Id_Material", nullable = false)
@@ -53,11 +57,12 @@ public class Emprestimo {
 		super();
 	}
 
-	public Emprestimo(Servidor servidor, Admin admin, Material material, int qtd_emprestado, int qtd_devolvida,
-			Date data_Entrega, Date data_Devolução, String observacoes) {
+	public Emprestimo(Servidor servidor, Admin adminEntrega, Admin adminRecebe, Material material, int qtd_emprestado,
+			int qtd_devolvida, Date data_Entrega, Date data_Devolução, String observacoes) {
 		super();
 		this.servidor = servidor;
-		this.admin = admin;
+		this.adminEntrega = adminEntrega;
+		this.adminRecebe = adminRecebe;
 		this.material = material;
 		this.qtd_emprestado = qtd_emprestado;
 		this.qtd_devolvida = qtd_devolvida;
@@ -82,12 +87,20 @@ public class Emprestimo {
 		this.servidor = servidor;
 	}
 
-	public Admin getAdmin() {
-		return admin;
+	public Admin getAdminEntrega() {
+		return adminEntrega;
 	}
 
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
+	public void setAdminEntrega(Admin adminEntrega) {
+		this.adminEntrega = adminEntrega;
+	}
+
+	public Admin getAdminRecebe() {
+		return adminRecebe;
+	}
+
+	public void setAdminRecebe(Admin adminRecebe) {
+		this.adminRecebe = adminRecebe;
 	}
 
 	public Material getMaterial() {
@@ -162,9 +175,10 @@ public class Emprestimo {
 
 	@Override
 	public String toString() {
-		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", admin=" + admin + ", material=" + material
-				+ ", qtd_emprestado=" + qtd_emprestado + ", qtd_devolvida=" + qtd_devolvida + ", data_Entrega="
-				+ data_Entrega + ", data_Devolução=" + data_Devolução + ", observacoes=" + observacoes + "]";
+		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", adminEntrega=" + adminEntrega + ", adminRecebe="
+				+ adminRecebe + ", material=" + material + ", qtd_emprestado=" + qtd_emprestado + ", qtd_devolvida="
+				+ qtd_devolvida + ", data_Entrega=" + data_Entrega + ", data_Devolução=" + data_Devolução
+				+ ", observacoes=" + observacoes + "]";
 	}
 
 }

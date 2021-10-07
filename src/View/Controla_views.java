@@ -20,6 +20,7 @@ public class Controla_views {
 
 			Principal windowPrincipal = new Principal();
 			windowPrincipal.getFrmTelaPrincipal().setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
