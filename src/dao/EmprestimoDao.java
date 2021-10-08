@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.TransactionalException;
 
 import entity.Emprestimo;
@@ -44,6 +45,26 @@ public class EmprestimoDao {
 			}
 
 			return resultado;
+		}
+		
+		
+		
+		//Buscar os Emprestimos com material pra devolução
+		@SuppressWarnings("unchecked")
+		public List<Emprestimo> listarEmprestimoComMaterial() {
+			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+			List<Emprestimo> lista;
+			try {
+				
+				String jpql = "from Emprestimo where Qtd_Emprestada > Qtd_Devolvida ";
+				TypedQuery<Emprestimo> q = (TypedQuery<Emprestimo>) entityManager.createQuery(jpql);
+				lista = q.getResultList();
+			} catch (EntityExistsException | TransactionalException e) {
+				lista = null;
+				FabricaJpa.shutdown();
+			}
+
+			return lista;
 		}
 
 }

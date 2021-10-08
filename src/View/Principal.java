@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -15,7 +13,6 @@ import java.util.List;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTable;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -25,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-
 import dao.AdminDao;
 import dao.EmprestimoDao;
 import dao.MaterialDao;
@@ -94,21 +90,24 @@ public class Principal {
 		frmTelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel lblMaterialservidor = new JLabel("Material");
+		lblMaterialservidor.setBounds(233, 49, 45, 21);
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Material_Busca = new JTextField();
+		txt_Material_Busca.setBounds(296, 48, 106, 23);
 		txt_Material_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material_Busca.setColumns(10);
 
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(623, 47, 88, 25);
 		btnBuscar.setBackground(new Color(0, 206, 209));
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				if (txt_Material_Busca.getText().equals("") && txt_Servidor_Busca.getText().equals("")) {
 
-					setListaEmprestimo(eDao.getListaEmprestimo());
+					setListaEmprestimo(eDao.listarEmprestimoComMaterial());
 
 					int val = getListaEmprestimo().size();
 					int inc = 0;
@@ -119,8 +118,9 @@ public class Principal {
 					while (val > 0) {
 						emp = getListaEmprestimo().get(inc);
 
-						tabelaBd.addRow(new Object[] {emp.getId(), emp.getMaterial().getDescricao(), emp.getQtd_emprestado(),
-								emp.getQtd_devolvida(), emp.getServidor().getNome(), emp.getData_Entrega() });
+						tabelaBd.addRow(
+								new Object[] { emp.getId(), emp.getMaterial().getDescricao(), emp.getQtd_emprestado(),
+										emp.getQtd_devolvida(), emp.getServidor().getNome(), emp.getData_Entrega() });
 
 						val--;
 						inc++;
@@ -137,6 +137,7 @@ public class Principal {
 		});
 
 		JButton btnNewButton = new JButton("");
+		btnNewButton.setBounds(74, 24, 54, 61);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -148,13 +149,16 @@ public class Principal {
 		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 
 		JLabel lblServidor = new JLabel("Servidor");
+		lblServidor.setBounds(420, 49, 61, 21);
 		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Servidor_Busca = new JTextField();
+		txt_Servidor_Busca.setBounds(499, 48, 106, 23);
 		txt_Servidor_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Servidor_Busca.setColumns(10);
 
 		JButton btn_Sair = new JButton("Logout");
+		btn_Sair.setBounds(623, 333, 88, 25);
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -167,12 +171,15 @@ public class Principal {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 
 		JScrollPane sp_Empretimos = new JScrollPane();
+		sp_Empretimos.setBounds(25, 103, 686, 208);
 
 		JButton btn_Sair_1 = new JButton("Excluir Emprestimo");
+		btn_Sair_1.setBounds(418, 333, 170, 25);
 		btn_Sair_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair_1.setBackground(new Color(222, 184, 135));
 
 		JButton btn_Editar = new JButton("Editar Emprestimo");
+		btn_Editar.setBounds(234, 333, 166, 25);
 		btn_Editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -181,6 +188,7 @@ public class Principal {
 		btn_Editar.setBackground(new Color(189, 183, 107));
 
 		JButton btn_Devolver = new JButton("Devolver Material");
+		btn_Devolver.setBounds(25, 333, 191, 25);
 		btn_Devolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -193,28 +201,73 @@ public class Principal {
 					capta = tb_Emprestimos.getValueAt(tb_Emprestimos.getSelectedRow(), 0).toString();
 					String siape = System.getProperty("siape");
 					int captaId = Integer.parseInt(capta);
-					
+
 					emp = eDao.buscarPorId(captaId);
 					mat = mDao.buscarPorId(emp.getMaterial().getId());
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
-					
-					mat.setQtd(emp.getQtd_emprestado() + mat.getQtd());
-					
 
-					
-					emp.setAdminRecebe(adm);
-					emp.setQtd_devolvida(emp.getQtd_emprestado());
-					mat.setQtd_emprestado(mat.getQtd_emprestado() - emp.getQtd_devolvida());
-					emp.setData_Devolução(new Date());
-					
-					mDao.atualizar(mat);
-					eDao.atualizarEmprestimo(emp);
+					if (emp.getQtd_emprestado() - emp.getQtd_devolvida() == 1) {
 
-					emp = new Emprestimo();
-					mat = new Material();
-					adm = new Admin();
-					
-					JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
+						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolução do material");
+						if (confirma == JOptionPane.YES_OPTION) {
+							mat.setQtd(mat.getQtd() + 1);
+
+							emp.setAdminRecebe(adm);
+							emp.setQtd_devolvida(emp.getQtd_emprestado());
+							mat.setQtd_emprestado(mat.getQtd_emprestado() - 1);
+							emp.setData_Devolução(new Date());
+
+							mDao.atualizar(mat);
+							eDao.atualizarEmprestimo(emp);
+
+							emp = new Emprestimo();
+							mat = new Material();
+							adm = new Admin();
+
+							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
+
+						} else {
+							return;
+						}
+
+					} else {
+
+						String confrima_Qtd = JOptionPane.showInputDialog("Informe a quantidade a ser devolvida");
+						int confirma_int = 0;
+						try {
+							confirma_int = Integer.parseInt(confrima_Qtd);
+						}catch (Exception e1) {
+							JOptionPane.showMessageDialog(null, "Informe um valor inteiro para realizar a devolução do material");
+							return;
+						}
+						
+						
+						if (confirma_int > emp.getQtd_emprestado() - emp.getQtd_devolvida()) {
+							JOptionPane.showMessageDialog(null,
+									"A quantidade informada é maior do que a quantidade a ser devolvida neste emprestimo");
+						}else if(confirma_int <= 0) {
+							JOptionPane.showMessageDialog(null, "informe um valor maior que zero para devolver o material");
+						}
+						else {
+
+							emp.setAdminRecebe(adm);
+							emp.setQtd_devolvida(emp.getQtd_devolvida() + confirma_int);
+							emp.setData_Devolução(new Date());
+
+							mat.setQtd(confirma_int + mat.getQtd());
+							mat.setQtd_emprestado(mat.getQtd_emprestado() - confirma_int);
+
+							mDao.atualizar(mat);
+							eDao.atualizarEmprestimo(emp);
+
+							emp = new Emprestimo();
+							mat = new Material();
+							adm = new Admin();
+
+							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
+						}
+
+					}
 
 				}
 
@@ -222,65 +275,11 @@ public class Principal {
 		});
 		btn_Devolver.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Devolver.setBackground(new Color(0, 255, 127));
-		GroupLayout groupLayout = new GroupLayout(frmTelaPrincipal.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup().addGap(25)
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(btn_Devolver, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btn_Editar, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btn_Sair_1, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-								.addComponent(btn_Sair))
-						.addGroup(groupLayout.createSequentialGroup().addGap(49)
-								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-								.addComponent(lblMaterialservidor).addGap(18)
-								.addComponent(txt_Material_Busca, GroupLayout.PREFERRED_SIZE, 106,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 106,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
-						.addComponent(sp_Empretimos, GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE))
-				.addGap(33)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap(24, Short.MAX_VALUE)
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-						.createSequentialGroup()
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar)
-								.addComponent(txt_Servidor_Busca, GroupLayout.PREFERRED_SIZE, 23,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblServidor, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Material_Busca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblMaterialservidor, GroupLayout.PREFERRED_SIZE, 21,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(31))
-						.addGroup(groupLayout.createSequentialGroup().addComponent(btnNewButton).addGap(18)))
-				.addComponent(sp_Empretimos, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_Sair)
-						.addComponent(btn_Devolver, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_Editar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_Sair_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-				.addGap(28)));
 
 		tb_Emprestimos = new JTable();
 		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tb_Emprestimos.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"Id", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data"
-			}
-		));
+		tb_Emprestimos.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Id", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data" }));
 		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(50);
 		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(175);
 		tb_Emprestimos.getColumnModel().getColumn(2).setPreferredWidth(55);
@@ -288,7 +287,18 @@ public class Principal {
 		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(150);
 		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(100);
 		sp_Empretimos.setViewportView(tb_Emprestimos);
-		frmTelaPrincipal.getContentPane().setLayout(groupLayout);
+		frmTelaPrincipal.getContentPane().setLayout(null);
+		frmTelaPrincipal.getContentPane().add(sp_Empretimos);
+		frmTelaPrincipal.getContentPane().add(btn_Devolver);
+		frmTelaPrincipal.getContentPane().add(btn_Editar);
+		frmTelaPrincipal.getContentPane().add(btn_Sair_1);
+		frmTelaPrincipal.getContentPane().add(btn_Sair);
+		frmTelaPrincipal.getContentPane().add(btnNewButton);
+		frmTelaPrincipal.getContentPane().add(lblMaterialservidor);
+		frmTelaPrincipal.getContentPane().add(txt_Material_Busca);
+		frmTelaPrincipal.getContentPane().add(lblServidor);
+		frmTelaPrincipal.getContentPane().add(txt_Servidor_Busca);
+		frmTelaPrincipal.getContentPane().add(btnBuscar);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmTelaPrincipal.setJMenuBar(menuBar);
