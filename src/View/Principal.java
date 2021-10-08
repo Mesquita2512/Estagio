@@ -173,11 +173,6 @@ public class Principal {
 		JScrollPane sp_Empretimos = new JScrollPane();
 		sp_Empretimos.setBounds(25, 103, 686, 208);
 
-		JButton btn_Sair_1 = new JButton("Excluir Emprestimo");
-		btn_Sair_1.setBounds(418, 333, 170, 25);
-		btn_Sair_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_Sair_1.setBackground(new Color(222, 184, 135));
-
 		JButton btn_Editar = new JButton("Editar Emprestimo");
 		btn_Editar.setBounds(234, 333, 166, 25);
 		btn_Editar.addActionListener(new ActionListener() {
@@ -291,7 +286,6 @@ public class Principal {
 		frmTelaPrincipal.getContentPane().add(sp_Empretimos);
 		frmTelaPrincipal.getContentPane().add(btn_Devolver);
 		frmTelaPrincipal.getContentPane().add(btn_Editar);
-		frmTelaPrincipal.getContentPane().add(btn_Sair_1);
 		frmTelaPrincipal.getContentPane().add(btn_Sair);
 		frmTelaPrincipal.getContentPane().add(btnNewButton);
 		frmTelaPrincipal.getContentPane().add(lblMaterialservidor);
