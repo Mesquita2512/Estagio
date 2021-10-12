@@ -29,46 +29,36 @@ public class Emprestimo {
 	private Admin adminEntrega;
 
 	@OneToOne
-	@JoinColumn(name = "Siape_Admin_Recebe")
-	private Admin adminRecebe;
-
-	@OneToOne
 	@JoinColumn(name = "Id_Material", nullable = false)
 	private Material material;
 
 	@Column(name = "Qtd_Emprestada", nullable = false)
-	private int qtd_emprestado;
+	private int qtdEmprestado;
 
-	@Column(name = "Qtd_Devolvida")
-	private int qtd_devolvida;
+	@Column(name = "Qtd_Tot_Devolvida", nullable = false)
+	private int qtdTotalDevolvida;
 
 	@Column(name = "Data_Entrega", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date data_Entrega;
+	private Date dataEntrega;
 
-	@Column(name = "Data_Devolucao")
-	@Temporal(TemporalType.DATE)
-	private Date data_Devolução;
-
-	@Column(name = "Observacoes")
-	private String observacoes;
+	@Column(name = "Obs_Entrega")
+	private String obsEntrega;
 
 	public Emprestimo() {
 		super();
 	}
 
-	public Emprestimo(Servidor servidor, Admin adminEntrega, Admin adminRecebe, Material material, int qtd_emprestado,
-			int qtd_devolvida, Date data_Entrega, Date data_Devolução, String observacoes) {
+	public Emprestimo(Servidor servidor, Admin adminEntrega, Material material, int qtdEmprestado,
+			int qtdTotalDevolvida, Date dataEntrega, String obsEntrega) {
 		super();
 		this.servidor = servidor;
 		this.adminEntrega = adminEntrega;
-		this.adminRecebe = adminRecebe;
 		this.material = material;
-		this.qtd_emprestado = qtd_emprestado;
-		this.qtd_devolvida = qtd_devolvida;
-		this.data_Entrega = data_Entrega;
-		this.data_Devolução = data_Devolução;
-		this.observacoes = observacoes;
+		this.qtdEmprestado = qtdEmprestado;
+		this.qtdTotalDevolvida = qtdTotalDevolvida;
+		this.dataEntrega = dataEntrega;
+		this.obsEntrega = obsEntrega;
 	}
 
 	public long getId() {
@@ -95,14 +85,6 @@ public class Emprestimo {
 		this.adminEntrega = adminEntrega;
 	}
 
-	public Admin getAdminRecebe() {
-		return adminRecebe;
-	}
-
-	public void setAdminRecebe(Admin adminRecebe) {
-		this.adminRecebe = adminRecebe;
-	}
-
 	public Material getMaterial() {
 		return material;
 	}
@@ -111,28 +93,36 @@ public class Emprestimo {
 		this.material = material;
 	}
 
-	public int getQtd_emprestado() {
-		return qtd_emprestado;
+	public int getQtdEmprestado() {
+		return qtdEmprestado;
 	}
 
-	public void setQtd_emprestado(int qtd_emprestado) {
-		this.qtd_emprestado = qtd_emprestado;
+	public void setQtdEmprestado(int qtdEmprestado) {
+		this.qtdEmprestado = qtdEmprestado;
 	}
 
-	public int getQtd_devolvida() {
-		return qtd_devolvida;
+	public Date getDataEntrega() {
+		return dataEntrega;
 	}
 
-	public void setQtd_devolvida(int qtd_devolvida) {
-		this.qtd_devolvida = qtd_devolvida;
+	public void setDataEntrega(Date dataEntrega) {
+		this.dataEntrega = dataEntrega;
 	}
 
-	public String getObservacoes() {
-		return observacoes;
+	public String getObsEntrega() {
+		return obsEntrega;
 	}
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
+	public void setObsEntrega(String obsEntrega) {
+		this.obsEntrega = obsEntrega;
+	}
+
+	public int getQtdTotalDevolvida() {
+		return qtdTotalDevolvida;
+	}
+
+	public void setQtdTotalDevolvida(int qtdTotalDevolvida) {
+		this.qtdTotalDevolvida = qtdTotalDevolvida;
 	}
 
 	@Override
@@ -157,28 +147,11 @@ public class Emprestimo {
 		return true;
 	}
 
-	public Date getData_Entrega() {
-		return data_Entrega;
-	}
-
-	public void setData_Entrega(Date data_Entrega) {
-		this.data_Entrega = data_Entrega;
-	}
-
-	public Date getData_Devolução() {
-		return data_Devolução;
-	}
-
-	public void setData_Devolução(Date data_Devolução) {
-		this.data_Devolução = data_Devolução;
-	}
-
 	@Override
 	public String toString() {
-		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", adminEntrega=" + adminEntrega + ", adminRecebe="
-				+ adminRecebe + ", material=" + material + ", qtd_emprestado=" + qtd_emprestado + ", qtd_devolvida="
-				+ qtd_devolvida + ", data_Entrega=" + data_Entrega + ", data_Devolução=" + data_Devolução
-				+ ", observacoes=" + observacoes + "]";
+		return "Emprestimo [id=" + id + ", servidor=" + servidor + ", adminEntrega=" + adminEntrega + ", material="
+				+ material + ", qtdEmprestado=" + qtdEmprestado + ", qtdTotalDevolvida=" + qtdTotalDevolvida
+				+ ", dataEntrega=" + dataEntrega + ", obsEntrega=" + obsEntrega + "]";
 	}
 
 }

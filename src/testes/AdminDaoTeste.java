@@ -11,7 +11,7 @@ public class AdminDaoTeste {
 	//Teste para Salvar um Administrador, atenção para o Siape
 		
 		
-		   admin1 = new Admin(2525, "Antonio Mesquita", "ureadossecas@kbckbc.com",
+		   admin1 = new Admin(1212, "Lara Mesquita", "ureadossecas@kbckbc.com",
 		  "1234");
 		   
 		   aDao.salvar(admin1);

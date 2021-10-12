@@ -8,7 +8,6 @@ import javax.persistence.TypedQuery;
 import javax.transaction.TransactionalException;
 
 import entity.Emprestimo;
-import entity.Material;
 import fabricaConexao.FabricaJpa;
 
 public class EmprestimoDao {
@@ -56,7 +55,7 @@ public class EmprestimoDao {
 			List<Emprestimo> lista;
 			try {
 				
-				String jpql = "from Emprestimo where Qtd_Emprestada > Qtd_Devolvida ";
+				String jpql = "from Emprestimo where Qtd_Emprestada > Qtd_Tot_Devolvida ";
 				TypedQuery<Emprestimo> q = (TypedQuery<Emprestimo>) entityManager.createQuery(jpql);
 				lista = q.getResultList();
 			} catch (EntityExistsException | TransactionalException e) {

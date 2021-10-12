@@ -266,9 +266,9 @@ public class Cadastro_Emprestimo extends JFrame{
 
 					emp.setServidor(serv);
 					emp.setMaterial(mat);
-					emp.setQtd_emprestado(Integer.parseInt(txt_Quantidade.getText()));
-					emp.setObservacoes(txt_Observacoes.getText());
-					emp.setData_Entrega(dc_dataEntrega.getDate());
+					emp.setQtdEmprestado(Integer.parseInt(txt_Quantidade.getText()));
+					emp.setObsEntrega(txt_Observacoes.getText());
+					emp.setDataEntrega(dc_dataEntrega.getDate());
 					emp.setAdminEntrega(adm);
 
 					mat.setQtd(mat.getQtd() - Integer.parseInt(txt_Quantidade.getText()));

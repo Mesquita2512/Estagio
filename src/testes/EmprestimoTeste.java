@@ -20,16 +20,16 @@ public class EmprestimoTeste {
 		// * Caso o código seja execultado mais de uma vez, será salvo o mesmo
 		// emprestimo com um id diferente.
 		ServidorDao sDao = new ServidorDao();
-		Servidor servidor = sDao.buscarPorSiape(123125);
+		Servidor servidor = sDao.buscarPorSiape(1510001);
 
 		AdminDao aDao = new AdminDao();
-		Admin admin = aDao.buscarPorSiape(123120);
+		Admin admin = aDao.buscarPorSiape(2525);
 
 		MaterialDao mDao = new MaterialDao();
-		Material material = mDao.buscarPorId(1);
+		Material material = mDao.buscarPorId(4);
 
 		EmprestimoDao eDao = new EmprestimoDao();
-		Emprestimo emprestimo = new Emprestimo(servidor, admin,admin, material, 2, 0, new Date(), new Date(), "NADA A COMENTAR");
+		Emprestimo emprestimo = new Emprestimo(servidor, admin, material, 2, 0, new Date(), "NADA A COMENTAR");
 
 		eDao.salvar(emprestimo);
 

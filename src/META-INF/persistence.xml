@@ -9,6 +9,7 @@
 		<class>entity.Material</class>
 		<class>entity.Admin</class>
 		<class>entity.Emprestimo</class>
+		<class>entity.Devolucao</class>
 	
 		
 		<validation-mode>NONE</validation-mode>

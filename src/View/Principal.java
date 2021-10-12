@@ -23,9 +23,11 @@ import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import dao.AdminDao;
+import dao.DevolucaoDao;
 import dao.EmprestimoDao;
 import dao.MaterialDao;
 import entity.Admin;
+import entity.Devolucao;
 import entity.Emprestimo;
 import entity.Material;
 
@@ -46,6 +48,9 @@ public class Principal {
 
 	Admin adm = new Admin();
 	AdminDao aDao = new AdminDao();
+	
+	Devolucao devolucao = new Devolucao();
+	DevolucaoDao dDao = new DevolucaoDao();
 
 	private List<Emprestimo> listaEmprestimo;
 
@@ -119,8 +124,8 @@ public class Principal {
 						emp = getListaEmprestimo().get(inc);
 
 						tabelaBd.addRow(
-								new Object[] { emp.getId(), emp.getMaterial().getDescricao(), emp.getQtd_emprestado(),
-										emp.getQtd_devolvida(), emp.getServidor().getNome(), emp.getData_Entrega() });
+								new Object[] { emp.getId(), emp.getMaterial().getDescricao(), emp.getQtdEmprestado(),
+										emp.getQtdTotalDevolvida(), emp.getServidor().getNome(), emp.getDataEntrega() });
 
 						val--;
 						inc++;
@@ -201,23 +206,29 @@ public class Principal {
 					mat = mDao.buscarPorId(emp.getMaterial().getId());
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 
-					if (emp.getQtd_emprestado() - emp.getQtd_devolvida() == 1) {
-
+					if (emp.getQtdEmprestado() - emp.getQtdTotalDevolvida() == 1) {
+						String obs = JOptionPane.showInputDialog("Obsevações");
 						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolução do material");
 						if (confirma == JOptionPane.YES_OPTION) {
 							mat.setQtd(mat.getQtd() + 1);
-
-							emp.setAdminRecebe(adm);
-							emp.setQtd_devolvida(emp.getQtd_emprestado());
+							
+							emp.setQtdTotalDevolvida(emp.getQtdEmprestado());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - 1);
-							emp.setData_Devolução(new Date());
+							
+							devolucao.setEmprestimo(emp);
+							devolucao.setAdminRecebe(adm);
+							devolucao.setDataDevolucao(new Date());
+							devolucao.setQtdDevolvida(emp.getQtdEmprestado());
+							devolucao.setObsDevolucao(obs);
 
+							dDao.salvar(devolucao);
 							mDao.atualizar(mat);
 							eDao.atualizarEmprestimo(emp);
 
 							emp = new Emprestimo();
 							mat = new Material();
 							adm = new Admin();
+							devolucao = new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
 
@@ -237,7 +248,7 @@ public class Principal {
 						}
 						
 						
-						if (confirma_int > emp.getQtd_emprestado() - emp.getQtd_devolvida()) {
+						if (confirma_int > emp.getQtdEmprestado() - emp.getQtdTotalDevolvida()) {
 							JOptionPane.showMessageDialog(null,
 									"A quantidade informada é maior do que a quantidade a ser devolvida neste emprestimo");
 						}else if(confirma_int <= 0) {
@@ -245,19 +256,26 @@ public class Principal {
 						}
 						else {
 
-							emp.setAdminRecebe(adm);
-							emp.setQtd_devolvida(emp.getQtd_devolvida() + confirma_int);
-							emp.setData_Devolução(new Date());
+							String obs = JOptionPane.showInputDialog("Observações");
+							emp.setQtdTotalDevolvida(emp.getQtdTotalDevolvida() + confirma_int);
 
 							mat.setQtd(confirma_int + mat.getQtd());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - confirma_int);
 
+							devolucao.setEmprestimo(emp);
+							devolucao.setAdminRecebe(adm);
+							devolucao.setDataDevolucao(new Date());
+							devolucao.setQtdDevolvida(confirma_int);
+							devolucao.setObsDevolucao(obs);
+							
+							dDao.salvar(devolucao);
 							mDao.atualizar(mat);
 							eDao.atualizarEmprestimo(emp);
 
 							emp = new Emprestimo();
 							mat = new Material();
 							adm = new Admin();
+							devolucao= new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
 						}
