@@ -239,7 +239,7 @@ public class Cadastro_Emprestimo extends JFrame{
 				try {
 					dataRemota = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021");
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 
@@ -358,7 +358,7 @@ public class Cadastro_Emprestimo extends JFrame{
 
 				if (txt_Material.getText().equals("")) {
 
-					setListaDeMateriais(mDao.getListaMaterial());
+					setListaDeMateriais(mDao.listarMaterialPorStatus());
 
 					int val = getListaDeMateriais().size();
 					int inc = 0;
@@ -418,7 +418,7 @@ public class Cadastro_Emprestimo extends JFrame{
 
 				if (txt_EntregueA.getText().equals("")) {
 
-					setListaDeServidores(sDao.getListaServidor());
+					setListaDeServidores(sDao.listarServidorPorStatus());
 
 					int val = getListaDeServidores().size();
 					int inc = 0;

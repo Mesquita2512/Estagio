@@ -16,22 +16,23 @@ public class Servidor {
 	
 	@Column(nullable = false, name = "Email")
 	protected String email;
+	
+	@Column(nullable = false, name = "Status")
+	protected boolean statusAtivo = true;
 
 	
 	public Servidor() {
 		super();
 	}
 
-	
 
-
-	public Servidor(long siape, String nome, String email) {
+	public Servidor(long siape, String nome, String email, boolean statusAtivo) {
 		super();
 		this.siape = siape;
 		this.nome = nome;
 		this.email = email;
+		this.statusAtivo = statusAtivo;
 	}
-
 
 
 
@@ -58,6 +59,22 @@ public class Servidor {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	
+
+	public boolean isStatusAtivo() {
+		return statusAtivo;
+	}
+
+
+
+
+	public void setStatusAtivo(boolean statusAtivo) {
+		this.statusAtivo = statusAtivo;
+	}
+
+
+
 
 	@Override
 	public int hashCode() {
@@ -81,11 +98,16 @@ public class Servidor {
 		return true;
 	}
 
+
+
+
 	@Override
 	public String toString() {
-		return "Servidor [siape=" + siape + ", nome=" + nome + ", email=" + email + "]";
+		return "Servidor [siape=" + siape + ", nome=" + nome + ", email=" + email + ", statusAtivo=" + statusAtivo
+				+ "]";
 	}
 
+	
 	
 	
 	

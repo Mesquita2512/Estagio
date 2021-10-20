@@ -55,7 +55,25 @@ public class MaterialDao {
 		List<Material> lista;
 		try {
 			
-			String jpql = "from Material where upper(descricao) like upper(" + descricao + ")";
+			String jpql = "from Material where upper(descricao) like upper(" + descricao + ") and Status = 1";
+			TypedQuery<Material> q = (TypedQuery<Material>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
+		}
+
+		return lista;
+	}
+	
+	//Buscar os material com descrição informada
+	@SuppressWarnings("unchecked")
+	public List<Material> listarMaterialPorStatus() {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Material> lista;
+		try {
+			
+			String jpql = "from Material where Status = 1";
 			TypedQuery<Material> q = (TypedQuery<Material>) entityManager.createQuery(jpql);
 			lista = q.getResultList();
 		} catch (EntityExistsException | TransactionalException e) {

@@ -13,35 +13,39 @@ public class Material {
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(name = "Descricao", nullable = false)
 	private String descricao;
-	
+
 	@Column(name = "Qtd_Estoque", nullable = false)
 	private int qtd;
-	
+
 	@Column(name = "Qtd_Emprestado")
 	private int qtd_emprestado;
-	
+
 	@Column(name = "Valor_Estimado")
 	private double val_estimado;
-	
+
 	@Column(name = "Estado_De_Conservacao")
 	private String est_conservacao;
+
+	@Column(name = "Status", nullable = false)
+	private boolean statusAtivo = true;
 
 	public Material() {
 		super();
 	}
 
-	public Material(String descricao, int qtd, int qtd_emprestado, double val_estimado, String est_conservacao) {
+	public Material(String descricao, int qtd, int qtd_emprestado, double val_estimado, String est_conservacao,
+			boolean statusAtivo) {
 		super();
 		this.descricao = descricao;
 		this.qtd = qtd;
 		this.qtd_emprestado = qtd_emprestado;
 		this.val_estimado = val_estimado;
 		this.est_conservacao = est_conservacao;
+		this.statusAtivo = statusAtivo;
 	}
-
 
 	public String getDescricao() {
 		return descricao;
@@ -74,7 +78,6 @@ public class Material {
 	public void setEst_conservacao(String est_conservacao) {
 		this.est_conservacao = est_conservacao;
 	}
-	
 
 	public int getQtd_emprestado() {
 		return qtd_emprestado;
@@ -83,8 +86,6 @@ public class Material {
 	public void setQtd_emprestado(int qtd_emprestado) {
 		this.qtd_emprestado = qtd_emprestado;
 	}
-	
-	
 
 	public long getId() {
 		return id;
@@ -92,6 +93,14 @@ public class Material {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public boolean isStatusAtivo() {
+		return statusAtivo;
+	}
+
+	public void setStatusAtivo(boolean statusAtivo) {
+		this.statusAtivo = statusAtivo;
 	}
 
 	@Override
@@ -119,8 +128,8 @@ public class Material {
 	@Override
 	public String toString() {
 		return "Material [id=" + id + ", descricao=" + descricao + ", qtd=" + qtd + ", qtd_emprestado=" + qtd_emprestado
-				+ ", val_estimado=" + val_estimado + ", est_conservacao=" + est_conservacao + "]";
+				+ ", val_estimado=" + val_estimado + ", est_conservacao=" + est_conservacao + ", statusAtivo="
+				+ statusAtivo + "]";
 	}
-
 
 }

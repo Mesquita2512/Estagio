@@ -12,7 +12,7 @@ public class MaterialDaoTeste {
 
 		// Teste para salvar um material no Banco de dados
 
-		material = new Material("Fone de Ouvido", 4, 0, 149.90, "Novo");
+		material = new Material("Fone de Ouvido", 4, 0, 149.90, "Novo", true);
 		mDao = new MaterialDao();
 		mDao.Salvar(material);
 

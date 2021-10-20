@@ -15,8 +15,8 @@ public class Admin extends Servidor {
 		super();
 	}
 
-	public Admin(long siape, String nome, String email, String senha) {
-		super(siape, nome, email);
+	public Admin(long siape, String nome, String email, boolean statusAtivo, String senha) {
+		super(siape, nome, email, statusAtivo);
 		this.senha = senha;
 		// TODO Auto-generated constructor stub
 	}

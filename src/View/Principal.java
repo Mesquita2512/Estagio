@@ -48,11 +48,12 @@ public class Principal {
 
 	Admin adm = new Admin();
 	AdminDao aDao = new AdminDao();
-	
+
 	Devolucao devolucao = new Devolucao();
 	DevolucaoDao dDao = new DevolucaoDao();
 
 	private List<Emprestimo> listaEmprestimo;
+	private List<Emprestimo> listaEmprestimoAux;
 
 	private JTable tb_Emprestimos;
 	private JTable table;
@@ -110,9 +111,9 @@ public class Principal {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (txt_Material_Busca.getText().equals("") && txt_Servidor_Busca.getText().equals("")) {
+				setListaEmprestimo(eDao.listarEmprestimoComMaterial());
 
-					setListaEmprestimo(eDao.listarEmprestimoComMaterial());
+				if (txt_Material_Busca.getText().equals("") && txt_Servidor_Busca.getText().equals("")) {
 
 					int val = getListaEmprestimo().size();
 					int inc = 0;
@@ -123,14 +124,31 @@ public class Principal {
 					while (val > 0) {
 						emp = getListaEmprestimo().get(inc);
 
-						tabelaBd.addRow(
-								new Object[] { emp.getId(), emp.getMaterial().getDescricao(), emp.getQtdEmprestado(),
-										emp.getQtdTotalDevolvida(), emp.getServidor().getNome(), emp.getDataEntrega() });
+						tabelaBd.addRow(new Object[] { emp.getId(), emp.getMaterial().getDescricao(),
+								emp.getQtdEmprestado(), emp.getQtdTotalDevolvida(), emp.getServidor().getNome(),
+								emp.getDataEntrega() });
 
 						val--;
 						inc++;
 						emp = new Emprestimo();
 
+					}
+
+				} else {
+					int cont = listaEmprestimo.size();
+
+					if (txt_Material_Busca.getText().equals("")) {
+
+						while (cont > 0) {
+							
+							if (getListaEmprestimo().get(cont - 1).getServidor().getNome()
+									.equalsIgnoreCase(txt_Servidor_Busca.getText())) {
+								JOptionPane.showMessageDialog(null, cont);
+							}
+
+							cont--;
+
+						}
 					}
 
 				}
@@ -211,10 +229,10 @@ public class Principal {
 						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolução do material");
 						if (confirma == JOptionPane.YES_OPTION) {
 							mat.setQtd(mat.getQtd() + 1);
-							
+
 							emp.setQtdTotalDevolvida(emp.getQtdEmprestado());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - 1);
-							
+
 							devolucao.setEmprestimo(emp);
 							devolucao.setAdminRecebe(adm);
 							devolucao.setDataDevolucao(new Date());
@@ -242,19 +260,19 @@ public class Principal {
 						int confirma_int = 0;
 						try {
 							confirma_int = Integer.parseInt(confrima_Qtd);
-						}catch (Exception e1) {
-							JOptionPane.showMessageDialog(null, "Informe um valor inteiro para realizar a devolução do material");
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(null,
+									"Informe um valor inteiro para realizar a devolução do material");
 							return;
 						}
-						
-						
+
 						if (confirma_int > emp.getQtdEmprestado() - emp.getQtdTotalDevolvida()) {
 							JOptionPane.showMessageDialog(null,
 									"A quantidade informada é maior do que a quantidade a ser devolvida neste emprestimo");
-						}else if(confirma_int <= 0) {
-							JOptionPane.showMessageDialog(null, "informe um valor maior que zero para devolver o material");
-						}
-						else {
+						} else if (confirma_int <= 0) {
+							JOptionPane.showMessageDialog(null,
+									"informe um valor maior que zero para devolver o material");
+						} else {
 
 							String obs = JOptionPane.showInputDialog("Observações");
 							emp.setQtdTotalDevolvida(emp.getQtdTotalDevolvida() + confirma_int);
@@ -267,7 +285,7 @@ public class Principal {
 							devolucao.setDataDevolucao(new Date());
 							devolucao.setQtdDevolvida(confirma_int);
 							devolucao.setObsDevolucao(obs);
-							
+
 							dDao.salvar(devolucao);
 							mDao.atualizar(mat);
 							eDao.atualizarEmprestimo(emp);
@@ -275,7 +293,7 @@ public class Principal {
 							emp = new Emprestimo();
 							mat = new Material();
 							adm = new Admin();
-							devolucao= new Devolucao();
+							devolucao = new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
 						}
@@ -404,4 +422,13 @@ public class Principal {
 	public void setListaEmprestimo(List<Emprestimo> listaEmprestimo) {
 		this.listaEmprestimo = listaEmprestimo;
 	}
+
+	public List<Emprestimo> getListaEmprestimoAux() {
+		return listaEmprestimoAux;
+	}
+
+	public void setListaEmprestimoAux(List<Emprestimo> listaEmprestimoAux) {
+		this.listaEmprestimoAux = listaEmprestimoAux;
+	}
+
 }

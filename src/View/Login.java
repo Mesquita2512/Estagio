@@ -86,8 +86,14 @@ public class Login {
 					JOptionPane.showMessageDialog(null, "Senha não pode ser nula!!!");
 					return;
 				}
+			
+				try {
+					admin = adao.buscarPorSiape(Integer.parseInt(txtSiape.getText()));
 
-				admin = adao.buscarPorSiape(Integer.parseInt(txtSiape.getText()));
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e);
+					return;
+				}
 
 				if (admin == null) {
 					JOptionPane.showMessageDialog(null, "Siape Inválido!!!");
@@ -97,13 +103,13 @@ public class Login {
 				}
 				if (admin.getSiape() == Integer.parseInt(txtSiape.getText())
 						&& admin.getSenha().equals(verificaSenhaNula)) {
-					
+
 					String siape = String.valueOf(admin.getSiape());
 					System.setProperty("siape", siape);// Salva o Siape do Administrador para uso posterior
-					
+
 					control_View.abreTelaPrincipal();
 					getFrmTelaLogin().dispose();
-					
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Senha Inválida!!!");
 

@@ -48,7 +48,7 @@ public class ServidorDao {
 		List<Servidor> lista;
 		try {
 			
-			String jpql = "from Servidor where upper(nome) like upper(" + nome + ")";
+			String jpql = "from Servidor where upper(nome) like upper(" + nome + ") and Status = 1";
 			TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
 			lista = q.getResultList();
 		} catch (EntityExistsException | TransactionalException e) {
@@ -58,5 +58,24 @@ public class ServidorDao {
 
 		return lista;
 	}
+	
+	
+	//Buscra os servidor pelo Status
+		@SuppressWarnings("unchecked")
+		public List<Servidor> listarServidorPorStatus() {
+			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+			List<Servidor> lista;
+			try {
+				
+				String jpql = "from Servidor where Status = 1";
+				TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
+				lista = q.getResultList();
+			} catch (EntityExistsException | TransactionalException e) {
+				lista = null;
+				FabricaJpa.shutdown();
+			}
+
+			return lista;
+		}
 
 }

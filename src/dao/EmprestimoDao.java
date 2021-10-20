@@ -21,49 +21,65 @@ public class EmprestimoDao {
 	public boolean atualizarEmprestimo(Emprestimo emprestimo) {
 		return gDao.atualizar(emprestimo);
 	}
-	
-	//Buscar toda a lista de Emprestimos do banco de dados
-		@SuppressWarnings("unchecked")
-		public List<Emprestimo> getListaEmprestimo() {
-			return (List<Emprestimo>) gDao.listarTodos(Emprestimo.class);
+
+	// Buscar toda a lista de Emprestimos do banco de dados
+	@SuppressWarnings("unchecked")
+	public List<Emprestimo> getListaEmprestimo() {
+		return (List<Emprestimo>) gDao.listarTodos(Emprestimo.class);
+	}
+
+	// Buscar um Emprestimo pelo Id
+	public Emprestimo buscarPorId(long id) {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		Emprestimo resultado;
+		try {
+			entityManager.getTransaction().begin();
+
+			resultado = entityManager.find(Emprestimo.class, id);
+
+			entityManager.getTransaction().commit();
+		} catch (EntityExistsException | TransactionalException e) {
+			resultado = null;
+			FabricaJpa.shutdown();
 		}
-		
-		// Buscar um Emprestimo pelo Id
-		public Emprestimo buscarPorId(long id) {
-			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
-			Emprestimo resultado;
-			try {
-				entityManager.getTransaction().begin();
 
-				resultado = entityManager.find(Emprestimo.class, id);
+		return resultado;
+	}
 
-				entityManager.getTransaction().commit();
-			} catch (EntityExistsException | TransactionalException e) {
-				resultado = null;
-				FabricaJpa.shutdown();
-			}
+	// Buscar os Emprestimos com material pra devolução
+	@SuppressWarnings("unchecked")
+	public List<Emprestimo> listarEmprestimoComMaterial() {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Emprestimo> lista;
+		try {
 
-			return resultado;
+			String jpql = "from Emprestimo where Qtd_Emprestada > Qtd_Tot_Devolvida ";
+			TypedQuery<Emprestimo> q = (TypedQuery<Emprestimo>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
 		}
-		
-		
-		
-		//Buscar os Emprestimos com material pra devolução
-		@SuppressWarnings("unchecked")
-		public List<Emprestimo> listarEmprestimoComMaterial() {
-			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
-			List<Emprestimo> lista;
-			try {
-				
-				String jpql = "from Emprestimo where Qtd_Emprestada > Qtd_Tot_Devolvida ";
-				TypedQuery<Emprestimo> q = (TypedQuery<Emprestimo>) entityManager.createQuery(jpql);
-				lista = q.getResultList();
-			} catch (EntityExistsException | TransactionalException e) {
-				lista = null;
-				FabricaJpa.shutdown();
-			}
 
-			return lista;
+		return lista;
+	}
+
+	// Buscar os Emprestimos com material pra devolução com Filtros
+	@SuppressWarnings("unchecked")
+	public List<Emprestimo> listarEmprestimoComFiltros(String filtros) {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Emprestimo> lista;
+		try {
+
+			String jpql = "from Emprestimo where Qtd_Emprestada > Qtd_Tot_Devolvida " + filtros;
+			TypedQuery<Emprestimo> q = (TypedQuery<Emprestimo>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
 		}
+
+		return lista;
+	}
 
 }
