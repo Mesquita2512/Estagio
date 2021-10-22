@@ -81,6 +81,27 @@ public class Principal {
 		initialize();
 	}
 
+	public void listarEmprestimos() {
+		int val = getListaEmprestimo().size();
+		int inc = 0;
+
+		DefaultTableModel tabelaBd = (DefaultTableModel) tb_Emprestimos.getModel();
+		tabelaBd.setNumRows(0);
+		// Mostra os Emprestimos na tela
+		while (val > 0) {
+			emp = getListaEmprestimo().get(inc);
+
+			tabelaBd.addRow(new Object[] { emp.getId(), emp.getMaterial().getDescricao(), emp.getQtdEmprestado(),
+					emp.getQtdTotalDevolvida(), emp.getServidor().getNome(), emp.getDataEntrega() });
+
+			val--;
+			inc++;
+			emp = new Emprestimo();
+
+		}
+
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -110,45 +131,74 @@ public class Principal {
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				// Busca todos os emprestimos
 				setListaEmprestimo(eDao.listarEmprestimoComMaterial());
-
+				// Mostra todos os emprestimo sem filtros
 				if (txt_Material_Busca.getText().equals("") && txt_Servidor_Busca.getText().equals("")) {
 
-					int val = getListaEmprestimo().size();
-					int inc = 0;
-
-					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Emprestimos.getModel();
-					tabelaBd.setNumRows(0);
-
-					while (val > 0) {
-						emp = getListaEmprestimo().get(inc);
-
-						tabelaBd.addRow(new Object[] { emp.getId(), emp.getMaterial().getDescricao(),
-								emp.getQtdEmprestado(), emp.getQtdTotalDevolvida(), emp.getServidor().getNome(),
-								emp.getDataEntrega() });
-
-						val--;
-						inc++;
-						emp = new Emprestimo();
-
-					}
-
+					listarEmprestimos();
+					// Verifica se foi Preenchido algum campo de busca
 				} else {
 					int cont = listaEmprestimo.size();
-
+					// Verfica se o campo de Servidor foi preenchido
 					if (txt_Material_Busca.getText().equals("")) {
 
 						while (cont > 0) {
-							
-							if (getListaEmprestimo().get(cont - 1).getServidor().getNome()
-									.equalsIgnoreCase(txt_Servidor_Busca.getText())) {
-								JOptionPane.showMessageDialog(null, cont);
+							String nome = getListaEmprestimo().get(cont - 1).getServidor().getNome().toUpperCase();
+							if (nome.contains(txt_Servidor_Busca.getText().toUpperCase())) {
+								// Remove os emprestimos que nao foram encontrados na busca pelo nome do
+								// servidor
+							} else {
+								listaEmprestimo.remove(cont - 1);
 							}
 
 							cont--;
 
 						}
+						// Mostra somente os Emprestimos buscados pelo nome do Servidor
+						listarEmprestimos();
+						// Verfica se campo de Material foi preenchido
+					} else if (txt_Servidor_Busca.getText().equals("")) {
+
+						while (cont > 0) {
+							String nome = getListaEmprestimo().get(cont - 1).getMaterial().getDescricao().toUpperCase();
+							if (nome.contains(txt_Material_Busca.getText().toUpperCase())) {
+								// Remove os emprestimos que nao foram encontrados na busca pela descrição do
+								// material
+							} else {
+								listaEmprestimo.remove(cont - 1);
+							}
+
+							cont--;
+
+						}
+						// Mostra somente os Emprestimos buscados pela descrição do Material
+						listarEmprestimos();
+
+						// Caso os dois campos forem preenchidos
+					} else {
+
+						while (cont > 0) {
+							String nome = getListaEmprestimo().get(cont - 1).getServidor().getNome().toUpperCase();
+							String nome1 = getListaEmprestimo().get(cont - 1).getMaterial().getDescricao()
+									.toUpperCase();
+
+							if (nome1.contains(txt_Material_Busca.getText().toUpperCase())
+									&& nome.contains(txt_Servidor_Busca.getText().toUpperCase())) {
+								// Remove os emprestimos que nao foram encontrados na busca pela descrição do
+								// material
+							} else {
+								listaEmprestimo.remove(cont - 1);
+							}
+
+							cont--;
+
+						}
+
+						// Mostra somente os Emprestimos buscados pela descrição do Material e pelo nome
+						// do Servidor
+						listarEmprestimos();
+
 					}
 
 				}
