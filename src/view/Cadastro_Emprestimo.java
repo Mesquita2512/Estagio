@@ -28,7 +28,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
-public class Cadastro_Emprestimo extends JFrame{
+public class Cadastro_Emprestimo extends JFrame {
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class Cadastro_Emprestimo extends JFrame{
 	/**
 	 * 
 	 */
-	
+
 	private JFrame frmNovoEmprestimo;
 	private JTextField txt_Material;
 	private JTextField txt_Quantidade;
@@ -243,7 +243,7 @@ public class Cadastro_Emprestimo extends JFrame{
 				try {
 					dataRemota = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021");
 				} catch (ParseException e) {
-					
+
 					e.printStackTrace();
 				}
 
@@ -358,9 +358,9 @@ public class Cadastro_Emprestimo extends JFrame{
 		btn_BuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				// control_View.abreTelaBuscaMateriais();
+				String txt_material = txt_Material.getText().trim();
 
-				if (txt_Material.getText().equals("")) {
+				if (txt_material.equals("")) {
 
 					setListaDeMateriais(mDao.listarMaterialPorStatus());
 
@@ -386,32 +386,38 @@ public class Cadastro_Emprestimo extends JFrame{
 					}
 
 				} else {
-					String material = txt_Material.getText();
-					material = "'%" + material + "%'";
-					setListaDeMateriais(mDao.listarMaterialPorNome(material));
-					int val = getListaDeMateriais().size();
-					int inc = 0;
 
-					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Material.getModel();
-					tabelaBd.setNumRows(0);
+					txt_material = "'%" + txt_material + "%'";
+					setListaDeMateriais(mDao.listarMaterialPorNome(txt_material));
 
-					sp_Material.setVisible(true);
-					btn_ConfimarMaterial.setVisible(true);
+					if (getListaDeMateriais().isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"Não foi localizado nenhum material com a descrição informada");
+					} else {
 
-					while (val > 0) {
-						mat = getListaDeMateriais().get(inc);
+						int val = getListaDeMateriais().size();
+						int inc = 0;
 
-						tabelaBd.addRow(new Object[] { mat.getId(), mat.getDescricao(), mat.getQtd(),
-								mat.getQtd_emprestado() });
+						DefaultTableModel tabelaBd = (DefaultTableModel) tb_Material.getModel();
+						tabelaBd.setNumRows(0);
 
-						val--;
-						inc++;
-						mat = new Material();
+						sp_Material.setVisible(true);
+						btn_ConfimarMaterial.setVisible(true);
+
+						while (val > 0) {
+							mat = getListaDeMateriais().get(inc);
+
+							tabelaBd.addRow(new Object[] { mat.getId(), mat.getDescricao(), mat.getQtd(),
+									mat.getQtd_emprestado() });
+
+							val--;
+							inc++;
+							mat = new Material();
+						}
+						txt_Material.setEditable(true);
+
 					}
-					txt_Material.setEditable(true);
-
 				}
-
 			}
 		});
 
@@ -420,9 +426,10 @@ public class Cadastro_Emprestimo extends JFrame{
 		btnBuscarServidores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (txt_EntregueA.getText().equals("")) {
+				String txt_Servidor = txt_EntregueA.getText().trim();
+				setListaDeServidores(sDao.listarServidorPorStatus());
 
-					setListaDeServidores(sDao.listarServidorPorStatus());
+				if (txt_Servidor.equals("")) {
 
 					int val = getListaDeServidores().size();
 					int inc = 0;
@@ -448,32 +455,38 @@ public class Cadastro_Emprestimo extends JFrame{
 					}
 
 				} else {
-					String servidor = txt_EntregueA.getText();
-					servidor = "'%" + servidor + "%'";
-					setListaDeServidores(sDao.listarServidorPorNome(servidor));
-					int val = getListaDeServidores().size();
-					int inc = 0;
 
-					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Servidor.getModel();
-					tabelaBd.setNumRows(0);
+					txt_Servidor = "'%" + txt_Servidor + "%'";
+					setListaDeServidores(sDao.listarServidorPorNome(txt_Servidor));
 
-					sp_Servidor.setVisible(true);
-					btn_ConfirmarServidor.setVisible(true);
+					if (getListaDeServidores().isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"Não foi localizado nenhum servidor com a descrição informada");
+					} else {
 
-					while (val > 0) {
-						serv = getListaDeServidores().get(inc);
+						int val = getListaDeServidores().size();
+						int inc = 0;
 
-						tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail() });
+						DefaultTableModel tabelaBd = (DefaultTableModel) tb_Servidor.getModel();
+						tabelaBd.setNumRows(0);
 
-						val--;
-						inc++;
-						serv = new Servidor();
+						sp_Servidor.setVisible(true);
+						btn_ConfirmarServidor.setVisible(true);
+
+						while (val > 0) {
+							serv = getListaDeServidores().get(inc);
+
+							tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail() });
+
+							val--;
+							inc++;
+							serv = new Servidor();
+
+						}
+						txt_EntregueA.setEditable(true);
 
 					}
-					txt_EntregueA.setEditable(true);
-
 				}
-
 			}
 		});
 

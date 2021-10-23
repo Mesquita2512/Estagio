@@ -10,7 +10,12 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import dao.ServidorDao;
 
 public class Servidor {
 
@@ -20,6 +25,11 @@ public class Servidor {
 	private JTextField txt_buscarServidor;
 
 	Controla_views control = new Controla_views();
+	private JTable tb_Servidor;
+
+	private List<entity.Servidor> listaServidor;
+	entity.Servidor serv = new entity.Servidor();
+	ServidorDao sDao = new ServidorDao();
 
 	/**
 	 * Launch the application.
@@ -36,6 +46,26 @@ public class Servidor {
 				}
 			}
 		});
+	}
+
+	public void listarServidores() {
+		int val = getListaServidor().size();
+		int inc = 0;
+
+		DefaultTableModel tabelaBd = (DefaultTableModel) tb_Servidor.getModel();
+		tabelaBd.setNumRows(0);
+		// Mostra os Emprestimos na tela
+		while (val > 0) {
+			serv = getListaServidor().get(inc);
+
+			tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail(), serv.isStatusAtivo() });
+
+			val--;
+			inc++;
+			serv = new entity.Servidor();
+
+		}
+
 	}
 
 	/**
@@ -60,6 +90,14 @@ public class Servidor {
 		JScrollPane sp_Materiais = new JScrollPane();
 		sp_Materiais.setBounds(30, 147, 534, 170);
 		frmTelaServidor.getContentPane().add(sp_Materiais);
+
+		tb_Servidor = new JTable();
+		tb_Servidor.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
+				new String[] { "Siape", "Nome", "Email", "Status" }));
+		tb_Servidor.getColumnModel().getColumn(0).setPreferredWidth(118);
+		tb_Servidor.getColumnModel().getColumn(1).setPreferredWidth(230);
+		tb_Servidor.getColumnModel().getColumn(2).setPreferredWidth(196);
+		sp_Materiais.setViewportView(tb_Servidor);
 
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
@@ -151,4 +189,13 @@ public class Servidor {
 	public void setTelaPrincipal(Controla_views telaPrincipal) {
 		this.control_View = telaPrincipal;
 	}
+
+	public List<entity.Servidor> getListaServidor() {
+		return listaServidor;
+	}
+
+	public void setListaServidor(List<entity.Servidor> listaServidor) {
+		this.listaServidor = listaServidor;
+	}
+
 }

@@ -130,21 +130,23 @@ public class Principal {
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String txt_Material = txt_Material_Busca.getText().trim();
+				String txt_Servidor = txt_Servidor_Busca.getText().trim();
 				// Busca todos os emprestimos
 				setListaEmprestimo(eDao.listarEmprestimoComMaterial());
 				// Mostra todos os emprestimo sem filtros
-				if (txt_Material_Busca.getText().equals("") && txt_Servidor_Busca.getText().equals("")) {
+				if (txt_Material.equals("") && txt_Servidor.equals("")) {
 
 					listarEmprestimos();
 					// Verifica se foi Preenchido algum campo de busca
 				} else {
 					int cont = listaEmprestimo.size();
 					// Verfica se o campo de Servidor foi preenchido
-					if (txt_Material_Busca.getText().equals("")) {
+					if (txt_Material.equals("")) {
 
 						while (cont > 0) {
 							String nome = getListaEmprestimo().get(cont - 1).getServidor().getNome().toUpperCase();
-							if (nome.contains(txt_Servidor_Busca.getText().toUpperCase())) {
+							if (nome.contains(txt_Servidor.toUpperCase())) {
 								// Remove os emprestimos que nao foram encontrados na busca pelo nome do
 								// servidor
 							} else {
@@ -157,7 +159,7 @@ public class Principal {
 						// Mostra somente os Emprestimos buscados pelo nome do Servidor
 						if (getListaEmprestimo().isEmpty()) {
 							listarEmprestimos();
-							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
+							JOptionPane.showMessageDialog(null, "NÃ£o foi localizado nenhum emprÃ©stimo");
 						} else {
 							listarEmprestimos();
 						}
@@ -167,8 +169,8 @@ public class Principal {
 
 						while (cont > 0) {
 							String nome = getListaEmprestimo().get(cont - 1).getMaterial().getDescricao().toUpperCase();
-							if (nome.contains(txt_Material_Busca.getText().toUpperCase())) {
-								// Remove os emprestimos que nao foram encontrados na busca pela descrição do
+							if (nome.contains(txt_Material.toUpperCase())) {
+								// Remove os emprestimos que nao foram encontrados na busca pela descriï¿½ï¿½o do
 								// material
 							} else {
 								listaEmprestimo.remove(cont - 1);
@@ -177,10 +179,10 @@ public class Principal {
 							cont--;
 
 						}
-						// Mostra somente os Emprestimos buscados pela descrição do Material
+						// Mostra somente os Emprestimos buscados pela descriï¿½ï¿½o do Material
 						if (getListaEmprestimo().isEmpty()) {
 							listarEmprestimos();
-							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
+							JOptionPane.showMessageDialog(null, "NÃ£o foi localizado nenhum emprÃ©stimo");
 						} else {
 							listarEmprestimos();
 						}
@@ -193,9 +195,9 @@ public class Principal {
 							String nome1 = getListaEmprestimo().get(cont - 1).getMaterial().getDescricao()
 									.toUpperCase();
 
-							if (nome1.contains(txt_Material_Busca.getText().toUpperCase())
-									&& nome.contains(txt_Servidor_Busca.getText().toUpperCase())) {
-								// Remove os emprestimos que nao foram encontrados na busca pela descrição do
+							if (nome1.contains(txt_Material.toUpperCase())
+									&& nome.contains(txt_Servidor.toUpperCase())) {
+								// Remove os emprestimos que nao foram encontrados na busca pela descriï¿½ï¿½o do
 								// material
 							} else {
 								listaEmprestimo.remove(cont - 1);
@@ -205,11 +207,11 @@ public class Principal {
 
 						}
 
-						// Mostra somente os Emprestimos buscados pela descrição do Material e pelo nome
+						// Mostra somente os Emprestimos buscados pela descriï¿½ï¿½o do Material e pelo nome
 						// do Servidor
 						if (getListaEmprestimo().isEmpty()) {
 							listarEmprestimos();
-							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
+							JOptionPane.showMessageDialog(null, "NÃ£o foi localizado nenhum emprÃ©stimo");
 						} else {
 							listarEmprestimos();
 						}
@@ -290,8 +292,8 @@ public class Principal {
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 
 					if (emp.getQtdEmprestado() - emp.getQtdTotalDevolvida() == 1) {
-						String obs = JOptionPane.showInputDialog("Obsevações");
-						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolução do material");
+						String obs = JOptionPane.showInputDialog("Obsevaï¿½ï¿½es");
+						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devoluï¿½ï¿½o do material");
 						if (confirma == JOptionPane.YES_OPTION) {
 							mat.setQtd(mat.getQtd() + 1);
 
@@ -327,19 +329,19 @@ public class Principal {
 							confirma_int = Integer.parseInt(confrima_Qtd);
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null,
-									"Informe um valor inteiro para realizar a devolução do material");
+									"Informe um valor inteiro para realizar a devoluï¿½ï¿½o do material");
 							return;
 						}
 
 						if (confirma_int > emp.getQtdEmprestado() - emp.getQtdTotalDevolvida()) {
 							JOptionPane.showMessageDialog(null,
-									"A quantidade informada é maior do que a quantidade a ser devolvida neste emprestimo");
+									"A quantidade informada ï¿½ maior do que a quantidade a ser devolvida neste emprestimo");
 						} else if (confirma_int <= 0) {
 							JOptionPane.showMessageDialog(null,
 									"informe um valor maior que zero para devolver o material");
 						} else {
 
-							String obs = JOptionPane.showInputDialog("Observações");
+							String obs = JOptionPane.showInputDialog("Observaï¿½ï¿½es");
 							emp.setQtdTotalDevolvida(emp.getQtdTotalDevolvida() + confirma_int);
 
 							mat.setQtd(confirma_int + mat.getQtd());

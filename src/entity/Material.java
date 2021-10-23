@@ -95,8 +95,12 @@ public class Material {
 		this.id = id;
 	}
 
-	public boolean isStatusAtivo() {
-		return statusAtivo;
+	public String isStatusAtivo() {
+		if (statusAtivo == true) {
+			return "Ativo";
+		} else {
+			return "Inativo";
+		}
 	}
 
 	public void setStatusAtivo(boolean statusAtivo) {

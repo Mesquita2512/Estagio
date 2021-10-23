@@ -6,25 +6,23 @@ import javax.persistence.Id;
 
 @Entity
 public class Servidor {
-	
+
 	@Id
 	@Column(nullable = false, name = "Siape")
 	protected long siape;
-	
+
 	@Column(nullable = false, name = "Nome")
 	protected String nome;
-	
+
 	@Column(nullable = false, name = "Email")
 	protected String email;
-	
+
 	@Column(nullable = false, name = "Status")
 	protected boolean statusAtivo = true;
 
-	
 	public Servidor() {
 		super();
 	}
-
 
 	public Servidor(long siape, String nome, String email, boolean statusAtivo) {
 		super();
@@ -33,8 +31,6 @@ public class Servidor {
 		this.email = email;
 		this.statusAtivo = statusAtivo;
 	}
-
-
 
 	public long getSiape() {
 		return siape;
@@ -59,22 +55,18 @@ public class Servidor {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
-	public boolean isStatusAtivo() {
-		return statusAtivo;
+	public String isStatusAtivo() {
+		if (statusAtivo == true) {
+			return "Ativo";
+		} else {
+			return "Inativo";
+		}
 	}
-
-
-
 
 	public void setStatusAtivo(boolean statusAtivo) {
 		this.statusAtivo = statusAtivo;
 	}
-
-
-
 
 	@Override
 	public int hashCode() {
@@ -98,19 +90,10 @@ public class Servidor {
 		return true;
 	}
 
-
-
-
 	@Override
 	public String toString() {
 		return "Servidor [siape=" + siape + ", nome=" + nome + ", email=" + email + ", statusAtivo=" + statusAtivo
 				+ "]";
 	}
-
-	
-	
-	
-	
-	
 
 }

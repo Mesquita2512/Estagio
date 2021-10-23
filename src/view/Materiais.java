@@ -8,11 +8,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import dao.MaterialDao;
 
 public class Materiais {
 
@@ -23,6 +25,10 @@ public class Materiais {
 	int siape;
 	private JTextField textField;
 	private JTable tb_Materiais;
+
+	private List<entity.Material> listaMaterial;
+	entity.Material mate = new entity.Material();
+	MaterialDao mDao = new MaterialDao();
 
 	/**
 	 * Launch the application.
@@ -39,6 +45,27 @@ public class Materiais {
 				}
 			}
 		});
+	}
+
+	public void listarMateriais() {
+		int val = getListaMaterial().size();
+		int inc = 0;
+
+		DefaultTableModel tabelaBd = (DefaultTableModel) tb_Materiais.getModel();
+		tabelaBd.setNumRows(0);
+		// Mostra os Emprestimos na tela
+		while (val > 0) {
+			mate = getListaMaterial().get(inc);
+
+			tabelaBd.addRow(new Object[] { mate.getDescricao(), mate.getQtd(), mate.getQtd_emprestado(),
+					mate.getVal_estimado(), mate.getEst_conservacao(), mate.isStatusAtivo() });
+
+			val--;
+			inc++;
+			mate = new entity.Material();
+
+		}
+
 	}
 
 	/**
@@ -128,8 +155,8 @@ public class Materiais {
 		btn_Arquivar.setBackground(new Color(0, 206, 209));
 
 		tb_Materiais = new JTable();
-		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "Descri\u00E7\u00E3o", "Qtd Est", "(R$)", "Qtd Emp", "Est Conserv" }));
+		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { "", null, null, null, null, null }, },
+				new String[] { "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status" }));
 		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(158);
 		tb_Materiais.getColumnModel().getColumn(1).setPreferredWidth(55);
 		tb_Materiais.getColumnModel().getColumn(2).setPreferredWidth(60);
@@ -164,4 +191,13 @@ public class Materiais {
 	public void setTelaPrincipal(Controla_views telaPrincipal) {
 		this.control_View = telaPrincipal;
 	}
+
+	public List<entity.Material> getListaMaterial() {
+		return listaMaterial;
+	}
+
+	public void setListaMaterial(List<entity.Material> listaMaterial) {
+		this.listaMaterial = listaMaterial;
+	}
+
 }

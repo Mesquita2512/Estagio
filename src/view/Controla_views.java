@@ -1,5 +1,6 @@
 package view;
 
+
 import entity.Material;
 
 public class Controla_views {
@@ -33,6 +34,8 @@ public class Controla_views {
 		try {
 			Materiais mateView = new Materiais();
 			mateView.getFrmTelaMaterias().setVisible(true);
+			mateView.setListaMaterial(mateView.mDao.getListaMaterial());
+			mateView.listarMateriais();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -41,8 +44,10 @@ public class Controla_views {
 	public void abreTelaServidor() {
 
 		try {
-			Servidor serv = new Servidor();
-			serv.getFrmTelaServidor().setVisible(true);
+			Servidor servView = new Servidor();
+			servView.getFrmTelaServidor().setVisible(true);
+			servView.setListaServidor(servView.sDao.getListaServidor());
+			servView.listarServidores();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

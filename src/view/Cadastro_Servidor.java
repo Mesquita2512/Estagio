@@ -62,6 +62,13 @@ public class Cadastro_Servidor {
 		});
 	}
 
+	// Verifica se Existe Servidor cadastrado com o Siape informado
+	public Servidor buscaServSiapeCadastro(long siape) {
+		Servidor servidor = new Servidor();
+		servidor = sDao.buscarPorSiape(siape);
+		return servidor;
+	}
+
 	/**
 	 * Create the application.
 	 */
@@ -195,15 +202,21 @@ public class Cadastro_Servidor {
 					return;
 				}
 
+				if (buscaServSiapeCadastro(Integer.parseInt(txt_Siape_Servidor.getText())) != null) {
+					JOptionPane.showMessageDialog(null,
+							"Já existe um Administrador/Servidor cadastrado com este Siape");
+					return;
+				}
+
 				if (confirme_Servidor_Admin.isSelected()) {
 
 					String senha = new String(txt_Senha.getPassword());
 					String senhaConf = new String(txt_Senha_conf.getPassword());
-					if(senha.equals("") && senhaConf.equals("")) {
-						JOptionPane.showMessageDialog(null, "As senhas n�o podem serem nulas!!!");
+					if (senha.equals("") && senhaConf.equals("")) {
+						JOptionPane.showMessageDialog(null, "As senhas não podem serem nulas!!!");
 						return;
 					}
-					
+
 					if (senha.equals(senhaConf)) {
 						admin.setNome(txt_Nom_Servidor.getText().trim());
 						admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
@@ -224,16 +237,15 @@ public class Cadastro_Servidor {
 						txt_Senha_conf.setVisible(false);
 						lb_Senha.setVisible(false);
 						lb_Senha_Conf.setVisible(false);
-						
+
 						confirme_Servidor_Admin.setSelected(false);
 						return;
 
-					} 
-					
+					}
+
 					else {
-						System.out.println(senha);
-						System.out.println(senhaConf);
-						JOptionPane.showMessageDialog(null, "As senhas n�o conferem!!!");
+
+						JOptionPane.showMessageDialog(null, "As senhas não conferem!!!");
 						txt_Senha.setText("");
 						txt_Senha_conf.setText("");
 						return;
