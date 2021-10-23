@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 
@@ -182,7 +182,7 @@ public class Cadastro_Materiais {
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_view.abreTelaPrincipal();
+				control_view.abreTelaMateriais();
 				getFrmCadastroDeMateriais().dispose();
 
 			}

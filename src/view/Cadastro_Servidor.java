@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -200,7 +200,7 @@ public class Cadastro_Servidor {
 					String senha = new String(txt_Senha.getPassword());
 					String senhaConf = new String(txt_Senha_conf.getPassword());
 					if(senha.equals("") && senhaConf.equals("")) {
-						JOptionPane.showMessageDialog(null, "As senhas não podem serem nulas!!!");
+						JOptionPane.showMessageDialog(null, "As senhas nï¿½o podem serem nulas!!!");
 						return;
 					}
 					
@@ -233,7 +233,7 @@ public class Cadastro_Servidor {
 					else {
 						System.out.println(senha);
 						System.out.println(senhaConf);
-						JOptionPane.showMessageDialog(null, "As senhas não conferem!!!");
+						JOptionPane.showMessageDialog(null, "As senhas nï¿½o conferem!!!");
 						txt_Senha.setText("");
 						txt_Senha_conf.setText("");
 						return;
@@ -289,7 +289,7 @@ public class Cadastro_Servidor {
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.abreTelaPrincipal();
+				control_View.abreTelaServidor();
 				getFrmCasdastroServidor().dispose();
 
 			}

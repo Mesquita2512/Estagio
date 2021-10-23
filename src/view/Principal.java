@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -53,7 +53,6 @@ public class Principal {
 	DevolucaoDao dDao = new DevolucaoDao();
 
 	private List<Emprestimo> listaEmprestimo;
-	private List<Emprestimo> listaEmprestimoAux;
 
 	private JTable tb_Emprestimos;
 	private JTable table;
@@ -156,7 +155,13 @@ public class Principal {
 
 						}
 						// Mostra somente os Emprestimos buscados pelo nome do Servidor
-						listarEmprestimos();
+						if (getListaEmprestimo().isEmpty()) {
+							listarEmprestimos();
+							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
+						} else {
+							listarEmprestimos();
+						}
+
 						// Verfica se campo de Material foi preenchido
 					} else if (txt_Servidor_Busca.getText().equals("")) {
 
@@ -173,7 +178,12 @@ public class Principal {
 
 						}
 						// Mostra somente os Emprestimos buscados pela descrição do Material
-						listarEmprestimos();
+						if (getListaEmprestimo().isEmpty()) {
+							listarEmprestimos();
+							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
+						} else {
+							listarEmprestimos();
+						}
 
 						// Caso os dois campos forem preenchidos
 					} else {
@@ -197,7 +207,12 @@ public class Principal {
 
 						// Mostra somente os Emprestimos buscados pela descrição do Material e pelo nome
 						// do Servidor
-						listarEmprestimos();
+						if (getListaEmprestimo().isEmpty()) {
+							listarEmprestimos();
+							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
+						} else {
+							listarEmprestimos();
+						}
 
 					}
 
@@ -471,14 +486,6 @@ public class Principal {
 
 	public void setListaEmprestimo(List<Emprestimo> listaEmprestimo) {
 		this.listaEmprestimo = listaEmprestimo;
-	}
-
-	public List<Emprestimo> getListaEmprestimoAux() {
-		return listaEmprestimoAux;
-	}
-
-	public void setListaEmprestimoAux(List<Emprestimo> listaEmprestimoAux) {
-		this.listaEmprestimoAux = listaEmprestimoAux;
 	}
 
 }

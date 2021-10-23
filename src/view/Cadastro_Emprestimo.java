@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -34,6 +34,10 @@ public class Cadastro_Emprestimo extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	
 	private JFrame frmNovoEmprestimo;
 	private JTextField txt_Material;
 	private JTextField txt_Quantidade;
@@ -247,13 +251,13 @@ public class Cadastro_Emprestimo extends JFrame{
 					JOptionPane.showMessageDialog(null, "Realize a busca de um material para anexar ao emprestimo!!!");
 
 				} else if (txt_Quantidade.getText().equals("") || Integer.parseInt(txt_Quantidade.getText()) == 0) {
-					JOptionPane.showMessageDialog(null, "Informe um valor válido!!!");
+					JOptionPane.showMessageDialog(null, "Informe um valor vï¿½lido!!!");
 				} else if (mat.getQtd() < Integer.parseInt(txt_Quantidade.getText())) {
-					JOptionPane.showMessageDialog(null, "Não temos a quantidade informada desse material em estoque,"
+					JOptionPane.showMessageDialog(null, "Nï¿½o temos a quantidade informada desse material em estoque,"
 							+ " informe um Valor menor!!!");
 				} else if (dc_dataEntrega.getDate() == null || dc_dataEntrega.getDate().compareTo(dataAtual) > 0
 						|| dc_dataEntrega.getDate().compareTo(dataRemota) < 0) {
-					JOptionPane.showMessageDialog(null, "Date inválida, favor verifique a data informada");
+					JOptionPane.showMessageDialog(null, "Date invï¿½lida, favor verifique a data informada");
 
 				} else if (serv.getSiape() == 0) {
 					JOptionPane.showMessageDialog(null,
