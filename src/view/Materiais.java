@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -15,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import dao.MaterialDao;
+import entity.Material;
 
 public class Materiais {
 
@@ -23,7 +26,7 @@ public class Materiais {
 	Controla_views control_View = new Controla_views();
 
 	int siape;
-	private JTextField textField;
+	private JTextField txt_Material;
 	private JTable tb_Materiais;
 
 	private List<entity.Material> listaMaterial;
@@ -57,7 +60,7 @@ public class Materiais {
 		while (val > 0) {
 			mate = getListaMaterial().get(inc);
 
-			tabelaBd.addRow(new Object[] { mate.getDescricao(), mate.getQtd(), mate.getQtd_emprestado(),
+			tabelaBd.addRow(new Object[] { mate.getId(), mate.getDescricao(), mate.getQtd(), mate.getQtd_emprestado(),
 					mate.getVal_estimado(), mate.getEst_conservacao(), mate.isStatusAtivo() });
 
 			val--;
@@ -83,7 +86,7 @@ public class Materiais {
 		frmTelaMaterias.setResizable(false);
 		frmTelaMaterias.setBackground(Color.PINK);
 		frmTelaMaterias.setTitle("Materiais");
-		frmTelaMaterias.setBounds(100, 100, 600, 400);
+		frmTelaMaterias.setBounds(100, 100, 600, 420);
 		frmTelaMaterias.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel lblNewLabel = new JLabel("Controle Materiais");
@@ -101,30 +104,111 @@ public class Materiais {
 		});
 		btn_AdicionarMaterial.setIcon(new ImageIcon(Materiais.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 
-		textField = new JTextField();
-		textField.setBounds(199, 74, 254, 23);
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setColumns(10);
+		txt_Material = new JTextField();
+		txt_Material.setBounds(199, 74, 254, 23);
+		txt_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txt_Material.setColumns(10);
 
 		JLabel lblMaterialservidor = new JLabel("Material");
 		lblMaterialservidor.setBounds(136, 75, 45, 21);
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btn_Buscar = new JButton("Buscar");
+		btn_Buscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String txt_material = txt_Material.getText().trim();
+
+				if (txt_material.equals("")) {
+
+					setListaMaterial(mDao.getListaMaterial());
+
+					int val = getListaMaterial().size();
+					int inc = 0;
+
+					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Materiais.getModel();
+					tabelaBd.setNumRows(0);
+
+					while (val > 0) {
+						mate = getListaMaterial().get(inc);
+
+						tabelaBd.addRow(new Object[] { mate.getId(), mate.getDescricao(), mate.getQtd(),
+								mate.getQtd_emprestado(), mate.getVal_estimado(), mate.getEst_conservacao(),
+								mate.isStatusAtivo() });
+
+						val--;
+						inc++;
+						mate = new Material();
+
+					}
+
+				} else {
+
+					txt_material = "'%" + txt_material + "%'";
+					setListaMaterial(mDao.listarTodosMaterialPorNome(txt_material));
+
+					if (getListaMaterial().isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"Não foi localizado nenhum material com a descrição informada");
+					} else {
+
+						int val = getListaMaterial().size();
+						int inc = 0;
+
+						DefaultTableModel tabelaBd = (DefaultTableModel) tb_Materiais.getModel();
+						tabelaBd.setNumRows(0);
+
+						while (val > 0) {
+							mate = getListaMaterial().get(inc);
+
+							tabelaBd.addRow(new Object[] { mate.getId(), mate.getDescricao(), mate.getQtd(),
+									mate.getQtd_emprestado(), mate.getVal_estimado(), mate.getEst_conservacao(),
+									mate.isStatusAtivo() });
+
+							val--;
+							inc++;
+							mate = new Material();
+						}
+						txt_Material.setEditable(true);
+
+					}
+				}
+
+			}
+		});
 		btn_Buscar.setBounds(471, 73, 88, 25);
 		btn_Buscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Buscar.setBackground(new Color(0, 206, 209));
 
 		JScrollPane sp_Materiais = new JScrollPane();
-		sp_Materiais.setBounds(25, 132, 534, 170);
+		sp_Materiais.setBounds(25, 132, 534, 186);
 
 		JButton btn_Editar = new JButton("Editar");
-		btn_Editar.setBounds(25, 320, 111, 25);
+		btn_Editar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String capta = "";
+				if (tb_Materiais.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
+				} else if (tb_Materiais.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Emprestimo da lista");
+				} else {
+					capta = tb_Materiais.getValueAt(tb_Materiais.getSelectedRow(), 0).toString();
+					int captaId = Integer.parseInt(capta);
+					mate = mDao.buscarPorId(captaId);
+
+					control_View.abreTelaEditarMaterial(mate);
+					getFrmTelaMaterias().dispose();
+
+				}
+
+			}
+		});
+		btn_Editar.setBounds(25, 342, 111, 25);
 		btn_Editar.setBackground(new Color(0, 191, 255));
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btn_Sair = new JButton("Logout");
-		btn_Sair.setBounds(471, 320, 88, 25);
+		btn_Sair.setBounds(471, 342, 88, 25);
 		btn_Sair.setBackground(new Color(255, 69, 0));
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -137,7 +221,7 @@ public class Materiais {
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btn_Voltar = new JButton("Voltar");
-		btn_Voltar.setBounds(319, 320, 107, 25);
+		btn_Voltar.setBounds(357, 342, 96, 25);
 		btn_Voltar.setBackground(new Color(240, 230, 140));
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,19 +233,56 @@ public class Materiais {
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JButton btn_Arquivar = new JButton("Arquivar");
-		btn_Arquivar.setBounds(174, 320, 107, 25);
+		JButton btn_Arquivar = new JButton("Arquivar/Desarquivar");
+		btn_Arquivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String capta = "";
+				if (tb_Materiais.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
+				} else if (tb_Materiais.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Emprestimo da lista");
+				} else {
+					capta = tb_Materiais.getValueAt(tb_Materiais.getSelectedRow(), 0).toString();
+					int captaId = Integer.parseInt(capta);
+					mate = mDao.buscarPorId(captaId);
+
+					if (mate.isStatusAtivo() == "Ativo") {
+						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Arquivar esse Material?");
+						if (verifica == JOptionPane.YES_OPTION) {
+							mate.setStatusAtivo(false);
+							mDao.atualizar(mate);
+							mate = new Material();
+							listarMateriais();
+							JOptionPane.showMessageDialog(null, "Material arquivado com sucesso!!!");
+						}
+					} else {
+						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Desarquivar esse material?");
+						if (verifica == JOptionPane.YES_OPTION) {
+							mate.setStatusAtivo(true);
+							mDao.atualizar(mate);
+							mate = new Material();
+							listarMateriais();
+							JOptionPane.showMessageDialog(null, "Material desarquivado com sucesso!!!");
+						}
+					}
+
+				}
+
+			}
+		});
+		btn_Arquivar.setBounds(156, 342, 179, 25);
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Arquivar.setBackground(new Color(0, 206, 209));
 
 		tb_Materiais = new JTable();
-		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { "", null, null, null, null, null }, },
-				new String[] { "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status" }));
-		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(158);
-		tb_Materiais.getColumnModel().getColumn(1).setPreferredWidth(55);
-		tb_Materiais.getColumnModel().getColumn(2).setPreferredWidth(60);
+		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, "", null, null, null, null, null }, },
+				new String[] { "Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status" }));
+		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(45);
+		tb_Materiais.getColumnModel().getColumn(1).setPreferredWidth(185);
+		tb_Materiais.getColumnModel().getColumn(2).setPreferredWidth(55);
 		tb_Materiais.getColumnModel().getColumn(3).setPreferredWidth(60);
-		tb_Materiais.getColumnModel().getColumn(4).setPreferredWidth(114);
+		tb_Materiais.getColumnModel().getColumn(4).setPreferredWidth(60);
+		tb_Materiais.getColumnModel().getColumn(5).setPreferredWidth(139);
 		sp_Materiais.setViewportView(tb_Materiais);
 		frmTelaMaterias.getContentPane().setLayout(null);
 		frmTelaMaterias.getContentPane().add(btn_Editar);
@@ -171,7 +292,7 @@ public class Materiais {
 		frmTelaMaterias.getContentPane().add(lblNewLabel);
 		frmTelaMaterias.getContentPane().add(btn_AdicionarMaterial);
 		frmTelaMaterias.getContentPane().add(lblMaterialservidor);
-		frmTelaMaterias.getContentPane().add(textField);
+		frmTelaMaterias.getContentPane().add(txt_Material);
 		frmTelaMaterias.getContentPane().add(btn_Buscar);
 		frmTelaMaterias.getContentPane().add(sp_Materiais);
 	}

@@ -292,8 +292,8 @@ public class Principal {
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 
 					if (emp.getQtdEmprestado() - emp.getQtdTotalDevolvida() == 1) {
-						String obs = JOptionPane.showInputDialog("Obseva��es");
-						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolu��o do material");
+						String obs = JOptionPane.showInputDialog("Obsevações");
+						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolução do material");
 						if (confirma == JOptionPane.YES_OPTION) {
 							mat.setQtd(mat.getQtd() + 1);
 

@@ -111,8 +111,8 @@ public class Cadastro_Materiais {
 				material.setDescricao(txt_Descricao.getText());
 
 				if (txt_Quantidade.getText().equals("")) {
-					material.setQtd(0);
-					txt_Quantidade.setText("");
+					JOptionPane.showMessageDialog(null, "informe um valor vÃ¡lido");
+					return;
 				} else {
 					material.setQtd(Integer.parseInt(txt_Quantidade.getText()));
 					txt_Quantidade.setText("");
@@ -133,7 +133,7 @@ public class Cadastro_Materiais {
 						qtdCarateres++;
 					}
 					if (qtdPontos > 1) {
-						JOptionPane.showMessageDialog(null, "Informe um valor válido");
+						JOptionPane.showMessageDialog(null, "Informe um valor vï¿½lido");
 						return;
 					}
 
@@ -150,7 +150,7 @@ public class Cadastro_Materiais {
 				material.setQtd_emprestado(0);
 
 				if (material.getDescricao().equalsIgnoreCase("")) {
-					JOptionPane.showMessageDialog(null, "A descrição do material deve ser informada");
+					JOptionPane.showMessageDialog(null, "A descriï¿½ï¿½o do material deve ser informada");
 				} else if (material.getQtd() <= 0) {
 					JOptionPane.showMessageDialog(null, "A quantidade de material deve ser superior a zero!!!");
 				} else if (mDao.Salvar(material)) {

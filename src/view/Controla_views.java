@@ -80,6 +80,19 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
+	
+
+	public void abreTelaEditarMaterial(Material material) {
+		try {
+			
+			EditarMaterial EdtMaterial= new EditarMaterial();
+			EdtMaterial.pegaMaterial(material);
+			EdtMaterial.getFrmEditarMaterial().setVisible(true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void fecharSistema() {
 		System.setProperty("siape", "0");

@@ -48,7 +48,7 @@ public class MaterialDao {
 		return (List<Material>) gDao.listarTodos(Material.class);
 	}
 	
-	//Buscar os material com descrição informada
+	//Buscar os material com descriÃ§Ã£o informada e ativo
 	@SuppressWarnings("unchecked")
 	public List<Material> listarMaterialPorNome( String descricao) {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
@@ -66,7 +66,26 @@ public class MaterialDao {
 		return lista;
 	}
 	
-	//Buscar os material com descrição informada
+	
+	//Buscar todos os material com descriÃ§Ã£o informada
+	@SuppressWarnings("unchecked")
+	public List<Material> listarTodosMaterialPorNome( String descricao) {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Material> lista;
+		try {
+			
+			String jpql = "from Material where upper(descricao) like upper(" + descricao + ")";
+			TypedQuery<Material> q = (TypedQuery<Material>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
+		}
+
+		return lista;
+	}
+	
+	//Buscar os material com descriï¿½ï¿½o informada
 	@SuppressWarnings("unchecked")
 	public List<Material> listarMaterialPorStatus() {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();

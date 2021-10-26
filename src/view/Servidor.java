@@ -83,7 +83,7 @@ public class Servidor {
 		frmTelaServidor.setResizable(false);
 		frmTelaServidor.setBackground(Color.PINK);
 		frmTelaServidor.setTitle("Servidor");
-		frmTelaServidor.setBounds(100, 100, 600, 400);
+		frmTelaServidor.setBounds(100, 100, 600, 420);
 		frmTelaServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTelaServidor.getContentPane().setLayout(null);
 
@@ -122,13 +122,13 @@ public class Servidor {
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
-		btn_Voltar.setBounds(324, 335, 107, 25);
+		btn_Voltar.setBounds(346, 335, 107, 25);
 		frmTelaServidor.getContentPane().add(btn_Voltar);
 
-		JButton btn_Arquivar = new JButton("Arquivar");
+		JButton btn_Arquivar = new JButton("Arquivar/Desarquivar");
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Arquivar.setBackground(new Color(0, 206, 209));
-		btn_Arquivar.setBounds(179, 335, 107, 25);
+		btn_Arquivar.setBounds(161, 335, 161, 25);
 		frmTelaServidor.getContentPane().add(btn_Arquivar);
 
 		JButton btn_Editar = new JButton("Editar");
