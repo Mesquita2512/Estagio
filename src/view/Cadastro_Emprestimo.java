@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.ListSelectionModel;
 
 public class Cadastro_Emprestimo extends JFrame {
 
@@ -139,6 +140,7 @@ public class Cadastro_Emprestimo extends JFrame {
 
 	private void initialize() {
 		frmNovoEmprestimo = new JFrame();
+		frmNovoEmprestimo.getContentPane().setBackground(new Color(240, 255, 255));
 		frmNovoEmprestimo.setResizable(false);
 		frmNovoEmprestimo.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 45));
 		frmNovoEmprestimo.setTitle("Novo Emprestimo");
@@ -150,24 +152,24 @@ public class Cadastro_Emprestimo extends JFrame {
 		lblCadastrarEmprstimo.setForeground(new Color(0, 0, 139));
 		lblCadastrarEmprstimo.setFont(new Font("Tahoma", Font.PLAIN, 45));
 
-		lblNewLabel = new JLabel("\u00CDtem/Material");
+		lblNewLabel = new JLabel("Material *");
 		lblNewLabel.setBounds(43, 106, 78, 17);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		lblNewLabel_1 = new JLabel("Quantidade");
-		lblNewLabel_1.setBounds(43, 151, 70, 17);
+		lblNewLabel_1 = new JLabel("Quantidade *");
+		lblNewLabel_1.setBounds(43, 151, 86, 17);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		lblNewLabel_1_1 = new JLabel("Entregue a");
-		lblNewLabel_1_1.setBounds(43, 246, 70, 17);
+		lblNewLabel_1_1 = new JLabel("Entregue a *");
+		lblNewLabel_1_1.setBounds(43, 246, 86, 17);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		lblNewLabel_1_2 = new JLabel("Data");
-		lblNewLabel_1_2.setBounds(43, 202, 29, 17);
+		lblNewLabel_1_2 = new JLabel("Data *");
+		lblNewLabel_1_2.setBounds(43, 202, 86, 17);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		lblNewLabel_1_3 = new JLabel("Obs");
-		lblNewLabel_1_3.setBounds(43, 301, 24, 17);
+		lblNewLabel_1_3 = new JLabel("Observações");
+		lblNewLabel_1_3.setBounds(43, 301, 86, 17);
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Material = new JTextField();
@@ -524,6 +526,7 @@ public class Cadastro_Emprestimo extends JFrame {
 		});
 
 		tb_Servidor = new JTable();
+		tb_Servidor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Servidor.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Siape", "Nome", "Email" }) {
 			/**
 			 * 
@@ -541,6 +544,7 @@ public class Cadastro_Emprestimo extends JFrame {
 		sp_Servidor.setViewportView(tb_Servidor);
 
 		tb_Material = new JTable();
+		tb_Material.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Material.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp" }));
 		tb_Material.getColumnModel().getColumn(0).setResizable(false);

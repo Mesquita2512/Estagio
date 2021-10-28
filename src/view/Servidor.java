@@ -8,14 +8,15 @@ import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import dao.ServidorDao;
+import javax.swing.ListSelectionModel;
 
 public class Servidor {
 
@@ -80,6 +81,7 @@ public class Servidor {
 	 */
 	private void initialize() {
 		frmTelaServidor = new JFrame();
+		frmTelaServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaServidor.setResizable(false);
 		frmTelaServidor.setBackground(Color.PINK);
 		frmTelaServidor.setTitle("Servidor");
@@ -92,11 +94,19 @@ public class Servidor {
 		frmTelaServidor.getContentPane().add(sp_Materiais);
 
 		tb_Servidor = new JTable();
-		tb_Servidor.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
-				new String[] { "Siape", "Nome", "Email", "Status" }));
-		tb_Servidor.getColumnModel().getColumn(0).setPreferredWidth(118);
-		tb_Servidor.getColumnModel().getColumn(1).setPreferredWidth(230);
-		tb_Servidor.getColumnModel().getColumn(2).setPreferredWidth(196);
+		tb_Servidor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tb_Servidor.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+			},
+			new String[] {
+				"Siape", "Nome", "Email", "Status"
+			}
+		));
+		tb_Servidor.getColumnModel().getColumn(0).setPreferredWidth(82);
+		tb_Servidor.getColumnModel().getColumn(1).setPreferredWidth(224);
+		tb_Servidor.getColumnModel().getColumn(2).setPreferredWidth(251);
+		tb_Servidor.getColumnModel().getColumn(3).setPreferredWidth(62);
 		sp_Materiais.setViewportView(tb_Servidor);
 
 		JButton btn_Sair = new JButton("Logout");
@@ -122,36 +132,156 @@ public class Servidor {
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
-		btn_Voltar.setBounds(346, 335, 107, 25);
+		btn_Voltar.setBounds(353, 335, 105, 25);
 		frmTelaServidor.getContentPane().add(btn_Voltar);
 
 		JButton btn_Arquivar = new JButton("Arquivar/Desarquivar");
+		btn_Arquivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String capta = "";
+				if (tb_Servidor.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Servidor da lista");
+				} else if (tb_Servidor.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Servidor da lista");
+				} else {
+					capta = tb_Servidor.getValueAt(tb_Servidor.getSelectedRow(), 0).toString();
+					int captaId = Integer.parseInt(capta);
+					serv = sDao.buscarPorSiape(captaId);
+
+					if (serv.isStatusAtivo() == "Ativo") {
+						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Arquivar esse Servidor?");
+						if (verifica == JOptionPane.YES_OPTION) {
+							serv.setStatusAtivo(false);
+							sDao.atualizar(serv);
+							serv = new entity.Servidor();
+							JOptionPane.showMessageDialog(null, "Servidor arquivado com sucesso!!!");
+							// Abre nova Tela atualizando a lista
+							getFrmTelaServidor().dispose();
+							control_View.abreTelaServidor();
+						}
+					} else {
+						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Desarquivar esse Servidor?");
+						if (verifica == JOptionPane.YES_OPTION) {
+							serv.setStatusAtivo(true);
+							sDao.atualizar(serv);
+							serv = new entity.Servidor();
+							JOptionPane.showMessageDialog(null, "Servidor desarquivado com sucesso!!!");
+							// Abre nova Tela atualizando a lista
+							getFrmTelaServidor().dispose();
+							control_View.abreTelaServidor();
+						}
+					}
+
+				}
+
+			}
+		});
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_Arquivar.setBackground(new Color(0, 206, 209));
-		btn_Arquivar.setBounds(161, 335, 161, 25);
+		btn_Arquivar.setBackground(new Color(255, 248, 220));
+		btn_Arquivar.setBounds(161, 335, 175, 25);
 		frmTelaServidor.getContentPane().add(btn_Arquivar);
 
 		JButton btn_Editar = new JButton("Editar");
+		btn_Editar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String capta = "";
+				if (tb_Servidor.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Servidor da lista");
+				} else if (tb_Servidor.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Servidor da lista");
+				} else {
+					capta = tb_Servidor.getValueAt(tb_Servidor.getSelectedRow(), 0).toString();
+					int captaId = Integer.parseInt(capta);
+					serv = sDao.buscarPorSiape(captaId);
+
+					control_View.abreTelaEditarServidor(serv);
+					getFrmTelaServidor().dispose();
+
+				}
+				
+			}
+		});
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Editar.setBackground(new Color(0, 191, 255));
 		btn_Editar.setBounds(30, 335, 111, 25);
 		frmTelaServidor.getContentPane().add(btn_Editar);
 
 		JButton btn_Buscar = new JButton("Buscar");
+		btn_Buscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String txt_Servidor = txt_buscarServidor.getText().trim();
+
+				if (txt_Servidor.equals("")) {
+
+					setListaServidor(sDao.getListaServidor());
+
+					int val = getListaServidor().size();
+					int inc = 0;
+
+					DefaultTableModel tabelaBd = (DefaultTableModel) tb_Servidor.getModel();
+					tabelaBd.setNumRows(0);
+
+					while (val > 0) {
+						serv = getListaServidor().get(inc);
+
+						tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail(),
+								serv.isStatusAtivo() });
+
+						val--;
+						inc++;
+						serv = new entity.Servidor();
+
+					}
+
+				} else {
+
+					txt_Servidor = "'%" + txt_Servidor + "%'";
+					setListaServidor(sDao.listarTodosServidoresPorNome(txt_Servidor));
+
+					if (getListaServidor().isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"Não foi localizado nenhum nenhum com a descrição informada");
+					} else {
+
+						int val = getListaServidor().size();
+						int inc = 0;
+
+						DefaultTableModel tabelaBd = (DefaultTableModel) tb_Servidor.getModel();
+						tabelaBd.setNumRows(0);
+
+						while (val > 0) {
+							serv = getListaServidor().get(inc);
+
+							tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail(),
+									serv.isStatusAtivo() });
+
+							val--;
+							inc++;
+							serv = new entity.Servidor();
+						}
+
+					}
+				}
+
+			}
+		});
 		btn_Buscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Buscar.setBackground(new Color(0, 206, 209));
-		btn_Buscar.setBounds(476, 72, 88, 25);
+		btn_Buscar.setBounds(476, 85, 88, 25);
 		frmTelaServidor.getContentPane().add(btn_Buscar);
 
 		txt_buscarServidor = new JTextField();
 		txt_buscarServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_buscarServidor.setColumns(10);
-		txt_buscarServidor.setBounds(216, 73, 230, 23);
+		txt_buscarServidor.setBounds(215, 86, 230, 23);
 		frmTelaServidor.getContentPane().add(txt_buscarServidor);
 
 		JLabel lblServidor = new JLabel("Servidor");
 		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblServidor.setBounds(129, 74, 77, 21);
+		lblServidor.setBounds(128, 87, 77, 21);
 		frmTelaServidor.getContentPane().add(lblServidor);
 
 		JButton btn_AdicionarServidor = new JButton("");
@@ -169,8 +299,22 @@ public class Servidor {
 
 		JLabel lblControleServidor = new JLabel("Controle Servidor");
 		lblControleServidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblControleServidor.setBounds(30, 21, 534, 25);
+		lblControleServidor.setBounds(30, 21, 175, 25);
 		frmTelaServidor.getContentPane().add(lblControleServidor);
+		
+		JButton btn_Senha = new JButton("Alterar senha de Administrador");
+		btn_Senha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				getFrmTelaServidor().dispose();
+				control.abreTelaAtualizarSenha();
+				
+			}
+		});
+		btn_Senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Senha.setBackground(new Color(135, 206, 250));
+		btn_Senha.setBounds(215, 23, 230, 25);
+		frmTelaServidor.getContentPane().add(btn_Senha);
 
 	}
 
@@ -197,5 +341,4 @@ public class Servidor {
 	public void setListaServidor(List<entity.Servidor> listaServidor) {
 		this.listaServidor = listaServidor;
 	}
-
 }

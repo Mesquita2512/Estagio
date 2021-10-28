@@ -18,6 +18,12 @@ public class ServidorDao {
 
 	}
 
+	// Atualizando um Servidor
+	public boolean atualizar(Servidor servidor) {
+		return daoG.atualizar(servidor);
+
+	}
+
 	// Buscando um Servidor Pelo Siape
 	public Servidor buscarPorSiape(long siape) {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
@@ -35,19 +41,19 @@ public class ServidorDao {
 
 		return resultado;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Servidor> getListaServidor() {
 		return (List<Servidor>) daoG.listarTodos(Servidor.class);
 	}
-	
-	//Buscra os servidor com descri��o informada
+
+	// Buscra os servidor ativos com descrição informada
 	@SuppressWarnings("unchecked")
-	public List<Servidor> listarServidorPorNome( String nome) {
+	public List<Servidor> listarServidorPorNome(String nome) {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
 		List<Servidor> lista;
 		try {
-			
+
 			String jpql = "from Servidor where upper(nome) like upper(" + nome + ") and Status = 1";
 			TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
 			lista = q.getResultList();
@@ -60,14 +66,14 @@ public class ServidorDao {
 	}
 	
 	
-	//Buscra os servidor pelo Status
+	// Buscra todos os servidores com a descrição informada
 		@SuppressWarnings("unchecked")
-		public List<Servidor> listarServidorPorStatus() {
+		public List<Servidor> listarTodosServidoresPorNome(String nome) {
 			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
 			List<Servidor> lista;
 			try {
-				
-				String jpql = "from Servidor where Status = 1";
+
+				String jpql = "from Servidor where upper(nome) like upper(" + nome + ")";
 				TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
 				lista = q.getResultList();
 			} catch (EntityExistsException | TransactionalException e) {
@@ -77,5 +83,23 @@ public class ServidorDao {
 
 			return lista;
 		}
+
+	// Buscra os servidor pelo Status
+	@SuppressWarnings("unchecked")
+	public List<Servidor> listarServidorPorStatus() {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Servidor> lista;
+		try {
+
+			String jpql = "from Servidor where Status = 1";
+			TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
+		}
+
+		return lista;
+	}
 
 }

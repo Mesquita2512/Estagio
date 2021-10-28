@@ -52,6 +52,8 @@ public class Login {
 	public Login() {
 		initialize();
 		txtSiape.setDocument(new Numeros());
+		admin = adao.buscarPorSiape(siape);
+		
 	}
 
 	/**
@@ -59,6 +61,7 @@ public class Login {
 	 */
 	private void initialize() {
 		frmTelaLogin = new JFrame();
+		frmTelaLogin.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaLogin.setResizable(false);
 		frmTelaLogin.setBackground(Color.PINK);
 		frmTelaLogin.setTitle("Tela Login");
@@ -76,14 +79,14 @@ public class Login {
 
 				if (txtSiape.getText().equals("")) {
 
-					JOptionPane.showMessageDialog(null, "Siape n„o pode ser nulo!!!");
+					JOptionPane.showMessageDialog(null, "Siape n√£o pode ser nulo!!!");
 					return;
 				}
 
 				String verificaSenhaNula = new String(txtSenha.getPassword()).trim();
 
 				if (verificaSenhaNula.equals("")) {
-					JOptionPane.showMessageDialog(null, "Senha n„o pode ser nula!!!");
+					JOptionPane.showMessageDialog(null, "Senha n√£o pode ser nula!!!");
 					return;
 				}
 			
@@ -96,7 +99,7 @@ public class Login {
 				}
 
 				if (admin == null) {
-					JOptionPane.showMessageDialog(null, "Siape Inv·lido!!!");
+					JOptionPane.showMessageDialog(null, "Siape Inv√°lido!!!");
 					txtSiape.setText("");
 					txtSenha.setText("");
 					return;
@@ -111,7 +114,7 @@ public class Login {
 					getFrmTelaLogin().dispose();
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Senha Inv·lida!!!");
+					JOptionPane.showMessageDialog(null, "Senha Inv√°lida!!!");
 
 				}
 

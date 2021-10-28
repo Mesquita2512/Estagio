@@ -10,11 +10,17 @@ public class AdminDao {
 
 	GenericoDao daoG = new GenericoDao();
 
-	// Salvar Administrador, aten��o ao Siape
+	// Salvar Administrador, atenção ao Siape
 	public boolean salvar(Admin admin) {
 		return daoG.salvar(admin);
 
 	}
+	
+	// Atualiza Administrador, atenção ao Siape
+		public boolean atualizar(Admin admin) {
+			return daoG.atualizar(admin);
+
+		}
 
 	// Busca o Administrador pelo Siape
 	public Admin buscarPorSiape(long siape) {

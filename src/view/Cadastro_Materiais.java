@@ -66,18 +66,19 @@ public class Cadastro_Materiais {
 	 */
 	private void initialize() {
 		frmCadastroDeMateriais = new JFrame();
+		frmCadastroDeMateriais.getContentPane().setBackground(new Color(240, 255, 255));
 		frmCadastroDeMateriais.setTitle("Cadastro de Materiais");
 		frmCadastroDeMateriais.setBounds(100, 100, 600, 450);
 		frmCadastroDeMateriais.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel lblNewLabel = new JLabel("Cadastro de materiais");
+		JLabel lblNewLabel = new JLabel("Cadastro de material");
 		lblNewLabel.setForeground(new Color(0, 0, 139));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 45));
 
-		JLabel lblNewLabel_1 = new JLabel("Descri\u00E7\u00E3o");
+		JLabel lblNewLabel_1 = new JLabel("Descrição *");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lblNewLabel_1_1 = new JLabel("Quantidade");
+		JLabel lblNewLabel_1_1 = new JLabel("Quantidade *");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JLabel lblNewLabel_1_2 = new JLabel("Valor aproximado");

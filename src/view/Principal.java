@@ -30,6 +30,7 @@ import entity.Admin;
 import entity.Devolucao;
 import entity.Emprestimo;
 import entity.Material;
+import javax.swing.ListSelectionModel;
 
 public class Principal {
 
@@ -106,6 +107,7 @@ public class Principal {
 	 */
 	private void initialize() {
 		frmTelaPrincipal = new JFrame();
+		frmTelaPrincipal.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaPrincipal.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagens/Icon_Fundo.jpg")));
 		frmTelaPrincipal.setResizable(false);
@@ -375,6 +377,7 @@ public class Principal {
 		btn_Devolver.setBackground(new Color(0, 255, 127));
 
 		tb_Emprestimos = new JTable();
+		tb_Emprestimos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tb_Emprestimos.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Id", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data" }));

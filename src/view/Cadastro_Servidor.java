@@ -21,7 +21,7 @@ import javax.swing.JPasswordField;
 
 public class Cadastro_Servidor {
 
-	private JFrame frmCasdastroServidor;
+	private JFrame frmCadastroServidor;
 	private JTextField txt_Nom_Servidor;
 	private JTextField txt_Siape_Servidor;
 	private JTextField txt_Email_Servidor;
@@ -54,7 +54,7 @@ public class Cadastro_Servidor {
 			public void run() {
 				try {
 					Cadastro_Servidor window = new Cadastro_Servidor();
-					window.frmCasdastroServidor.setVisible(true);
+					window.frmCadastroServidor.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -75,33 +75,34 @@ public class Cadastro_Servidor {
 	public Cadastro_Servidor() {
 		initialize();
 		txt_Siape_Servidor.setDocument(new Numeros());
-		frmCasdastroServidor.getContentPane().setLayout(null);
-		frmCasdastroServidor.getContentPane().add(lblNewLabel);
-		frmCasdastroServidor.getContentPane().add(ln_Nome_Servidor);
-		frmCasdastroServidor.getContentPane().add(lb_Siape_Servidor);
-		frmCasdastroServidor.getContentPane().add(txt_Nom_Servidor);
-		frmCasdastroServidor.getContentPane().add(txt_Siape_Servidor);
-		frmCasdastroServidor.getContentPane().add(lb_Email_Servidor);
-		frmCasdastroServidor.getContentPane().add(txt_Email_Servidor);
-		frmCasdastroServidor.getContentPane().add(lb_Senha_Conf);
-		frmCasdastroServidor.getContentPane().add(btn_Salvar);
-		frmCasdastroServidor.getContentPane().add(lb_Senha);
-		frmCasdastroServidor.getContentPane().add(confirme_Servidor_Admin);
-		frmCasdastroServidor.getContentPane().add(btn_Limpar);
-		frmCasdastroServidor.getContentPane().add(btn_Voltar);
-		frmCasdastroServidor.getContentPane().add(btn_Sair);
-		frmCasdastroServidor.getContentPane().add(txt_Senha);
-		frmCasdastroServidor.getContentPane().add(txt_Senha_conf);
+		frmCadastroServidor.getContentPane().setLayout(null);
+		frmCadastroServidor.getContentPane().add(lblNewLabel);
+		frmCadastroServidor.getContentPane().add(ln_Nome_Servidor);
+		frmCadastroServidor.getContentPane().add(lb_Siape_Servidor);
+		frmCadastroServidor.getContentPane().add(txt_Nom_Servidor);
+		frmCadastroServidor.getContentPane().add(txt_Siape_Servidor);
+		frmCadastroServidor.getContentPane().add(lb_Email_Servidor);
+		frmCadastroServidor.getContentPane().add(txt_Email_Servidor);
+		frmCadastroServidor.getContentPane().add(lb_Senha_Conf);
+		frmCadastroServidor.getContentPane().add(btn_Salvar);
+		frmCadastroServidor.getContentPane().add(lb_Senha);
+		frmCadastroServidor.getContentPane().add(confirme_Servidor_Admin);
+		frmCadastroServidor.getContentPane().add(btn_Limpar);
+		frmCadastroServidor.getContentPane().add(btn_Voltar);
+		frmCadastroServidor.getContentPane().add(btn_Sair);
+		frmCadastroServidor.getContentPane().add(txt_Senha);
+		frmCadastroServidor.getContentPane().add(txt_Senha_conf);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmCasdastroServidor = new JFrame();
-		frmCasdastroServidor.setTitle("Cadastro de Servidor");
-		frmCasdastroServidor.setBounds(100, 100, 600, 450);
-		frmCasdastroServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCadastroServidor = new JFrame();
+		frmCadastroServidor.getContentPane().setBackground(new Color(240, 255, 255));
+		frmCadastroServidor.setTitle("Cadastro de Servidor");
+		frmCadastroServidor.setBounds(100, 100, 600, 450);
+		frmCadastroServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		lblNewLabel = new JLabel("Cadastro de Servidor");
 		lblNewLabel.setBounds(94, 39, 414, 55);
@@ -109,23 +110,23 @@ public class Cadastro_Servidor {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 45));
 
 		ln_Nome_Servidor = new JLabel("Nome *");
-		ln_Nome_Servidor.setBounds(94, 124, 48, 17);
+		ln_Nome_Servidor.setBounds(94, 165, 48, 17);
 		ln_Nome_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		lb_Siape_Servidor = new JLabel("Siape *");
-		lb_Siape_Servidor.setBounds(94, 168, 56, 17);
+		lb_Siape_Servidor.setBounds(94, 124, 56, 17);
 		lb_Siape_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		lb_Email_Servidor = new JLabel("Email *");
 		lb_Email_Servidor.setBounds(94, 209, 56, 17);
 		lb_Email_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		lb_Senha = new JLabel("Senha");
+		lb_Senha = new JLabel("Senha *");
 		lb_Senha.setBounds(94, 284, 56, 17);
 		lb_Senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lb_Senha.setVisible(false);
 
-		lb_Senha_Conf = new JLabel("Confirma\u00E7\u00E3o");
+		lb_Senha_Conf = new JLabel("Confirmação *");
 		lb_Senha_Conf.setBounds(94, 322, 145, 17);
 		lb_Senha_Conf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lb_Senha_Conf.setVisible(false);
@@ -135,12 +136,12 @@ public class Cadastro_Servidor {
 		confirme_Servidor_Admin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Nom_Servidor = new JTextField();
-		txt_Nom_Servidor.setBounds(154, 121, 354, 23);
+		txt_Nom_Servidor.setBounds(154, 162, 354, 23);
 		txt_Nom_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Nom_Servidor.setColumns(10);
 
 		txt_Siape_Servidor = new JTextField();
-		txt_Siape_Servidor.setBounds(154, 162, 354, 23);
+		txt_Siape_Servidor.setBounds(154, 121, 354, 23);
 		txt_Siape_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Siape_Servidor.setColumns(10);
 
@@ -213,7 +214,7 @@ public class Cadastro_Servidor {
 					String senha = new String(txt_Senha.getPassword());
 					String senhaConf = new String(txt_Senha_conf.getPassword());
 					if (senha.equals("") && senhaConf.equals("")) {
-						JOptionPane.showMessageDialog(null, "As senhas não podem serem nulas!!!");
+						JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
 						return;
 					}
 
@@ -223,7 +224,7 @@ public class Cadastro_Servidor {
 						admin.setEmail(txt_Email_Servidor.getText());
 						admin.setSenha(new String(txt_Senha.getPassword()).trim());
 
-						sDao.salvar(admin);
+						aDao.salvar(admin);
 
 						JOptionPane.showMessageDialog(null, "Novo Administrador salvo com sucesso!!!");
 
@@ -324,11 +325,11 @@ public class Cadastro_Servidor {
 	}
 
 	public JFrame getFrmCasdastroServidor() {
-		return frmCasdastroServidor;
+		return frmCadastroServidor;
 	}
 
 	public void setFrmCasdastroServidor(JFrame frmCasdastroServidor) {
-		this.frmCasdastroServidor = frmCasdastroServidor;
+		this.frmCadastroServidor = frmCasdastroServidor;
 	}
 
 	public JTextField getTxt_Nom_Servidodr() {

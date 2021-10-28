@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import dao.MaterialDao;
 import entity.Material;
+import javax.swing.ListSelectionModel;
 
 public class Materiais {
 
@@ -83,6 +84,7 @@ public class Materiais {
 	 */
 	private void initialize() {
 		frmTelaMaterias = new JFrame();
+		frmTelaMaterias.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaMaterias.setResizable(false);
 		frmTelaMaterias.setBackground(Color.PINK);
 		frmTelaMaterias.setTitle("Materiais");
@@ -169,7 +171,7 @@ public class Materiais {
 							inc++;
 							mate = new Material();
 						}
-						txt_Material.setEditable(true);
+						//txt_Material.setEditable(true);
 
 					}
 				}
@@ -238,9 +240,9 @@ public class Materiais {
 			public void actionPerformed(ActionEvent arg0) {
 				String capta = "";
 				if (tb_Materiais.getSelectedRowCount() == 0) {
-					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
+					JOptionPane.showMessageDialog(null, "Selecione um Material da lista");
 				} else if (tb_Materiais.getSelectedRowCount() > 1) {
-					JOptionPane.showMessageDialog(null, "Selecione apenas um Emprestimo da lista");
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Material da lista");
 				} else {
 					capta = tb_Materiais.getValueAt(tb_Materiais.getSelectedRow(), 0).toString();
 					int captaId = Integer.parseInt(capta);
@@ -252,8 +254,10 @@ public class Materiais {
 							mate.setStatusAtivo(false);
 							mDao.atualizar(mate);
 							mate = new Material();
-							listarMateriais();
 							JOptionPane.showMessageDialog(null, "Material arquivado com sucesso!!!");
+							//Abre nova Tela atualizando a lista
+							getFrmTelaMaterias().dispose();
+							control_View.abreTelaMateriais();
 						}
 					} else {
 						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Desarquivar esse material?");
@@ -261,8 +265,10 @@ public class Materiais {
 							mate.setStatusAtivo(true);
 							mDao.atualizar(mate);
 							mate = new Material();
-							listarMateriais();
 							JOptionPane.showMessageDialog(null, "Material desarquivado com sucesso!!!");
+							//Abre nova Tela atualizando a lista
+							getFrmTelaMaterias().dispose();
+							control_View.abreTelaMateriais();
 						}
 					}
 
@@ -272,9 +278,10 @@ public class Materiais {
 		});
 		btn_Arquivar.setBounds(156, 342, 179, 25);
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_Arquivar.setBackground(new Color(0, 206, 209));
+		btn_Arquivar.setBackground(new Color(255, 248, 220));
 
 		tb_Materiais = new JTable();
+		tb_Materiais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, "", null, null, null, null, null }, },
 				new String[] { "Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status" }));
 		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(45);

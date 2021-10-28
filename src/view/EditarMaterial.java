@@ -3,8 +3,6 @@ package view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
@@ -34,6 +32,12 @@ public class EditarMaterial {
 	Controla_views control_view = new Controla_views();
 	Material material = new Material();
 	MaterialDao mDao = new MaterialDao();
+	private JLabel lb_Desc_Material;
+	private JLabel lb_Qtd_Material;
+	private JLabel lb_Val_Material;
+	private JLabel lb_EstCons_Material;
+	private JLabel lb_Cod_Material;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -58,6 +62,21 @@ public class EditarMaterial {
 		initialize();
 		txt_Quantidade.setDocument(new Numeros());
 		txt_Val_aprox.setDocument(new config.DoubleMonterario());
+		frmEditarMaterial.getContentPane().setLayout(null);
+		frmEditarMaterial.getContentPane().add(lb_Desc_Material);
+		frmEditarMaterial.getContentPane().add(lb_Qtd_Material);
+		frmEditarMaterial.getContentPane().add(lb_Val_Material);
+		frmEditarMaterial.getContentPane().add(lb_EstCons_Material);
+		frmEditarMaterial.getContentPane().add(lb_Cod_Material);
+		frmEditarMaterial.getContentPane().add(txt_Codigo);
+		frmEditarMaterial.getContentPane().add(txt_Quantidade);
+		frmEditarMaterial.getContentPane().add(txt_Val_aprox);
+		frmEditarMaterial.getContentPane().add(txt_Descricao);
+		frmEditarMaterial.getContentPane().add(txt_Est_conservacao);
+		frmEditarMaterial.getContentPane().add(lblNewLabel);
+		frmEditarMaterial.getContentPane().add(btn_Atualizar);
+		frmEditarMaterial.getContentPane().add(btn_Voltar);
+		frmEditarMaterial.getContentPane().add(btn_Sair);
 
 	}
 
@@ -78,39 +97,50 @@ public class EditarMaterial {
 	 */
 	private void initialize() {
 		frmEditarMaterial = new JFrame();
+		frmEditarMaterial.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarMaterial.setTitle("Cadastro de Materiais");
 		frmEditarMaterial.setBounds(100, 100, 600, 450);
 		frmEditarMaterial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel lblNewLabel = new JLabel("Editar material");
+		lblNewLabel = new JLabel("Editar material");
+		lblNewLabel.setBounds(73, 29, 290, 55);
 		lblNewLabel.setForeground(new Color(0, 0, 139));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 45));
 
-		JLabel lb_Desc_Material = new JLabel("Nova descrição");
+		lb_Desc_Material = new JLabel("Nova descrição");
+		lb_Desc_Material.setBounds(73, 153, 143, 17);
 		lb_Desc_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_Qtd_Material = new JLabel("Nova quantidade");
+		lb_Qtd_Material = new JLabel("Nova quantidade");
+		lb_Qtd_Material.setBounds(73, 191, 143, 17);
 		lb_Qtd_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_Val_Material = new JLabel("Valor aproximado");
+		lb_Val_Material = new JLabel("Valor aproximado");
+		lb_Val_Material.setBounds(73, 229, 143, 17);
 		lb_Val_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_EstCons_Material = new JLabel("Estado de conserva\u00E7\u00E3o");
+		lb_EstCons_Material = new JLabel("Estado de conserva\u00E7\u00E3o");
+		lb_EstCons_Material.setBounds(73, 267, 143, 17);
 		lb_EstCons_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Descricao = new JTextField();
+		txt_Descricao.setBounds(234, 153, 272, 20);
 		txt_Descricao.setColumns(10);
 
 		txt_Quantidade = new JTextField();
+		txt_Quantidade.setBounds(234, 191, 272, 20);
 		txt_Quantidade.setColumns(10);
 
 		txt_Val_aprox = new JTextField();
+		txt_Val_aprox.setBounds(234, 229, 272, 20);
 		txt_Val_aprox.setColumns(10);
 
 		txt_Est_conservacao = new JTextField();
+		txt_Est_conservacao.setBounds(234, 267, 272, 20);
 		txt_Est_conservacao.setColumns(10);
 
 		btn_Atualizar = new JButton("Atualizar");
+		btn_Atualizar.setBounds(73, 344, 143, 25);
 		btn_Atualizar.setBackground(new Color(34, 139, 34));
 		btn_Atualizar.setForeground(new Color(0, 0, 0));
 		btn_Atualizar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -169,12 +199,14 @@ public class EditarMaterial {
 					getFrmEditarMaterial().dispose();
 					material = new Material();
 					JOptionPane.showMessageDialog(null, "Material Atualizado com sucesso!!!");
+					
 				}
 
 			}
 		});
 
 		btn_Voltar = new JButton("Voltar");
+		btn_Voltar.setBounds(265, 344, 110, 25);
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -188,6 +220,7 @@ public class EditarMaterial {
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		btn_Sair = new JButton("Logout");
+		btn_Sair.setBounds(414, 344, 92, 25);
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -199,81 +232,14 @@ public class EditarMaterial {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JLabel lb_Cod_Material = new JLabel("Código Material");
+		lb_Cod_Material = new JLabel("Código Material");
+		lb_Cod_Material.setBounds(73, 115, 143, 17);
 		lb_Cod_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Codigo = new JTextField();
+		txt_Codigo.setBounds(234, 115, 272, 20);
 		txt_Codigo.setEditable(false);
 		txt_Codigo.setColumns(10);
-		GroupLayout groupLayout = new GroupLayout(frmEditarMaterial.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-						.createSequentialGroup().addContainerGap()
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(lb_Desc_Material, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lb_Qtd_Material, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 86,
-										Short.MAX_VALUE)
-								.addComponent(lb_Val_Material, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lb_EstCons_Material, Alignment.LEADING).addComponent(lb_Cod_Material,
-										Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(txt_Codigo, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, 272,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Val_aprox, GroupLayout.PREFERRED_SIZE, 272,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Descricao, 272, 272, 272).addComponent(txt_Est_conservacao,
-										GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup().addGap(73).addGroup(groupLayout
-								.createParallelGroup(Alignment.LEADING).addComponent(lblNewLabel)
-								.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(btn_Atualizar, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-										.addGap(49)
-										.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 110,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(39).addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 92,
-												GroupLayout.PREFERRED_SIZE)))))
-				.addContainerGap(78, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(29).addComponent(lblNewLabel).addGap(31)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lb_Cod_Material, GroupLayout.PREFERRED_SIZE, 17,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Codigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lb_Desc_Material)
-								.addComponent(txt_Descricao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lb_Qtd_Material, GroupLayout.PREFERRED_SIZE, 17,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Quantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lb_Val_Material, GroupLayout.PREFERRED_SIZE, 17,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Val_aprox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lb_EstCons_Material, GroupLayout.PREFERRED_SIZE, 17,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txt_Est_conservacao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(57)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_Atualizar)
-								.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(45, Short.MAX_VALUE)));
-		frmEditarMaterial.getContentPane().setLayout(groupLayout);
 	}
 
 	public JFrame getFrmEditarMaterial() {

@@ -5,12 +5,21 @@ import entity.Material;
 
 public class Controla_views {
 
-	Material material = new Material();
+	
 
 	public void abreTelaLogin() {
 		try {
 			Login windowLogin = new Login();
 			windowLogin.getFrmTelaLogin().setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void abreTelaAtualizarSenha() {
+		try {
+			AtualizarSenha windowLogin = new AtualizarSenha();
+			windowLogin.getFrmTelaAtualizarSenha().setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,6 +97,18 @@ public class Controla_views {
 			EditarMaterial EdtMaterial= new EditarMaterial();
 			EdtMaterial.pegaMaterial(material);
 			EdtMaterial.getFrmEditarMaterial().setVisible(true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void abreTelaEditarServidor(entity.Servidor servidor) {
+		try {
+			
+			EditarServidor EdtServidor= new EditarServidor();
+			EdtServidor.pegaServidor(servidor);
+			EdtServidor.getFrmEditarServidor().setVisible(true);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
