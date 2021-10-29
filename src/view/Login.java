@@ -2,12 +2,15 @@ package view;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.persistence.EntityManager;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import config.Numeros;
 import dao.AdminDao;
 import entity.Admin;
+import fabricaConexao.FabricaJpa;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -52,7 +55,13 @@ public class Login {
 	public Login() {
 		initialize();
 		txtSiape.setDocument(new Numeros());
-		admin = adao.buscarPorSiape(siape);
+		EntityManager entityManenger = FabricaJpa.getEntityManagerFactory().createEntityManager();
+
+		if (entityManenger != null) {
+			System.out.print("conexao realizada com sucesso");
+		} else {
+			System.out.println("nao foi possivel realizar a conexao");
+		} // TODO Auto-generated method stub
 		
 	}
 

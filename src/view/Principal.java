@@ -241,7 +241,7 @@ public class Principal {
 		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 
 		JLabel lblServidor = new JLabel("Servidor");
-		lblServidor.setBounds(420, 49, 61, 21);
+		lblServidor.setBounds(428, 49, 61, 21);
 		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Servidor_Busca = new JTextField();
@@ -266,9 +266,36 @@ public class Principal {
 		sp_Empretimos.setBounds(25, 103, 686, 208);
 
 		JButton btn_Editar = new JButton("Editar Emprestimo");
-		btn_Editar.setBounds(234, 333, 166, 25);
+		btn_Editar.setBounds(234, 333, 177, 25);
 		btn_Editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
+				String capta = "";
+				if (tb_Emprestimos.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
+				} else {
+					capta = tb_Emprestimos.getValueAt(tb_Emprestimos.getSelectedRow(), 0).toString();
+
+					String siape = System.getProperty("siape");
+					int captaId = Integer.parseInt(capta);
+
+					emp = eDao.buscarPorId(captaId);
+					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
+
+					if (emp.getQtdTotalDevolvida() > 0) {
+						JOptionPane.showMessageDialog(null,
+								"Já foi realizada devolução parcial deste emprestimo, não é mais aceito fazer alterações neste empréstimo");
+					} else if (emp.getAdminEntrega().equals(adm)) {
+						control_View.abreTelaEditarEmprestimo(emp);
+						getFrmTelaPrincipal().dispose();
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"A edição é permitida somente pelo usuário que realizou o empréstimo: "
+										+ emp.getAdminEntrega().getNome());
+					}
+
+				}
+
 			}
 		});
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -318,6 +345,8 @@ public class Principal {
 							devolucao = new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
+							getFrmTelaPrincipal().dispose();
+							control_View.abreTelaPrincipal();
 
 						} else {
 							return;
@@ -331,19 +360,19 @@ public class Principal {
 							confirma_int = Integer.parseInt(confrima_Qtd);
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null,
-									"Informe um valor inteiro para realizar a devolu��o do material");
+									"Informe um valor inteiro para realizar a devolução do material");
 							return;
 						}
 
 						if (confirma_int > emp.getQtdEmprestado() - emp.getQtdTotalDevolvida()) {
 							JOptionPane.showMessageDialog(null,
-									"A quantidade informada � maior do que a quantidade a ser devolvida neste emprestimo");
+									"A quantidade informada é maior do que a quantidade a ser devolvida neste emprestimo");
 						} else if (confirma_int <= 0) {
 							JOptionPane.showMessageDialog(null,
 									"informe um valor maior que zero para devolver o material");
 						} else {
 
-							String obs = JOptionPane.showInputDialog("Observa��es");
+							String obs = JOptionPane.showInputDialog("Observaçães");
 							emp.setQtdTotalDevolvida(emp.getQtdTotalDevolvida() + confirma_int);
 
 							mat.setQtd(confirma_int + mat.getQtd());
@@ -365,6 +394,8 @@ public class Principal {
 							devolucao = new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
+							getFrmTelaPrincipal().dispose();
+							control_View.abreTelaPrincipal();
 						}
 
 					}
@@ -379,14 +410,14 @@ public class Principal {
 		tb_Emprestimos = new JTable();
 		tb_Emprestimos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tb_Emprestimos.setModel(new DefaultTableModel(new Object[][] {},
+		tb_Emprestimos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
 				new String[] { "Id", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data" }));
 		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(50);
-		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(175);
+		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(218);
 		tb_Emprestimos.getColumnModel().getColumn(2).setPreferredWidth(55);
 		tb_Emprestimos.getColumnModel().getColumn(3).setPreferredWidth(55);
-		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(150);
-		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(100);
+		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(170);
+		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(73);
 		sp_Empretimos.setViewportView(tb_Emprestimos);
 		frmTelaPrincipal.getContentPane().setLayout(null);
 		frmTelaPrincipal.getContentPane().add(sp_Empretimos);
@@ -400,10 +431,16 @@ public class Principal {
 		frmTelaPrincipal.getContentPane().add(txt_Servidor_Busca);
 		frmTelaPrincipal.getContentPane().add(btnBuscar);
 
+		JButton btn_Detalhar = new JButton("Detalhar Emprestimo");
+		btn_Detalhar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Detalhar.setBackground(new Color(143, 188, 143));
+		btn_Detalhar.setBounds(428, 333, 177, 25);
+		frmTelaPrincipal.getContentPane().add(btn_Detalhar);
+
 		JMenuBar menuBar = new JMenuBar();
 		frmTelaPrincipal.setJMenuBar(menuBar);
 
-		JButton btn_Servidor = new JButton("Servidores");
+		JButton btn_Servidor = new JButton("  Servidores");
 		btn_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn_Servidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -416,7 +453,7 @@ public class Principal {
 		btn_Servidor.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_ServidorPQ.png")));
 		menuBar.add(btn_Servidor);
 
-		JButton btn_Materiais = new JButton("Materiais");
+		JButton btn_Materiais = new JButton("  Materiais");
 		btn_Materiais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -429,12 +466,12 @@ public class Principal {
 		btn_Materiais.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		menuBar.add(btn_Materiais);
 
-		JButton btn_Relatorios = new JButton("Relat\u00F3rios");
+		JButton btn_Relatorios = new JButton("  Relatórios");
 		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn_Relatorios.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_Relatorios.png")));
 		menuBar.add(btn_Relatorios);
 
-		JButton btnNewButton_1 = new JButton("Sobre");
+		JButton btnNewButton_1 = new JButton("  Sobre    ");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
 		menuBar.add(btnNewButton_1);
@@ -492,5 +529,4 @@ public class Principal {
 	public void setListaEmprestimo(List<Emprestimo> listaEmprestimo) {
 		this.listaEmprestimo = listaEmprestimo;
 	}
-
 }

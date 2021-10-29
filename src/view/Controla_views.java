@@ -1,6 +1,7 @@
 package view;
 
 
+import entity.Emprestimo;
 import entity.Material;
 
 public class Controla_views {
@@ -90,7 +91,18 @@ public class Controla_views {
 		}
 	}
 	
-
+	public void abreTelaEditarEmprestimo(Emprestimo emprestimo) {
+		try {
+			
+			EditarEmprestimo EdtEmprestimo= new EditarEmprestimo();
+			EdtEmprestimo.pegaEmprestimo(emprestimo);
+			EdtEmprestimo.getFrmEditarEmprestimo().setVisible(true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void abreTelaEditarMaterial(Material material) {
 		try {
 			
