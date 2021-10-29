@@ -55,14 +55,14 @@ public class Login {
 	public Login() {
 		initialize();
 		txtSiape.setDocument(new Numeros());
-		EntityManager entityManenger = FabricaJpa.getEntityManagerFactory().createEntityManager();
 
-		if (entityManenger != null) {
-			System.out.print("conexao realizada com sucesso");
-		} else {
-			System.out.println("nao foi possivel realizar a conexao");
-		} // TODO Auto-generated method stub
-		
+		try {
+			 FabricaJpa.getEntityManagerFactory().createEntityManager();
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+
 	}
 
 	/**
@@ -98,14 +98,8 @@ public class Login {
 					JOptionPane.showMessageDialog(null, "Senha não pode ser nula!!!");
 					return;
 				}
-			
-				try {
-					admin = adao.buscarPorSiape(Integer.parseInt(txtSiape.getText()));
 
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e);
-					return;
-				}
+				admin = adao.buscarPorSiape(Integer.parseInt(txtSiape.getText()));
 
 				if (admin == null) {
 					JOptionPane.showMessageDialog(null, "Siape Inválido!!!");
