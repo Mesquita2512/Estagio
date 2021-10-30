@@ -1,6 +1,8 @@
 package view;
 
 
+import javax.swing.JDialog;
+
 import entity.Emprestimo;
 import entity.Material;
 
@@ -12,6 +14,7 @@ public class Controla_views {
 		try {
 			Login windowLogin = new Login();
 			windowLogin.getFrmTelaLogin().setVisible(true);
+			windowLogin.getFrmTelaLogin().setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -19,8 +22,9 @@ public class Controla_views {
 	
 	public void abreTelaAtualizarSenha() {
 		try {
-			AtualizarSenha windowLogin = new AtualizarSenha();
-			windowLogin.getFrmTelaAtualizarSenha().setVisible(true);
+			AtualizarSenha windowSenha = new AtualizarSenha();
+			windowSenha.getFrmTelaAtualizarSenha().setVisible(true);
+			windowSenha.getFrmTelaAtualizarSenha().setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -31,6 +35,7 @@ public class Controla_views {
 
 			Principal windowPrincipal = new Principal();
 			windowPrincipal.getFrmTelaPrincipal().setVisible(true);
+			windowPrincipal.getFrmTelaPrincipal().setLocationRelativeTo(null);
 			windowPrincipal.setListaEmprestimo(windowPrincipal.eDao.listarEmprestimoComMaterial());
 			windowPrincipal.listarEmprestimos();
 
@@ -44,6 +49,7 @@ public class Controla_views {
 		try {
 			Materiais mateView = new Materiais();
 			mateView.getFrmTelaMaterias().setVisible(true);
+			mateView.getFrmTelaMaterias().setLocationRelativeTo(null);
 			mateView.setListaMaterial(mateView.mDao.getListaMaterial());
 			mateView.listarMateriais();
 		} catch (Exception e) {
@@ -56,6 +62,7 @@ public class Controla_views {
 		try {
 			Servidor servView = new Servidor();
 			servView.getFrmTelaServidor().setVisible(true);
+			servView.getFrmTelaServidor().setLocationRelativeTo(null);
 			servView.setListaServidor(servView.sDao.getListaServidor());
 			servView.listarServidores();
 		} catch (Exception e) {
@@ -68,6 +75,7 @@ public class Controla_views {
 		try {
 			Cadastro_Emprestimo cadEmp = new Cadastro_Emprestimo();
 			cadEmp.getFrmNovoEmprestimo().setVisible(true);
+			cadEmp.getFrmNovoEmprestimo().setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,6 +85,7 @@ public class Controla_views {
 		try {
 			Cadastro_Servidor windowServidor = new Cadastro_Servidor();
 			windowServidor.getFrmCasdastroServidor().setVisible(true);
+			windowServidor.getFrmCasdastroServidor().setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,6 +95,7 @@ public class Controla_views {
 		try {
 			Cadastro_Materiais windowMateriais = new Cadastro_Materiais();
 			windowMateriais.getFrmCadastroDeMateriais().setVisible(true);
+			windowMateriais.getFrmCadastroDeMateriais().setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,6 +107,7 @@ public class Controla_views {
 			EditarEmprestimo EdtEmprestimo= new EditarEmprestimo();
 			EdtEmprestimo.pegaEmprestimo(emprestimo);
 			EdtEmprestimo.getFrmEditarEmprestimo().setVisible(true);
+			EdtEmprestimo.getFrmEditarEmprestimo().setLocationRelativeTo(null);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,6 +120,7 @@ public class Controla_views {
 			EditarMaterial EdtMaterial= new EditarMaterial();
 			EdtMaterial.pegaMaterial(material);
 			EdtMaterial.getFrmEditarMaterial().setVisible(true);
+			EdtMaterial.getFrmEditarMaterial().setLocationRelativeTo(null);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,7 +133,21 @@ public class Controla_views {
 			EditarServidor EdtServidor= new EditarServidor();
 			EdtServidor.pegaServidor(servidor);
 			EdtServidor.getFrmEditarServidor().setVisible(true);
+			EdtServidor.getFrmEditarServidor().setLocationRelativeTo(null);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	public void abreTelaDetalharEmprestimo(Emprestimo emprestimo) {
+		try {
+			DetalharEmprestimo windowDetalhar = new DetalharEmprestimo();
+			windowDetalhar.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			windowDetalhar.pegaEmprestimo(emprestimo);
+			windowDetalhar.setVisible(true);
+			windowDetalhar.setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

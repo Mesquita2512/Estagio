@@ -432,6 +432,26 @@ public class Principal {
 		frmTelaPrincipal.getContentPane().add(btnBuscar);
 
 		JButton btn_Detalhar = new JButton("Detalhar Emprestimo");
+		btn_Detalhar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String capta = "";
+				if (tb_Emprestimos.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
+				} else if (tb_Emprestimos.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Emprestimo da lista");
+				} else {
+					capta = tb_Emprestimos.getValueAt(tb_Emprestimos.getSelectedRow(), 0).toString();
+					int captaId = Integer.parseInt(capta);
+					
+					emp = eDao.buscarPorId(captaId);
+					control_View.abreTelaDetalharEmprestimo(emp);
+					getFrmTelaPrincipal().dispose();
+				}
+				
+				
+			}
+		});
 		btn_Detalhar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Detalhar.setBackground(new Color(143, 188, 143));
 		btn_Detalhar.setBounds(428, 333, 177, 25);

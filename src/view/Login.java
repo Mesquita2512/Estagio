@@ -2,7 +2,6 @@ package view;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.persistence.EntityManager;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
@@ -10,7 +9,6 @@ import config.Numeros;
 import dao.AdminDao;
 import entity.Admin;
 import fabricaConexao.FabricaJpa;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,6 +17,8 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login {
 
@@ -42,6 +42,7 @@ public class Login {
 				try {
 					Login windowLogin = new Login();
 					windowLogin.frmTelaLogin.setVisible(true);
+					windowLogin.frmTelaLogin.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,6 +82,16 @@ public class Login {
 		txtSiape.setColumns(10);
 
 		JButton btn_Entrar = new JButton("ENTRAR");
+		btn_Entrar.setBackground(new Color(0, 250, 154));
+		
+		btn_Entrar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_Entrar.doClick();
+				}
+			}
+		});
 
 		btn_Entrar.addActionListener(new ActionListener() {
 
