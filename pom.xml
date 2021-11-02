@@ -29,11 +29,11 @@
 			<version>1.4</version>
 		</dependency>
 
-		  <dependency>
-        <groupId>org.hibernate.javax.persistence</groupId>
-        <artifactId>hibernate-jpa-2.1-api</artifactId>
-        <version>1.0.0.Final</version>
-    </dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
+		</dependency>
 
 
 		<dependency>
@@ -61,6 +61,14 @@
 			<version>1.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/xdoclet/xdoclet-hibernate-module -->
+		<dependency>
+			<groupId>xdoclet</groupId>
+			<artifactId>xdoclet-hibernate-module</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -68,10 +76,12 @@
 		<resources>
 			<resource>
 				<directory>src</directory>
+				
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
+
 		</resources>
 		<plugins>
 			<plugin>
