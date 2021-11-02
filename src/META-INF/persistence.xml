@@ -3,8 +3,10 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="materiais" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	<persistence-unit name="persistence" transaction-type="RESOURCE_LOCAL">
+		
+					
+		
 		<class>entity.Servidor</class>
 		<class>entity.Material</class>
 		<class>entity.Admin</class>
@@ -14,17 +16,20 @@
 		
 		<validation-mode>NONE</validation-mode>
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="2512dez"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/sim?useTimezone=true&amp;serverTimezone=UTC"/>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-			<property name="hibernate.default_schema" value="sim"/>
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306"/>
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
-  			<property name="hibernate.show_sql" value="true"/>
-  			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.archive.autodetection" value="class" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLiteDialect" />
+            <property name="hibernate.connection.driver_class" value="org.sqlite.JDBC" />
+            <property name="hibernate.connection.username" value="" />
+            <property name="hibernate.connection.password" value="2512dez" />
+            <property name="hibernate.connection.user" value="root" />
+            <property name="hibernate.connection.autocommit" value="true"/>
+            <property name="hibernate.connection.url" value="jdbc:sqlite:mydbsim.db"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.flushMode" value="ALWAYS" />
+            <property name="hibernate.cache.use_second_level_cache" value="false" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" /> <!--  pode ser necessário configurar create para criar as tabelas -->
+
 		</properties>
 	</persistence-unit>
 	</persistence>

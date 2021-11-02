@@ -4,7 +4,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class FabricaJpa {
-	private static final String PERSISTENCE_UNIT_NAME = "materiais";
+	private static final String PERSISTENCE_UNIT_NAME = "persistence";
 	private static EntityManagerFactory factory;
 
 	public static EntityManagerFactory getEntityManagerFactory() {

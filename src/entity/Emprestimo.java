@@ -17,7 +17,7 @@ public class Emprestimo {
 
 	@Id
 	@Column(name = "Id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 
 	@OneToOne

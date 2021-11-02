@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 import config.Numeros;
 import dao.AdminDao;
 import entity.Admin;
-import fabricaConexao.FabricaJpa;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,14 +55,11 @@ public class Login {
 	public Login() {
 		initialize();
 		txtSiape.setDocument(new Numeros());
-
-		try {
-			 FabricaJpa.getEntityManagerFactory().createEntityManager();
-
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-		}
-
+		/*
+		 * try { FabricaJpa.getEntityManagerFactory().createEntityManager();
+		 * 
+		 * } catch (Exception e) { JOptionPane.showMessageDialog(null, e); }
+		 */
 	}
 
 	/**
@@ -83,7 +79,7 @@ public class Login {
 
 		JButton btn_Entrar = new JButton("ENTRAR");
 		btn_Entrar.setBackground(new Color(0, 250, 154));
-		
+
 		btn_Entrar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
