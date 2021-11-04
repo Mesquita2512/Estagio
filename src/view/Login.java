@@ -119,6 +119,10 @@ public class Login {
 					txtSenha.setText("");
 					return;
 				}
+				if (admin.isStatusAtivo() == "Inativo") {
+					JOptionPane.showMessageDialog(null, "Você nao pode acessar o sistema, consulte seu supervisor");
+					return;
+				}
 				if (admin.getSiape() == Integer.parseInt(txtSiape.getText())
 						&& admin.getSenha().equals(verificaSenhaNula)) {
 

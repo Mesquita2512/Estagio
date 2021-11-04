@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -41,6 +42,10 @@ public class Emprestimo {
 	@Column(name = "Data_Entrega", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrega;
+
+	@Column(name = "Hora_Entrega")
+	@Temporal(TemporalType.DATE)
+	private Calendar horaEntrega;
 
 	@Column(name = "Obs_Entrega")
 	private String obsEntrega;
@@ -107,6 +112,14 @@ public class Emprestimo {
 
 	public void setDataEntrega(Date dataEntrega) {
 		this.dataEntrega = dataEntrega;
+	}
+
+	public Calendar getHoraEntrega() {
+		return horaEntrega;
+	}
+
+	public void setHoraEntrega(Calendar horaEntrega) {
+		this.horaEntrega = horaEntrega;
 	}
 
 	public String getObsEntrega() {

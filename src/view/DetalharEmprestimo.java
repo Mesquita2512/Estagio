@@ -16,6 +16,9 @@ import dao.DevolucaoDao;
 import entity.Devolucao;
 import entity.Emprestimo;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -76,15 +79,20 @@ public class DetalharEmprestimo extends JDialog {
 			tb_emprestimo = new JTable();
 			tb_emprestimo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tb_emprestimo
-					.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null }, },
-							new String[] { "Id", "Entregue por", "Entregue A", "Material", "Qtd Emp", "Data Ent",
-									"Observa\u00E7\u00F5es" }));
+					.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null, null, null, null, null, null, null, null},
+				},
+				new String[] {
+					"Id", "Entregue por", "Entregue A", "Material", "Qtd Emprestada", "Data Entrega", "Hora Emprestimo", "Observa\u00E7\u00F5es"
+				}
+			));
 			tb_emprestimo.getColumnModel().getColumn(0).setPreferredWidth(50);
 			tb_emprestimo.getColumnModel().getColumn(1).setPreferredWidth(100);
 			tb_emprestimo.getColumnModel().getColumn(2).setPreferredWidth(100);
 			tb_emprestimo.getColumnModel().getColumn(3).setPreferredWidth(140);
 			tb_emprestimo.getColumnModel().getColumn(4).setPreferredWidth(60);
-			tb_emprestimo.getColumnModel().getColumn(6).setPreferredWidth(100);
+			tb_emprestimo.getColumnModel().getColumn(7).setPreferredWidth(100);
 			sp_Empretimos.setViewportView(tb_emprestimo);
 		}
 		{
@@ -93,12 +101,13 @@ public class DetalharEmprestimo extends JDialog {
 			contentPanel.add(sp_Devolucao);
 			{
 				tb_Devolucao = new JTable();
-				tb_Devolucao.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-						new String[] { "ID", "Qtd Dev", "Data Dev", "Quem recebeu", "Observa\u00E7\u00F5es" }));
+				tb_Devolucao.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+						new String[] { "ID", "Qtd Develucao", "Data Devolucao", "Hora recebimento", "Quem recebeu",
+								"Observa\u00E7\u00F5es" }));
 				tb_Devolucao.getColumnModel().getColumn(0).setPreferredWidth(50);
 				tb_Devolucao.getColumnModel().getColumn(1).setPreferredWidth(55);
-				tb_Devolucao.getColumnModel().getColumn(3).setPreferredWidth(150);
 				tb_Devolucao.getColumnModel().getColumn(4).setPreferredWidth(150);
+				tb_Devolucao.getColumnModel().getColumn(5).setPreferredWidth(150);
 				sp_Devolucao.setViewportView(tb_Devolucao);
 			}
 		}
@@ -150,12 +159,27 @@ public class DetalharEmprestimo extends JDialog {
 	}
 
 	public void pegaEmprestimo(Emprestimo emprestimo) {
+		// formatando a data do emprestimo
+		Date DataFormatada = emprestimo.getDataEntrega();
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		String data = formatador.format(DataFormatada);
+		
+		// formatando a hora da devolução
+		int hora1 = emprestimo.getHoraEntrega().get(Calendar.HOUR_OF_DAY);
+		int minutos1 = emprestimo.getHoraEntrega().get(Calendar.MINUTE);
+		String min1 = minutos1 + "";
+		String horaformatada1;
+		if (min1.length() == 1) {
+			horaformatada1 = hora1 + ":0" + minutos1;
+		} else {
+			horaformatada1 = hora1 + ":" + minutos1;
+		}
 
 		DefaultTableModel tabelaEmpr = (DefaultTableModel) tb_emprestimo.getModel();
 		tabelaEmpr.setNumRows(0);
 		tabelaEmpr.addRow(new Object[] { emprestimo.getId(), emprestimo.getAdminEntrega().getNome(),
 				emprestimo.getServidor().getNome(), emprestimo.getMaterial().getDescricao(),
-				emprestimo.getQtdEmprestado(), emprestimo.getDataEntrega(), emprestimo.getObsEntrega() });
+				emprestimo.getQtdEmprestado(), data, horaformatada1, emprestimo.getObsEntrega() });
 
 		setListaDevolucao(dDao.listarTodasDevolucoes(emprestimo.getId()));
 
@@ -174,7 +198,23 @@ public class DetalharEmprestimo extends JDialog {
 			while (val > 0) {
 				dev = getListaDevolucao().get(inc);
 
-				tabelaBd.addRow(new Object[] { dev.getId(), dev.getQtdDevolvida(), dev.getDataDevolucao(),
+				// formatando a data da devolução
+				Date DataFormatada1 = dev.getDataDevolucao();
+				SimpleDateFormat formatador1 = new SimpleDateFormat("dd/MM/yyyy");
+				String data1 = formatador1.format(DataFormatada1);
+
+				// formatando a hora da devolução
+				int hora = dev.getLocalDate().get(Calendar.HOUR_OF_DAY);
+				int minutos = dev.getLocalDate().get(Calendar.MINUTE);
+				String min = minutos + "";
+				String horaformatada;
+				if (min.length() == 1) {
+					horaformatada = hora + ":0" + minutos;
+				} else {
+					horaformatada = hora + ":" + minutos;
+				}
+
+				tabelaBd.addRow(new Object[] { dev.getId(), dev.getQtdDevolvida(), data1, horaformatada,
 						dev.getAdminRecebe().getNome(), dev.getObsDevolucao() });
 
 				val--;

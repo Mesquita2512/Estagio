@@ -15,7 +15,11 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.AdminDao;
 import dao.ServidorDao;
+import entity.Admin;
+
 import javax.swing.ListSelectionModel;
 
 public class Servidor {
@@ -31,6 +35,8 @@ public class Servidor {
 	private List<entity.Servidor> listaServidor;
 	entity.Servidor serv = new entity.Servidor();
 	ServidorDao sDao = new ServidorDao();
+	Admin adm = new Admin();
+	AdminDao aDao = new AdminDao();
 
 	/**
 	 * Launch the application.
@@ -95,14 +101,8 @@ public class Servidor {
 
 		tb_Servidor = new JTable();
 		tb_Servidor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tb_Servidor.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"Siape", "Nome", "Email", "Status"
-			}
-		));
+		tb_Servidor.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
+				new String[] { "Siape", "Nome", "Email", "Status" }));
 		tb_Servidor.getColumnModel().getColumn(0).setPreferredWidth(82);
 		tb_Servidor.getColumnModel().getColumn(1).setPreferredWidth(224);
 		tb_Servidor.getColumnModel().getColumn(2).setPreferredWidth(251);
@@ -150,6 +150,13 @@ public class Servidor {
 					serv = sDao.buscarPorSiape(captaId);
 
 					if (serv.isStatusAtivo() == "Ativo") {
+						String siape = System.getProperty("siape");
+						adm = aDao.buscarPorSiape(Integer.parseInt(siape));
+						if(adm.getSiape() == serv.getSiape()) {
+							JOptionPane.showMessageDialog(null, "Você não pode arquivar este servidor");
+							return;
+						}
+						
 						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Arquivar esse Servidor?");
 						if (verifica == JOptionPane.YES_OPTION) {
 							serv.setStatusAtivo(false);
@@ -185,7 +192,7 @@ public class Servidor {
 		JButton btn_Editar = new JButton("Editar");
 		btn_Editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String capta = "";
 				if (tb_Servidor.getSelectedRowCount() == 0) {
 					JOptionPane.showMessageDialog(null, "Selecione um Servidor da lista");
@@ -196,11 +203,15 @@ public class Servidor {
 					int captaId = Integer.parseInt(capta);
 					serv = sDao.buscarPorSiape(captaId);
 
-					control_View.abreTelaEditarServidor(serv);
-					getFrmTelaServidor().dispose();
+					if (serv.isStatusAtivo() == "Inativo") {
+						JOptionPane.showMessageDialog(null, "Não é possível editar um servidor inativo");
+					} else {
+						control_View.abreTelaEditarServidor(serv);
+						getFrmTelaServidor().dispose();
+					}
 
 				}
-				
+
 			}
 		});
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -301,14 +312,14 @@ public class Servidor {
 		lblControleServidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblControleServidor.setBounds(30, 21, 175, 25);
 		frmTelaServidor.getContentPane().add(lblControleServidor);
-		
+
 		JButton btn_Senha = new JButton("Alterar senha de Administrador");
 		btn_Senha.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				getFrmTelaServidor().dispose();
 				control.abreTelaAtualizarSenha();
-				
+
 			}
 		});
 		btn_Senha.setFont(new Font("Tahoma", Font.PLAIN, 14));

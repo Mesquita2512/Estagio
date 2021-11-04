@@ -198,8 +198,8 @@ public class Cadastro_Servidor {
 					JOptionPane.showMessageDialog(null, "Informe o Siape do Servidor");
 					return;
 				}
-				if (getTxt_Email_Servidor().getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor");
+				if (getTxt_Email_Servidor().getText().equals("") || !getTxt_Email_Servidor().getText().contains("@")) {
+					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor no formato Maria@maria.com");
 					return;
 				}
 

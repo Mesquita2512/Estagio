@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -253,28 +254,32 @@ public class Cadastro_Emprestimo extends JFrame {
 					JOptionPane.showMessageDialog(null, "Realize a busca de um material para anexar ao emprestimo!!!");
 
 				} else if (txt_Quantidade.getText().equals("") || Integer.parseInt(txt_Quantidade.getText()) == 0) {
-					JOptionPane.showMessageDialog(null, "Informe um valor v�lido!!!");
+					JOptionPane.showMessageDialog(null, "Informe um valor válido!!!");
 				} else if (mat.getQtd() < Integer.parseInt(txt_Quantidade.getText())) {
-					JOptionPane.showMessageDialog(null, "N�o temos a quantidade informada desse material em estoque,"
+					JOptionPane.showMessageDialog(null, "Não temos a quantidade informada desse material em estoque,"
 							+ " informe um Valor menor!!!");
 				} else if (dc_dataEntrega.getDate() == null || dc_dataEntrega.getDate().compareTo(dataAtual) > 0
 						|| dc_dataEntrega.getDate().compareTo(dataRemota) < 0) {
-					JOptionPane.showMessageDialog(null, "Date inv�lida, favor verifique a data informada");
+					JOptionPane.showMessageDialog(null, "Date inválida, favor verifique a data informada");
 
 				} else if (serv.getSiape() == 0) {
 					JOptionPane.showMessageDialog(null,
 							"Realize a busca de de um servidor para anexar ao emprestimo!!!");
 
 				} else {
-
+					//busca o Adim logado para anexar ao emprestimo
 					String siape = System.getProperty("siape");
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 
+					//Pega a hora atual
+					Calendar c = Calendar.getInstance();
+					//Atribui os Valores no emprestimo
 					emp.setServidor(serv);
 					emp.setMaterial(mat);
 					emp.setQtdEmprestado(Integer.parseInt(txt_Quantidade.getText()));
 					emp.setObsEntrega(txt_Observacoes.getText());
 					emp.setDataEntrega(dc_dataEntrega.getDate());
+					emp.setHoraEntrega(c);
 					emp.setAdminEntrega(adm);
 
 					mat.setQtd(mat.getQtd() - Integer.parseInt(txt_Quantidade.getText()));

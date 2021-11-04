@@ -8,6 +8,8 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.awt.Font;
@@ -89,10 +91,17 @@ public class Principal {
 		tabelaBd.setNumRows(0);
 		// Mostra os Emprestimos na tela
 		while (val > 0) {
+			// pegando o emprestimo do indice
 			emp = getListaEmprestimo().get(inc);
 
+			// formatando a data do emprestimo
+			Date DataFormatada = emp.getDataEntrega();
+			SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+			String data = formatador.format(DataFormatada);
+
+			// Adinando o emprestimo na tabela
 			tabelaBd.addRow(new Object[] { emp.getId(), emp.getMaterial().getDescricao(), emp.getQtdEmprestado(),
-					emp.getQtdTotalDevolvida(), emp.getServidor().getNome(), emp.getDataEntrega() });
+					emp.getQtdTotalDevolvida(), emp.getServidor().getNome(), data });
 
 			val--;
 			inc++;
@@ -172,7 +181,7 @@ public class Principal {
 						while (cont > 0) {
 							String nome = getListaEmprestimo().get(cont - 1).getMaterial().getDescricao().toUpperCase();
 							if (nome.contains(txt_Material.toUpperCase())) {
-								// Remove os emprestimos que nao foram encontrados na busca pela descri��o do
+								// Remove os emprestimos que nao foram encontrados na busca pela descrição do
 								// material
 							} else {
 								listaEmprestimo.remove(cont - 1);
@@ -181,7 +190,7 @@ public class Principal {
 							cont--;
 
 						}
-						// Mostra somente os Emprestimos buscados pela descri��o do Material
+						// Mostra somente os Emprestimos buscados pela descrição do Material
 						if (getListaEmprestimo().isEmpty()) {
 							listarEmprestimos();
 							JOptionPane.showMessageDialog(null, "Não foi localizado nenhum empréstimo");
@@ -328,10 +337,13 @@ public class Principal {
 
 							emp.setQtdTotalDevolvida(emp.getQtdEmprestado());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - 1);
-
+							//Pegando hora atual do sistema
+							Calendar c = Calendar.getInstance();
+							//atribuindo os atributos da devolução
 							devolucao.setEmprestimo(emp);
 							devolucao.setAdminRecebe(adm);
 							devolucao.setDataDevolucao(new Date());
+							devolucao.setLocalDate(c);
 							devolucao.setQtdDevolvida(emp.getQtdEmprestado());
 							devolucao.setObsDevolucao(obs);
 
@@ -377,10 +389,13 @@ public class Principal {
 
 							mat.setQtd(confirma_int + mat.getQtd());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - confirma_int);
-
+							//Pegando hora atual do sistema
+							Calendar c = Calendar.getInstance();
+							//atribuindo os atributos da devolução
 							devolucao.setEmprestimo(emp);
 							devolucao.setAdminRecebe(adm);
 							devolucao.setDataDevolucao(new Date());
+							devolucao.setLocalDate(c);
 							devolucao.setQtdDevolvida(confirma_int);
 							devolucao.setObsDevolucao(obs);
 
@@ -443,13 +458,12 @@ public class Principal {
 				} else {
 					capta = tb_Emprestimos.getValueAt(tb_Emprestimos.getSelectedRow(), 0).toString();
 					int captaId = Integer.parseInt(capta);
-					
+
 					emp = eDao.buscarPorId(captaId);
 					control_View.abreTelaDetalharEmprestimo(emp);
 					getFrmTelaPrincipal().dispose();
 				}
-				
-				
+
 			}
 		});
 		btn_Detalhar.setFont(new Font("Tahoma", Font.PLAIN, 14));

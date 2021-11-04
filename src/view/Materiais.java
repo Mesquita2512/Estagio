@@ -171,7 +171,7 @@ public class Materiais {
 							inc++;
 							mate = new Material();
 						}
-						//txt_Material.setEditable(true);
+						// txt_Material.setEditable(true);
 
 					}
 				}
@@ -198,8 +198,12 @@ public class Materiais {
 					int captaId = Integer.parseInt(capta);
 					mate = mDao.buscarPorId(captaId);
 
-					control_View.abreTelaEditarMaterial(mate);
-					getFrmTelaMaterias().dispose();
+					if (mate.isStatusAtivo() == "Inativo") {
+						JOptionPane.showMessageDialog(null, "Não é possivel editar um material inativo");
+					} else {
+						control_View.abreTelaEditarMaterial(mate);
+						getFrmTelaMaterias().dispose();
+					}
 
 				}
 
@@ -255,7 +259,7 @@ public class Materiais {
 							mDao.atualizar(mate);
 							mate = new Material();
 							JOptionPane.showMessageDialog(null, "Material arquivado com sucesso!!!");
-							//Abre nova Tela atualizando a lista
+							// Abre nova Tela atualizando a lista
 							getFrmTelaMaterias().dispose();
 							control_View.abreTelaMateriais();
 						}
@@ -266,7 +270,7 @@ public class Materiais {
 							mDao.atualizar(mate);
 							mate = new Material();
 							JOptionPane.showMessageDialog(null, "Material desarquivado com sucesso!!!");
-							//Abre nova Tela atualizando a lista
+							// Abre nova Tela atualizando a lista
 							getFrmTelaMaterias().dispose();
 							control_View.abreTelaMateriais();
 						}

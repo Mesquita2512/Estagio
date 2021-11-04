@@ -140,9 +140,10 @@ public class EditarServidor {
 
 				}
 
-				if (getTxt_Email_Servidor().getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor");
+				if (getTxt_Email_Servidor().getText().equals("") || !getTxt_Email_Servidor().getText().contains("@")) {
+					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor no formato Maria@maria.com");
 					return;
+
 				} else {
 					servidor.setNome(txt_Nom_Servidor.getText().trim());
 					servidor.setEmail(txt_Email_Servidor.getText().trim());

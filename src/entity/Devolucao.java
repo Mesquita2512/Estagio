@@ -1,7 +1,7 @@
 package entity;
 
+import java.util.Calendar;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +36,10 @@ public class Devolucao {
 
 	@Column(name = "Obs_Devolucao")
 	private String obsDevolucao;
+	
+	@Column(name="Hora_Devolucao")
+	@Temporal(TemporalType.DATE)
+	private Calendar localDate;
 
 	public Devolucao() {
 		super();
@@ -97,6 +101,14 @@ public class Devolucao {
 
 	public void setEmprestimo(Emprestimo emprestimo) {
 		this.emprestimo = emprestimo;
+	}
+
+	public Calendar getLocalDate() {
+		return localDate;
+	}
+
+	public void setLocalDate(Calendar localDate) {
+		this.localDate = localDate;
 	}
 
 	@Override
