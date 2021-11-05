@@ -7,7 +7,6 @@ import entity.Emprestimo;
 import entity.Material;
 
 public class Controla_views {
-
 	
 
 	public void abreTelaLogin() {

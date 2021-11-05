@@ -78,15 +78,10 @@ public class DetalharEmprestimo extends JDialog {
 		{
 			tb_emprestimo = new JTable();
 			tb_emprestimo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			tb_emprestimo
-					.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null, null, null, null, null, null},
-				},
-				new String[] {
-					"Id", "Entregue por", "Entregue A", "Material", "Qtd Emprestada", "Data Entrega", "Hora Emprestimo", "Observa\u00E7\u00F5es"
-				}
-			));
+			tb_emprestimo.setModel(
+					new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null }, },
+							new String[] { "Id", "Entregue por", "Entregue A", "Material", "Qtd Emprestada",
+									"Data Entrega", "Hora Emprestimo", "Observa\u00E7\u00F5es" }));
 			tb_emprestimo.getColumnModel().getColumn(0).setPreferredWidth(50);
 			tb_emprestimo.getColumnModel().getColumn(1).setPreferredWidth(100);
 			tb_emprestimo.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -163,7 +158,7 @@ public class DetalharEmprestimo extends JDialog {
 		Date DataFormatada = emprestimo.getDataEntrega();
 		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		String data = formatador.format(DataFormatada);
-		
+
 		// formatando a hora da devolução
 		int hora1 = emprestimo.getHoraEntrega().get(Calendar.HOUR_OF_DAY);
 		int minutos1 = emprestimo.getHoraEntrega().get(Calendar.MINUTE);
@@ -174,7 +169,9 @@ public class DetalharEmprestimo extends JDialog {
 		} else {
 			horaformatada1 = hora1 + ":" + minutos1;
 		}
-
+		if (hora1 < 12) {
+			horaformatada1 = horaformatada1 + " AM";
+		}
 		DefaultTableModel tabelaEmpr = (DefaultTableModel) tb_emprestimo.getModel();
 		tabelaEmpr.setNumRows(0);
 		tabelaEmpr.addRow(new Object[] { emprestimo.getId(), emprestimo.getAdminEntrega().getNome(),
@@ -212,6 +209,9 @@ public class DetalharEmprestimo extends JDialog {
 					horaformatada = hora + ":0" + minutos;
 				} else {
 					horaformatada = hora + ":" + minutos;
+				}
+				if (hora < 12) {
+					horaformatada = horaformatada + " AM";
 				}
 
 				tabelaBd.addRow(new Object[] { dev.getId(), dev.getQtdDevolvida(), data1, horaformatada,

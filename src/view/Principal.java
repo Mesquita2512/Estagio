@@ -32,6 +32,8 @@ import entity.Admin;
 import entity.Devolucao;
 import entity.Emprestimo;
 import entity.Material;
+import views_Relatorios.Controla_Relatorios;
+
 import javax.swing.ListSelectionModel;
 
 public class Principal {
@@ -41,6 +43,7 @@ public class Principal {
 	private JTextField txt_Servidor_Busca;
 
 	Controla_views control_View = new Controla_views();
+	Controla_Relatorios control_Rel = new Controla_Relatorios();
 	Login login = new Login();
 
 	Emprestimo emp = new Emprestimo();
@@ -501,14 +504,22 @@ public class Principal {
 		menuBar.add(btn_Materiais);
 
 		JButton btn_Relatorios = new JButton("  Relatórios");
+		btn_Relatorios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				control_Rel.abretelaRelatorios();
+				getFrmTelaPrincipal().dispose();
+				
+			}
+		});
 		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn_Relatorios.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_Relatorios.png")));
 		menuBar.add(btn_Relatorios);
 
-		JButton btnNewButton_1 = new JButton("  Sobre    ");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
-		menuBar.add(btnNewButton_1);
+		JButton btn_Sobre = new JButton("  Sobre    ");
+		btn_Sobre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btn_Sobre.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
+		menuBar.add(btn_Sobre);
 	}
 
 	@SuppressWarnings("unused")
