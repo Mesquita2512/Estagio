@@ -85,7 +85,7 @@ public class MaterialDao {
 		return lista;
 	}
 	
-	//Buscar os material com descri��o informada
+	//Buscar os material ATIVOS
 	@SuppressWarnings("unchecked")
 	public List<Material> listarMaterialPorStatus() {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
@@ -102,5 +102,23 @@ public class MaterialDao {
 
 		return lista;
 	}
+	
+	//Buscar os material INATIVOS
+		@SuppressWarnings("unchecked")
+		public List<Material> listarMaterialPorStatusInativos() {
+			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+			List<Material> lista;
+			try {
+				
+				String jpql = "from Material where Status = 0";
+				TypedQuery<Material> q = (TypedQuery<Material>) entityManager.createQuery(jpql);
+				lista = q.getResultList();
+			} catch (EntityExistsException | TransactionalException e) {
+				lista = null;
+				FabricaJpa.shutdown();
+			}
+
+			return lista;
+		}
 
 }

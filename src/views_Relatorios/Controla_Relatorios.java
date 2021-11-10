@@ -12,21 +12,23 @@ public class Controla_Relatorios {
 		}
 	}
 
-	public void abretelaRelatoriosServidores() {
+	public void abretelaRelatoriosServidores(String filtroServ) {
 		try {
-			Servidores_Relatorios windowRelServ = new Servidores_Relatorios();
+			Servidores_Relatorios windowRelServ = new Servidores_Relatorios(filtroServ);
 			windowRelServ.getFrmTelaServidores_Relatorios().setVisible(true);
 			windowRelServ.getFrmTelaServidores_Relatorios().setLocationRelativeTo(null);
+			windowRelServ.carregaRelatorio(filtroServ);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void abretelaRelatorioMateriais() {
+	public void abretelaRelatoriosMateriais(String filtroMate) {
 		try {
-			Materiais_Relatorios windowRelMate = new Materiais_Relatorios();
+			Materiais_Relatorios windowRelMate = new Materiais_Relatorios(filtroMate);
 			windowRelMate.getFrmTelaMateriais_Relatorios().setVisible(true);
 			windowRelMate.getFrmTelaMateriais_Relatorios().setLocationRelativeTo(null);
+			windowRelMate.carregaRelatorio(filtroMate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

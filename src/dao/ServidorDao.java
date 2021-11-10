@@ -84,7 +84,7 @@ public class ServidorDao {
 			return lista;
 		}
 
-	// Buscra os servidor pelo Status
+	// Buscra os servidores ativos
 	@SuppressWarnings("unchecked")
 	public List<Servidor> listarServidorPorStatus() {
 		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
@@ -101,5 +101,23 @@ public class ServidorDao {
 
 		return lista;
 	}
+	
+	// Buscra os servidores inativos
+		@SuppressWarnings("unchecked")
+		public List<Servidor> listarServidorPorStatusInativos() {
+			EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+			List<Servidor> lista;
+			try {
+
+				String jpql = "from Servidor where Status = 0";
+				TypedQuery<Servidor> q = (TypedQuery<Servidor>) entityManager.createQuery(jpql);
+				lista = q.getResultList();
+			} catch (EntityExistsException | TransactionalException e) {
+				lista = null;
+				FabricaJpa.shutdown();
+			}
+
+			return lista;
+		}
 
 }
