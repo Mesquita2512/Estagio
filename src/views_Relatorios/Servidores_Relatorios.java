@@ -157,6 +157,10 @@ public class Servidores_Relatorios {
 				"C\u00F3digo", "Nome", "Email", "Status"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false
 			};

@@ -9,21 +9,42 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import com.toedter.calendar.JDateChooser;
+import dao.ServidorDao;
+import entity.Servidor;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Relatorios {
 
 	private JFrame frmTelaRelatorios;
 	JComboBox<String> cbServidores = new JComboBox<String>();
 	JComboBox<String> cbMateriais = new JComboBox<String>();
+	JComboBox<String> cbEmpStatus = new JComboBox<String>();
+	JComboBox<String> cbEmpData = new JComboBox<String>();
+	JComboBox<String> cbEmpServ = new JComboBox<String>();
+
+	JScrollPane spServidor = new JScrollPane();
+	JButton btn_Confirmar = new JButton("Confirmar");
 
 	Controla_views control_View = new Controla_views();
 	Controla_Relatorios control_Rel = new Controla_Relatorios();
 
 	int siape;
+	private JTextField txt_NomeServ;
+	private JTable tbServidor;
+
+	Servidor serv = new Servidor();
+	ServidorDao sDao = new ServidorDao();
+	private List<Servidor> listaServidores;
 
 	/**
 	 * Launch the application.
@@ -49,6 +70,28 @@ public class Relatorios {
 		initialize();
 	}
 
+	public void carregar() {
+		int val = getListaServidores().size();
+		int inc = 0;
+
+		DefaultTableModel tabelaBd = (DefaultTableModel) tbServidor.getModel();
+		tabelaBd.setNumRows(0);
+
+		spServidor.setVisible(true);
+		btn_Confirmar.setVisible(true);
+
+		while (val > 0) {
+			serv = getListaServidores().get(inc);
+
+			tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome() });
+
+			val--;
+			inc++;
+			serv = new Servidor();
+
+		}
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -58,7 +101,7 @@ public class Relatorios {
 		frmTelaRelatorios.setResizable(false);
 		frmTelaRelatorios.setBackground(Color.PINK);
 		frmTelaRelatorios.setTitle("Relatórios");
-		frmTelaRelatorios.setBounds(100, 100, 600, 400);
+		frmTelaRelatorios.setBounds(100, 100, 800, 450);
 		frmTelaRelatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTelaRelatorios.getContentPane().setLayout(null);
 
@@ -72,7 +115,7 @@ public class Relatorios {
 		});
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.setBackground(new Color(255, 69, 0));
-		btn_Sair.setBounds(460, 311, 104, 25);
+		btn_Sair.setBounds(664, 370, 104, 25);
 		frmTelaRelatorios.getContentPane().add(btn_Sair);
 
 		JButton btn_Voltar = new JButton("Voltar");
@@ -87,7 +130,7 @@ public class Relatorios {
 		btn_Voltar.setForeground(Color.BLACK);
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
-		btn_Voltar.setBounds(228, 311, 128, 25);
+		btn_Voltar.setBounds(526, 370, 128, 25);
 		frmTelaRelatorios.getContentPane().add(btn_Voltar);
 
 		JLabel lblRelatrios = new JLabel("Relatórios");
@@ -97,27 +140,27 @@ public class Relatorios {
 		lblRelatrios.setBounds(35, 11, 128, 43);
 		frmTelaRelatorios.getContentPane().add(lblRelatrios);
 
-		JLabel lblNewLabel = new JLabel("Servidores");
+		JLabel lblNewLabel = new JLabel("Servidores por status");
 
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(35, 65, 135, 31);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setBounds(35, 65, 193, 31);
 		frmTelaRelatorios.getContentPane().add(lblNewLabel);
 
-		JLabel lblMateriais = new JLabel("Materiais");
+		JLabel lblMateriais = new JLabel("Materiais por status");
 
-		lblMateriais.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMateriais.setBounds(35, 107, 135, 31);
+		lblMateriais.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblMateriais.setBounds(35, 107, 193, 31);
 		frmTelaRelatorios.getContentPane().add(lblMateriais);
 
-		JLabel lblEmprestimo = new JLabel("Emprestimos");
+		JLabel lblEmprestimo = new JLabel("Empréstimos por status");
 		lblEmprestimo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
 			}
 		});
-		lblEmprestimo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblEmprestimo.setBounds(35, 149, 135, 31);
+		lblEmprestimo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEmprestimo.setBounds(35, 149, 193, 31);
 		frmTelaRelatorios.getContentPane().add(lblEmprestimo);
 
 		JButton btn_GerarRelServ = new JButton("Gerar");
@@ -142,7 +185,7 @@ public class Relatorios {
 		btn_GerarRelServ.setForeground(Color.BLACK);
 		btn_GerarRelServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_GerarRelServ.setBackground(new Color(0, 128, 128));
-		btn_GerarRelServ.setBounds(460, 70, 104, 25);
+		btn_GerarRelServ.setBounds(393, 68, 123, 25);
 		frmTelaRelatorios.getContentPane().add(btn_GerarRelServ);
 
 		JButton btn_GerarRelMate = new JButton("Gerar");
@@ -167,27 +210,171 @@ public class Relatorios {
 		btn_GerarRelMate.setForeground(Color.BLACK);
 		btn_GerarRelMate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_GerarRelMate.setBackground(new Color(0, 128, 128));
-		btn_GerarRelMate.setBounds(460, 112, 104, 25);
+		btn_GerarRelMate.setBounds(393, 110, 123, 25);
 		frmTelaRelatorios.getContentPane().add(btn_GerarRelMate);
 
 		cbServidores.setBackground(new Color(224, 255, 255));
 		cbServidores.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbServidores.setModel(new DefaultComboBoxModel<String>(new String[] { "Todos", "Ativos", "Inativos" }));
-		cbServidores.setBounds(228, 72, 128, 20);
+		cbServidores.setBounds(252, 70, 121, 20);
 		frmTelaRelatorios.getContentPane().add(cbServidores);
 
 		cbMateriais.setBackground(new Color(224, 255, 255));
 		cbMateriais.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbMateriais.setModel(new DefaultComboBoxModel<String>(new String[] { "Todos", "Ativos", "Inativos" }));
-		cbMateriais.setBounds(228, 114, 128, 20);
+		cbMateriais.setBounds(252, 112, 121, 20);
 		frmTelaRelatorios.getContentPane().add(cbMateriais);
 
-		JButton btn_GerarRelEmp = new JButton("Gerar");
-		btn_GerarRelEmp.setForeground(Color.BLACK);
-		btn_GerarRelEmp.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_GerarRelEmp.setBackground(new Color(0, 128, 128));
-		btn_GerarRelEmp.setBounds(460, 154, 104, 25);
-		frmTelaRelatorios.getContentPane().add(btn_GerarRelEmp);
+		JButton btn_GerarRelEmpStatus = new JButton("Gerar");
+		btn_GerarRelEmpStatus.setForeground(Color.BLACK);
+		btn_GerarRelEmpStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_GerarRelEmpStatus.setBackground(new Color(0, 128, 128));
+		btn_GerarRelEmpStatus.setBounds(393, 152, 123, 25);
+		frmTelaRelatorios.getContentPane().add(btn_GerarRelEmpStatus);
+
+		cbEmpStatus.setModel(new DefaultComboBoxModel<String>(new String[] { "Todos", "Em Andamento", "Concluidos" }));
+		cbEmpStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbEmpStatus.setBackground(new Color(224, 255, 255));
+		cbEmpStatus.setBounds(252, 156, 121, 20);
+		frmTelaRelatorios.getContentPane().add(cbEmpStatus);
+
+		JLabel lblEmprestimosPorData = new JLabel("Empréstimos por data");
+		lblEmprestimosPorData.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEmprestimosPorData.setBounds(35, 201, 193, 31);
+		frmTelaRelatorios.getContentPane().add(lblEmprestimosPorData);
+
+		JLabel lblEmprestimosPorServidor = new JLabel("Empréstimos por servidor");
+		lblEmprestimosPorServidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEmprestimosPorServidor.setBounds(35, 252, 193, 31);
+		frmTelaRelatorios.getContentPane().add(lblEmprestimosPorServidor);
+
+		cbEmpData.setModel(new DefaultComboBoxModel<String>(new String[] { "Todos", "Em Andamento", "Concluidos" }));
+		cbEmpData.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbEmpData.setBackground(new Color(224, 255, 255));
+		cbEmpData.setBounds(526, 206, 128, 20);
+		frmTelaRelatorios.getContentPane().add(cbEmpData);
+		cbEmpServ.setModel(new DefaultComboBoxModel<String>(new String[] { "Todos", "Em Andamento", "Concluidos" }));
+
+		cbEmpServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbEmpServ.setBackground(new Color(224, 255, 255));
+		cbEmpServ.setBounds(526, 257, 128, 20);
+		frmTelaRelatorios.getContentPane().add(cbEmpServ);
+
+		JButton btn_GerarRelEmpData = new JButton("Gerar");
+		btn_GerarRelEmpData.setForeground(Color.BLACK);
+		btn_GerarRelEmpData.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_GerarRelEmpData.setBackground(new Color(0, 128, 128));
+		btn_GerarRelEmpData.setBounds(664, 204, 104, 25);
+		frmTelaRelatorios.getContentPane().add(btn_GerarRelEmpData);
+
+		JButton btn_GerarRelEmpServ = new JButton("Gerar");
+		btn_GerarRelEmpServ.setForeground(Color.BLACK);
+		btn_GerarRelEmpServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_GerarRelEmpServ.setBackground(new Color(0, 128, 128));
+		btn_GerarRelEmpServ.setBounds(664, 255, 104, 25);
+		frmTelaRelatorios.getContentPane().add(btn_GerarRelEmpServ);
+
+		JLabel lblNewLabel_1 = new JLabel("de");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(252, 209, 22, 14);
+		frmTelaRelatorios.getContentPane().add(lblNewLabel_1);
+
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(272, 205, 101, 20);
+		frmTelaRelatorios.getContentPane().add(dateChooser);
+
+		JLabel lblNewLabel_1_1 = new JLabel("até");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1_1.setBounds(393, 208, 25, 14);
+		frmTelaRelatorios.getContentPane().add(lblNewLabel_1_1);
+
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBounds(417, 206, 99, 20);
+		frmTelaRelatorios.getContentPane().add(dateChooser_1);
+
+		txt_NomeServ = new JTextField();
+		txt_NomeServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txt_NomeServ.setEditable(true);
+		txt_NomeServ.setColumns(10);
+		txt_NomeServ.setBounds(252, 252, 121, 23);
+		frmTelaRelatorios.getContentPane().add(txt_NomeServ);
+
+		JButton btnBuscarServidores = new JButton("buscar");
+		btnBuscarServidores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String txt_Servidor = txt_NomeServ.getText().trim();
+				setListaServidores(sDao.listarServidorPorStatus());
+
+				if (txt_Servidor.equals("")) {
+
+					carregar();
+
+				} else {
+
+					txt_Servidor = "'%" + txt_Servidor + "%'";
+					setListaServidores(sDao.listarServidorPorNome(txt_Servidor));
+
+					if (getListaServidores().isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"Não foi localizado nenhum servidor com a descrição informada");
+					} else {
+
+						carregar();
+						txt_NomeServ.setEditable(true);
+
+					}
+				}
+
+			}
+		});
+		btnBuscarServidores.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnBuscarServidores.setBackground(new Color(173, 216, 230));
+		btnBuscarServidores.setBounds(393, 253, 123, 23);
+		frmTelaRelatorios.getContentPane().add(btnBuscarServidores);
+
+		spServidor.setBounds(252, 282, 264, 80);
+		spServidor.setVisible(false);
+		frmTelaRelatorios.getContentPane().add(spServidor);
+
+		tbServidor = new JTable();
+		tbServidor.setRowSelectionAllowed(false);
+		tbServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tbServidor.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Siape", "Nome" }));
+		tbServidor.getColumnModel().getColumn(1).setPreferredWidth(245);
+		spServidor.setViewportView(tbServidor);
+		btn_Confirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String capta = "";
+
+				if (tbServidor.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Selecione um servidor da lista");
+				} else if (tbServidor.getSelectedRowCount() > 1) {
+					JOptionPane.showMessageDialog(null, "Selecione apenas um servidor da lista");
+				} else {
+					capta = tbServidor.getValueAt(tbServidor.getSelectedRow(), 0).toString();
+					int captaId = Integer.parseInt(capta);
+
+					serv = sDao.buscarPorSiape(captaId);
+					txt_NomeServ.setText(serv.getNome());
+
+					spServidor.setVisible(false);
+					btn_Confirmar.setVisible(false);
+
+					txt_NomeServ.setEditable(false);
+
+				}
+
+			}
+		});
+
+		btn_Confirmar.setForeground(Color.BLACK);
+		btn_Confirmar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Confirmar.setBackground(new Color(34, 139, 34));
+		btn_Confirmar.setBounds(393, 370, 123, 25);
+		btn_Confirmar.setVisible(false);
+		frmTelaRelatorios.getContentPane().add(btn_Confirmar);
 	}
 
 	public Controla_views getTelaPrincipal() {
@@ -205,4 +392,13 @@ public class Relatorios {
 	public void setTelaPrincipal(Controla_views telaPrincipal) {
 		this.control_View = telaPrincipal;
 	}
+
+	public List<Servidor> getListaServidores() {
+		return listaServidores;
+	}
+
+	public void setListaServidores(List<Servidor> listaServidores) {
+		this.listaServidores = listaServidores;
+	}
+
 }

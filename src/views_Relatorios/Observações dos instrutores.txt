@@ -1,0 +1,32 @@
+
+Me parece mais comum utilizar os seguintes menus:
+- Empréstimos
+- Servidores
+- Materiais
+- Contas
+- Sobre
+Em cada menu (exceto Sobre), você teria as opções de incluir, alterar ou excluir. 
+
+A alteração e exclusão pode vir ao lado dos registros, quando estiverem sendo listados. 
+(parênteses sobre dados: podemos incluir um campo "removido" ou algo parecido
+ nas tabelas para não realizar exclusão real, e apenas marcar o registro como "excluído"). 
+
+No caso de empréstimo, um botão "Devolver" pode fazer uma edição personalizada. 
+Ao acessar o menu, o sistema já lista os empréstimos, permitindo fazer uma busca/filtro,
+ com botões (emprestados, em estoque, devolvidos) ou texto de busca 
+(procurar por nome de objeto ou servidor). 
+
+
+Não esquece dos relatórios:
+1.	Relatório filtrado por data (emprestado/devolvido);
+2.	Relatório filtrado por servidor/nome (emprestado/devolvido);
+3.	Relatório filtrado por status (emprestado);
+4.	Relatório filtrado por observação (devolvido);
+
+
+Observação: Preciso de ajuda pra inserir uma tabela.
+
+
+
+Cetral Telas
+https://github.com/hvescovi/programar2020/blob/master/04-janelas-graficas/07-janela-pessoas-DAOs-int-exc-personalizada/src/visao/TelaDePessoas.java#L42
