@@ -146,8 +146,8 @@ public class Principal {
 			public void actionPerformed(ActionEvent arg0) {
 				String txt_Material = txt_Material_Busca.getText().trim();
 				String txt_Servidor = txt_Servidor_Busca.getText().trim();
-				// Busca todos os emprestimos
-				setListaEmprestimo(eDao.listarEmprestimoComMaterial());
+				// Busca todos os emprestimos em andamento
+				setListaEmprestimo(eDao.listarEmprestimoEmAndamento());
 				// Mostra todos os emprestimo sem filtros
 				if (txt_Material.equals("") && txt_Servidor.equals("")) {
 
@@ -428,8 +428,13 @@ public class Principal {
 		tb_Emprestimos = new JTable();
 		tb_Emprestimos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tb_Emprestimos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
-				new String[] { "Id", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data" }));
+		tb_Emprestimos.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"C\u00F3digo", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data"
+			}
+		));
 		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(50);
 		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(218);
 		tb_Emprestimos.getColumnModel().getColumn(2).setPreferredWidth(55);
@@ -463,7 +468,7 @@ public class Principal {
 					int captaId = Integer.parseInt(capta);
 
 					emp = eDao.buscarPorId(captaId);
-					control_View.abreTelaDetalharEmprestimo(emp);
+					control_View.abreTelaDetalharEmprestimo(emp, "principal");
 					getFrmTelaPrincipal().dispose();
 				}
 

@@ -107,6 +107,7 @@ public class Materiais_Relatorios {
 	 */
 	private void initialize() {
 		frmTelaMateriais_Relatorios = new JFrame();
+		frmTelaMateriais_Relatorios.getContentPane().setBackground(new Color(224, 255, 255));
 		frmTelaMateriais_Relatorios.setResizable(false);
 		frmTelaMateriais_Relatorios.setBackground(Color.PINK);
 		frmTelaMateriais_Relatorios.setTitle("Relatório Materiais");

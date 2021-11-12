@@ -105,6 +105,7 @@ public class Servidores_Relatorios {
 	 */
 	private void initialize() {
 		frmTelaServidores_Relatorios = new JFrame();
+		frmTelaServidores_Relatorios.getContentPane().setBackground(new Color(224, 255, 255));
 		frmTelaServidores_Relatorios.setResizable(false);
 		frmTelaServidores_Relatorios.setBackground(Color.PINK);
 		frmTelaServidores_Relatorios.setTitle("Relatório Servidores");

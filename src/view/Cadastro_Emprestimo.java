@@ -550,8 +550,13 @@ public class Cadastro_Emprestimo extends JFrame {
 
 		tb_Material = new JTable();
 		tb_Material.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tb_Material.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp" }));
+		tb_Material.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp"
+			}
+		));
 		tb_Material.getColumnModel().getColumn(0).setResizable(false);
 		tb_Material.getColumnModel().getColumn(0).setPreferredWidth(60);
 		tb_Material.getColumnModel().getColumn(1).setResizable(false);

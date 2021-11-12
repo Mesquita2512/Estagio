@@ -33,4 +33,15 @@ public class Controla_Relatorios {
 			e.printStackTrace();
 		}
 	}
+	
+	public void abretelaRelatoriosEmprestimos(String filtroEmp) {
+		try {
+			Emprestimo_Relatorios windowRelEmp = new Emprestimo_Relatorios(filtroEmp);
+			windowRelEmp.getFrmTelaRelatorioEmprestimo().setVisible(true);
+			windowRelEmp.getFrmTelaRelatorioEmprestimo().setLocationRelativeTo(null);
+			windowRelEmp.carregaRelatorio(filtroEmp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

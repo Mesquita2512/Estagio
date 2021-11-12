@@ -15,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import dao.DevolucaoDao;
 import entity.Devolucao;
 import entity.Emprestimo;
+import views_Relatorios.Controla_Relatorios;
+
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,12 +35,16 @@ public class DetalharEmprestimo extends JDialog {
 	private JTable tb_Devolucao;
 
 	Controla_views control_Views = new Controla_views();
+	Controla_Relatorios control_Rel = new Controla_Relatorios();
+	
 	Devolucao dev = new Devolucao();
 	DevolucaoDao dDao = new DevolucaoDao();
 	private List<Devolucao> listaDevolucao;
 
 	JScrollPane sp_Devolucao = new JScrollPane();
 	JLabel lblSemDevoluo = new JLabel("Sem Devolução");
+	
+	String quemchamou = "";
 
 	/**
 	 * Launch the application.
@@ -79,9 +85,13 @@ public class DetalharEmprestimo extends JDialog {
 			tb_emprestimo = new JTable();
 			tb_emprestimo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tb_emprestimo.setModel(
-					new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null }, },
-							new String[] { "Id", "Entregue por", "Entregue A", "Material", "Qtd Emprestada",
-									"Data Entrega", "Hora Emprestimo", "Observa\u00E7\u00F5es" }));
+					new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"C\u00F3digo", "Entregue por", "Entregue A", "Material", "Qtd Emprestada", "Data Entrega", "Hora Emprestimo", "Observa\u00E7\u00F5es"
+				}
+			));
 			tb_emprestimo.getColumnModel().getColumn(0).setPreferredWidth(50);
 			tb_emprestimo.getColumnModel().getColumn(1).setPreferredWidth(100);
 			tb_emprestimo.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -96,9 +106,13 @@ public class DetalharEmprestimo extends JDialog {
 			contentPanel.add(sp_Devolucao);
 			{
 				tb_Devolucao = new JTable();
-				tb_Devolucao.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
-						new String[] { "ID", "Qtd Develucao", "Data Devolucao", "Hora recebimento", "Quem recebeu",
-								"Observa\u00E7\u00F5es" }));
+				tb_Devolucao.setModel(new DefaultTableModel(
+					new Object[][] {
+					},
+					new String[] {
+						"C\u00F3digo", "Qtd Devolucao", "Data Devolucao", "Hora recebimento", "Quem recebeu", "Observa\u00E7\u00F5es"
+					}
+				));
 				tb_Devolucao.getColumnModel().getColumn(0).setPreferredWidth(50);
 				tb_Devolucao.getColumnModel().getColumn(1).setPreferredWidth(55);
 				tb_Devolucao.getColumnModel().getColumn(4).setPreferredWidth(150);
@@ -129,8 +143,13 @@ public class DetalharEmprestimo extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						dispose();
-						control_Views.abreTelaPrincipal();
+						if(quemchamou == "principal") {
+							dispose();
+							control_Views.abreTelaPrincipal();
+						}else {
+							dispose();
+						}
+						
 					}
 				});
 				okButton.setBackground(new Color(50, 205, 50));
@@ -142,8 +161,12 @@ public class DetalharEmprestimo extends JDialog {
 				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dispose();
-						control_Views.abreTelaPrincipal();
+						if(quemchamou == "principal") {
+							dispose();
+							control_Views.abreTelaPrincipal();
+						}else {
+							dispose();
+						}
 					}
 				});
 				cancelButton.setBackground(new Color(255, 255, 204));
@@ -172,6 +195,7 @@ public class DetalharEmprestimo extends JDialog {
 		if (hora1 < 12) {
 			horaformatada1 = horaformatada1 + " AM";
 		}
+
 		DefaultTableModel tabelaEmpr = (DefaultTableModel) tb_emprestimo.getModel();
 		tabelaEmpr.setNumRows(0);
 		tabelaEmpr.addRow(new Object[] { emprestimo.getId(), emprestimo.getAdminEntrega().getNome(),

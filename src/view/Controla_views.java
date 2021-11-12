@@ -35,7 +35,7 @@ public class Controla_views {
 			Principal windowPrincipal = new Principal();
 			windowPrincipal.getFrmTelaPrincipal().setVisible(true);
 			windowPrincipal.getFrmTelaPrincipal().setLocationRelativeTo(null);
-			windowPrincipal.setListaEmprestimo(windowPrincipal.eDao.listarEmprestimoComMaterial());
+			windowPrincipal.setListaEmprestimo(windowPrincipal.eDao.listarEmprestimoEmAndamento());
 			windowPrincipal.listarEmprestimos();
 
 		} catch (Exception e) {
@@ -140,13 +140,14 @@ public class Controla_views {
 	}
 	
 
-	public void abreTelaDetalharEmprestimo(Emprestimo emprestimo) {
+	public void abreTelaDetalharEmprestimo(Emprestimo emprestimo, String quemChamou) {
 		try {
 			DetalharEmprestimo windowDetalhar = new DetalharEmprestimo();
 			windowDetalhar.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			windowDetalhar.pegaEmprestimo(emprestimo);
 			windowDetalhar.setVisible(true);
 			windowDetalhar.setLocationRelativeTo(null);
+			windowDetalhar.quemchamou = quemChamou;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

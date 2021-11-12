@@ -226,6 +226,24 @@ public class Relatorios {
 		frmTelaRelatorios.getContentPane().add(cbMateriais);
 
 		JButton btn_GerarRelEmpStatus = new JButton("Gerar");
+		btn_GerarRelEmpStatus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int indice = cbEmpStatus.getSelectedIndex();
+				if (indice == 0) {
+					control_Rel.abretelaRelatoriosEmprestimos("status todos");
+					getFrmTelaRelatorios().dispose();
+				}
+				if (indice == 1) {
+					control_Rel.abretelaRelatoriosEmprestimos("status em andamento");
+					getFrmTelaRelatorios().dispose();
+				}
+				if (indice == 2) {
+					control_Rel.abretelaRelatoriosEmprestimos("status concluidos");
+					getFrmTelaRelatorios().dispose();
+				}
+
+			}
+		});
 		btn_GerarRelEmpStatus.setForeground(Color.BLACK);
 		btn_GerarRelEmpStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_GerarRelEmpStatus.setBackground(new Color(0, 128, 128));
