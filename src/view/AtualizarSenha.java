@@ -4,11 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import dao.AdminDao;
 import entity.Admin;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -84,17 +82,24 @@ public class AtualizarSenha {
 					
 					String senha = new String(txt_Senha.getPassword());
 					String senhaConf = new String(txt_Senha_conf.getPassword());
+					String result = senha.replaceAll("\\s+","");
+					senha.trim();
+					
+					if(!senha.equals(senhaConf)) {
+						JOptionPane.showMessageDialog(null, "As senhas não conferem!!!");
+						return;
+					}
 					if (senha.equals("") && senhaConf.equals("")) {
 						JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
 						return;
 					}
-
-					if (senha.equals(senhaConf)) {
+					
+					if (result.equals(senhaConf)) {
 
 						String siape = System.getProperty("siape");
 						adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 						
-						adm.setSenha(new String(txt_Senha.getPassword()).trim());
+						adm.setSenha(result);
 						aDao.atualizar(adm);
 
 						JOptionPane.showMessageDialog(null, "Sua senha foi atualizada com sucesso!!!");
@@ -105,7 +110,7 @@ public class AtualizarSenha {
 
 					else {
 
-						JOptionPane.showMessageDialog(null, "As senhas não conferem!!!");
+						JOptionPane.showMessageDialog(null, "As senhas não conferem");
 						txt_Senha.setText("");
 						txt_Senha_conf.setText("");
 						return;

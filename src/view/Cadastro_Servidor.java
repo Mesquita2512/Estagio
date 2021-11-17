@@ -188,9 +188,10 @@ public class Cadastro_Servidor {
 		btn_Salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
-				if (getTxt_Nom_Servidodr().getText().equals("")) {
+				String nome = getTxt_Nom_Servidodr().getText().trim();
+				if (nome.equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o nome do Servidor");
+					txt_Nom_Servidor.setText("");
 					return;
 
 				}
@@ -198,7 +199,16 @@ public class Cadastro_Servidor {
 					JOptionPane.showMessageDialog(null, "Informe o Siape do Servidor");
 					return;
 				}
-				if (getTxt_Email_Servidor().getText().equals("") || !getTxt_Email_Servidor().getText().contains("@")) {
+
+				String email = getTxt_Email_Servidor().getText().trim();
+				int position = email.indexOf("@");
+				// Verifica se o email tem texto antes e depois do "@" considera 3 caracteres
+				// antes e 5 depois
+				try {
+					email.substring(position + 1, position + 6);
+					email.substring(position - 3, position - 1);
+
+				} catch (Exception r) {
 					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor no formato Maria@maria.com");
 					return;
 				}
@@ -219,9 +229,9 @@ public class Cadastro_Servidor {
 					}
 
 					if (senha.equals(senhaConf)) {
-						admin.setNome(txt_Nom_Servidor.getText().trim());
+						admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
 						admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
-						admin.setEmail(txt_Email_Servidor.getText());
+						admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
 						admin.setSenha(new String(txt_Senha.getPassword()).trim());
 
 						aDao.salvar(admin);
@@ -253,9 +263,9 @@ public class Cadastro_Servidor {
 					}
 
 				} else {
-					servidor.setNome(txt_Nom_Servidor.getText().trim());
+					servidor.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
 					servidor.setSiape(Integer.parseInt(txt_Siape_Servidor.getText().trim()));
-					servidor.setEmail(txt_Email_Servidor.getText().trim());
+					servidor.setEmail(txt_Email_Servidor.getText().trim().toUpperCase());
 
 					sDao.salvar(servidor);
 

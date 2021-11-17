@@ -318,7 +318,8 @@ public class Cadastro_Emprestimo extends JFrame {
 				getTxt_Material().setText("");
 				getTxt_Quantidade().setText("");
 				getTxt_Observacoes().setText("");
-
+				dc_dataEntrega.setDate(new Date());
+				
 				txt_EntregueA.setEditable(true);
 				txt_Material.setEditable(true);
 
