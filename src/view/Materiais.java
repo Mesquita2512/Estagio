@@ -82,6 +82,7 @@ public class Materiais {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaMaterias = new JFrame();
 		frmTelaMaterias.getContentPane().setBackground(new Color(240, 255, 255));
@@ -89,7 +90,7 @@ public class Materiais {
 		frmTelaMaterias.setBackground(Color.PINK);
 		frmTelaMaterias.setTitle("Materiais");
 		frmTelaMaterias.setBounds(100, 100, 600, 420);
-		frmTelaMaterias.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaMaterias.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		JLabel lblNewLabel = new JLabel("Controle Materiais");
 		lblNewLabel.setBounds(25, 22, 534, 25);
@@ -219,8 +220,9 @@ public class Materiais {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.abreTelaLogin();
-				frmTelaMaterias.dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaMaterias().dispose();
+				}
 
 			}
 		});
@@ -286,14 +288,33 @@ public class Materiais {
 
 		tb_Materiais = new JTable();
 		tb_Materiais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, "", null, null, null, null, null }, },
-				new String[] { "Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status" }));
+		tb_Materiais.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, "", null, null, null, null, null},
+			},
+			new String[] {
+				"Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		tb_Materiais.getColumnModel().getColumn(0).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(45);
 		tb_Materiais.getColumnModel().getColumn(1).setPreferredWidth(185);
+		tb_Materiais.getColumnModel().getColumn(2).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(2).setPreferredWidth(55);
+		tb_Materiais.getColumnModel().getColumn(3).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(3).setPreferredWidth(60);
+		tb_Materiais.getColumnModel().getColumn(4).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(4).setPreferredWidth(60);
+		tb_Materiais.getColumnModel().getColumn(5).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(5).setPreferredWidth(139);
+		tb_Materiais.getColumnModel().getColumn(6).setResizable(false);
 		sp_Materiais.setViewportView(tb_Materiais);
 		frmTelaMaterias.getContentPane().setLayout(null);
 		frmTelaMaterias.getContentPane().add(btn_Editar);

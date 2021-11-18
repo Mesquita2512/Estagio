@@ -150,7 +150,7 @@ public class EditarEmprestimo extends JFrame {
 		frmEditarEmprestimo.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 45));
 		frmEditarEmprestimo.setTitle("Novo Emprestimo");
 		frmEditarEmprestimo.setBounds(100, 100, 600, 500);
-		frmEditarEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmEditarEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		lblCadastrarEmprstimo = new JLabel("Editar Empréstimo");
 		lblCadastrarEmprstimo.setBounds(43, 11, 435, 43);
@@ -270,8 +270,9 @@ public class EditarEmprestimo extends JFrame {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				control_View.fecharSistema();
-				getFrmEditarEmprestimo().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmEditarEmprestimo().dispose();
+				}
 
 			}
 		});

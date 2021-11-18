@@ -29,7 +29,7 @@ public class EditarMaterial {
 	private JButton btn_Sair;
 
 	private List<Material> listaDeMateriais;
-	Controla_views control_view = new Controla_views();
+	Controla_views control_View = new Controla_views();
 	Material material = new Material();
 	MaterialDao mDao = new MaterialDao();
 	private JLabel lb_Desc_Material;
@@ -100,7 +100,7 @@ public class EditarMaterial {
 		frmEditarMaterial.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarMaterial.setTitle("Cadastro de Materiais");
 		frmEditarMaterial.setBounds(100, 100, 600, 450);
-		frmEditarMaterial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmEditarMaterial.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		lblNewLabel = new JLabel("Editar material");
 		lblNewLabel.setBounds(73, 29, 290, 55);
@@ -195,7 +195,7 @@ public class EditarMaterial {
 				} else {
 
 					mDao.atualizar(material);
-					control_view.abreTelaMateriais();
+					control_View.abreTelaMateriais();
 					getFrmEditarMaterial().dispose();
 					material = new Material();
 					JOptionPane.showMessageDialog(null, "Material Atualizado com sucesso!!!");
@@ -210,7 +210,7 @@ public class EditarMaterial {
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_view.abreTelaMateriais();
+				control_View.abreTelaMateriais();
 				getFrmEditarMaterial().dispose();
 
 			}
@@ -224,8 +224,9 @@ public class EditarMaterial {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_view.fecharSistema();
-				getFrmEditarMaterial().setVisible(false);
+				if (control_View.fecharSistema() == true) {
+					getFrmEditarMaterial().dispose();
+				}
 
 			}
 		});

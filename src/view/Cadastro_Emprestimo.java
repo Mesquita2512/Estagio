@@ -29,6 +29,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Cadastro_Emprestimo extends JFrame {
 
@@ -139,6 +141,7 @@ public class Cadastro_Emprestimo extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmNovoEmprestimo = new JFrame();
 		frmNovoEmprestimo.getContentPane().setBackground(new Color(240, 255, 255));
@@ -146,7 +149,7 @@ public class Cadastro_Emprestimo extends JFrame {
 		frmNovoEmprestimo.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 45));
 		frmNovoEmprestimo.setTitle("Novo Emprestimo");
 		frmNovoEmprestimo.setBounds(100, 100, 800, 500);
-		frmNovoEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmNovoEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		lblCadastrarEmprstimo = new JLabel("Cadastrar Empr\u00E9stimo");
 		lblCadastrarEmprstimo.setBounds(43, 20, 706, 55);
@@ -169,8 +172,8 @@ public class Cadastro_Emprestimo extends JFrame {
 		lblNewLabel_1_2.setBounds(43, 202, 86, 17);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		lblNewLabel_1_3 = new JLabel("Observações");
-		lblNewLabel_1_3.setBounds(43, 301, 86, 17);
+		lblNewLabel_1_3 = new JLabel("Observações *");
+		lblNewLabel_1_3.setBounds(43, 301, 97, 17);
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Material = new JTextField();
@@ -242,7 +245,8 @@ public class Cadastro_Emprestimo extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Date dataAtual = new Date();
 				Date dataRemota = null;
-
+				String obs = txt_Observacoes.getText().trim();
+				
 				try {
 					dataRemota = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021");
 				} catch (ParseException e) {
@@ -266,7 +270,10 @@ public class Cadastro_Emprestimo extends JFrame {
 					JOptionPane.showMessageDialog(null,
 							"Realize a busca de de um servidor para anexar ao emprestimo!!!");
 
-				} else {
+				}else if(obs.equals("") ) {
+					JOptionPane.showMessageDialog(null, "O campo Observações é obrigatótio");
+				}
+				else {
 					//busca o Adim logado para anexar ao emprestimo
 					String siape = System.getProperty("siape");
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
@@ -351,9 +358,9 @@ public class Cadastro_Emprestimo extends JFrame {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				control_View.fecharSistema();
-				getFrmNovoEmprestimo().dispose();
-
+				if (control_View.fecharSistema() == true) {
+					getFrmNovoEmprestimo().dispose();
+				}
 			}
 		});
 		btn_Sair.setBackground(new Color(255, 69, 0));
@@ -532,32 +539,64 @@ public class Cadastro_Emprestimo extends JFrame {
 		});
 
 		tb_Servidor = new JTable();
+		tb_Servidor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					btn_ConfirmarServidor.doClick();
+				}
+			}
+		});
 		tb_Servidor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tb_Servidor.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Siape", "Nome", "Email" }) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] { false, true, true };
-
+		tb_Servidor.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"Siape", "Nome", "Email"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		tb_Servidor.getColumnModel().getColumn(0).setResizable(false);
 		tb_Servidor.getColumnModel().getColumn(0).setPreferredWidth(48);
+		tb_Servidor.getColumnModel().getColumn(1).setResizable(false);
 		tb_Servidor.getColumnModel().getColumn(1).setPreferredWidth(136);
+		tb_Servidor.getColumnModel().getColumn(2).setResizable(false);
 		tb_Servidor.getColumnModel().getColumn(2).setPreferredWidth(162);
 		sp_Servidor.setViewportView(tb_Servidor);
 
 		tb_Material = new JTable();
+		tb_Material.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					btn_ConfimarMaterial.doClick();
+				}
+			}
+		});
+	
 		tb_Material.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Material.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null},
 			},
 			new String[] {
 				"C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tb_Material.getColumnModel().getColumn(0).setResizable(false);
 		tb_Material.getColumnModel().getColumn(0).setPreferredWidth(60);
 		tb_Material.getColumnModel().getColumn(1).setResizable(false);

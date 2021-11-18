@@ -63,6 +63,7 @@ public class DetalharEmprestimo extends JDialog {
 	 * Create the dialog.
 	 */
 	public DetalharEmprestimo() {
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setTitle("Detalhes do Emprétimo");
 		setForeground(new Color(240, 255, 255));
 		setBounds(100, 100, 800, 300);

@@ -110,7 +110,7 @@ public class Servidores_Relatorios {
 		frmTelaServidores_Relatorios.setBackground(Color.PINK);
 		frmTelaServidores_Relatorios.setTitle("Relatório Servidores");
 		frmTelaServidores_Relatorios.setBounds(100, 100, 600, 600);
-		frmTelaServidores_Relatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaServidores_Relatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaServidores_Relatorios.getContentPane().setLayout(null);
 		frmTelaServidores_Relatorios.setLocationRelativeTo(null);
 
@@ -118,13 +118,14 @@ public class Servidores_Relatorios {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.abreTelaLogin();
-				getFrmTelaServidores_Relatorios().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaServidores_Relatorios().dispose();
+				}
 			}
 		});
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.setBackground(new Color(255, 69, 0));
-		btn_Sair.setBounds(479, 515, 91, 25);
+		btn_Sair.setBounds(466, 515, 91, 25);
 		frmTelaServidores_Relatorios.getContentPane().add(btn_Sair);
 
 		JButton btn_Voltar = new JButton("Voltar");
@@ -137,16 +138,16 @@ public class Servidores_Relatorios {
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
-		btn_Voltar.setBounds(397, 515, 73, 25);
+		btn_Voltar.setBounds(356, 515, 73, 25);
 		frmTelaServidores_Relatorios.getContentPane().add(btn_Voltar);
 
 		JLabel lblListaDeTodos = new JLabel(filtro);
 		lblListaDeTodos.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblListaDeTodos.setBounds(50, 20, 453, 36);
+		lblListaDeTodos.setBounds(37, 21, 453, 36);
 		frmTelaServidores_Relatorios.getContentPane().add(lblListaDeTodos);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(50, 74, 520, 419);
+		scrollPane.setBounds(37, 74, 520, 419);
 		frmTelaServidores_Relatorios.getContentPane().add(scrollPane);
 
 		tb_Servidores = new JTable();

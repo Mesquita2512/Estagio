@@ -105,7 +105,7 @@ public class Servidor {
 		frmTelaServidor.setBackground(Color.PINK);
 		frmTelaServidor.setTitle("Servidor");
 		frmTelaServidor.setBounds(100, 100, 620, 420);
-		frmTelaServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaServidor.getContentPane().setLayout(null);
 
 		JScrollPane sp_Materiais = new JScrollPane();
@@ -137,9 +137,9 @@ public class Servidor {
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				control.abreTelaLogin();
-				getFrmTelaServidor().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaServidor().dispose();
+				}
 
 			}
 		});

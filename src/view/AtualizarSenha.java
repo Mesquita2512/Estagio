@@ -58,7 +58,7 @@ public class AtualizarSenha {
 		frmTelaAtualizarSenha.setBackground(Color.PINK);
 		frmTelaAtualizarSenha.setTitle("Materiais");
 		frmTelaAtualizarSenha.setBounds(100, 100, 300, 200);
-		frmTelaAtualizarSenha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaAtualizarSenha.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaAtualizarSenha.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Atualização de senha");

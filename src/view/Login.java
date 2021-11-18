@@ -80,13 +80,13 @@ public class Login {
 	 */
 	private void initialize() {
 		frmTelaLogin = new JFrame();
+		frmTelaLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTelaLogin.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaLogin.setResizable(false);
 		frmTelaLogin.setBackground(Color.PINK);
 		frmTelaLogin.setTitle("Tela Login");
 		frmTelaLogin.setBounds(100, 100, 400, 300);
-		frmTelaLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+	
 		txtSiape = new JTextField(15);
 		txtSiape.addKeyListener(new KeyAdapter() {
 			@Override
@@ -130,7 +130,7 @@ public class Login {
 				}
 				try {
 					siape1 = Integer.parseInt(txtSiape.getText());
-				}catch (Exception e) {
+				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Siape fora do padrão");
 					return;
 				}
@@ -222,5 +222,4 @@ public class Login {
 	public void setTelaPrincipal(Controla_views telaPrincipal) {
 		this.control_View = telaPrincipal;
 	}
-
 }

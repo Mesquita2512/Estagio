@@ -62,6 +62,7 @@ public class Principal {
 
 	private JTable tb_Emprestimos;
 	private JTable table;
+	JButton btn_Detalhar = new JButton("Detalhar Emprestimo");
 
 	/**
 	 * Launch the application.
@@ -117,6 +118,7 @@ public class Principal {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaPrincipal = new JFrame();
 		frmTelaPrincipal.getContentPane().setBackground(new Color(240, 255, 255));
@@ -127,7 +129,7 @@ public class Principal {
 		frmTelaPrincipal.setBackground(new Color(169, 169, 169));
 		frmTelaPrincipal.setTitle("Tela Principal");
 		frmTelaPrincipal.setBounds(100, 100, 750, 480);
-		frmTelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaPrincipal.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		JLabel lblMaterialservidor = new JLabel("Material");
 		lblMaterialservidor.setBounds(233, 49, 45, 21);
@@ -266,8 +268,9 @@ public class Principal {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.fecharSistema();
-				getFrmTelaPrincipal().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaPrincipal().dispose();
+				}
 
 			}
 		});
@@ -333,16 +336,21 @@ public class Principal {
 					adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 
 					if (emp.getQtdEmprestado() - emp.getQtdTotalDevolvida() == 1) {
-						String obs = JOptionPane.showInputDialog("Obsevações");
+						String obs = JOptionPane.showInputDialog("Obsevações").trim();
+						while (obs.equals("")) {
+							JOptionPane.showMessageDialog(null, "O campo de observções é obrigatório");
+							obs = JOptionPane.showInputDialog("Obsevações").trim();
+						}
+
 						int confirma = JOptionPane.showConfirmDialog(null, "Confirme a devolução do material");
 						if (confirma == JOptionPane.YES_OPTION) {
 							mat.setQtd(mat.getQtd() + 1);
 
 							emp.setQtdTotalDevolvida(emp.getQtdEmprestado());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - 1);
-							//Pegando hora atual do sistema
+							// Pegando hora atual do sistema
 							Calendar c = Calendar.getInstance();
-							//atribuindo os atributos da devolução
+							// atribuindo os atributos da devolução
 							devolucao.setEmprestimo(emp);
 							devolucao.setAdminRecebe(adm);
 							devolucao.setDataDevolucao(new Date());
@@ -387,14 +395,18 @@ public class Principal {
 									"informe um valor maior que zero para devolver o material");
 						} else {
 
-							String obs = JOptionPane.showInputDialog("Observaçães");
+							String obs = JOptionPane.showInputDialog("Observaçães").trim();
+							while (obs.equals("")) {
+								JOptionPane.showMessageDialog(null, "O campo de observções é obrigatório");
+								obs = JOptionPane.showInputDialog("Obsevações").trim();
+							}
 							emp.setQtdTotalDevolvida(emp.getQtdTotalDevolvida() + confirma_int);
 
 							mat.setQtd(confirma_int + mat.getQtd());
 							mat.setQtd_emprestado(mat.getQtd_emprestado() - confirma_int);
-							//Pegando hora atual do sistema
+							// Pegando hora atual do sistema
 							Calendar c = Calendar.getInstance();
-							//atribuindo os atributos da devolução
+							// atribuindo os atributos da devolução
 							devolucao.setEmprestimo(emp);
 							devolucao.setAdminRecebe(adm);
 							devolucao.setDataDevolucao(new Date());
@@ -426,20 +438,35 @@ public class Principal {
 		btn_Devolver.setBackground(new Color(0, 255, 127));
 
 		tb_Emprestimos = new JTable();
+		tb_Emprestimos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					btn_Detalhar.doClick();
+				}
+			}
+		});
 		tb_Emprestimos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Emprestimos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tb_Emprestimos.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"C\u00F3digo", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data"
+		tb_Emprestimos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+				new String[] { "C\u00F3digo", "Material", "Qtd ent", "Qtd dev", "Servidor", "Data" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
-		));
+		});
+		tb_Emprestimos.getColumnModel().getColumn(0).setResizable(false);
 		tb_Emprestimos.getColumnModel().getColumn(0).setPreferredWidth(50);
+		tb_Emprestimos.getColumnModel().getColumn(1).setResizable(false);
 		tb_Emprestimos.getColumnModel().getColumn(1).setPreferredWidth(218);
+		tb_Emprestimos.getColumnModel().getColumn(2).setResizable(false);
 		tb_Emprestimos.getColumnModel().getColumn(2).setPreferredWidth(55);
+		tb_Emprestimos.getColumnModel().getColumn(3).setResizable(false);
 		tb_Emprestimos.getColumnModel().getColumn(3).setPreferredWidth(55);
+		tb_Emprestimos.getColumnModel().getColumn(4).setResizable(false);
 		tb_Emprestimos.getColumnModel().getColumn(4).setPreferredWidth(170);
+		tb_Emprestimos.getColumnModel().getColumn(5).setResizable(false);
 		tb_Emprestimos.getColumnModel().getColumn(5).setPreferredWidth(73);
 		sp_Empretimos.setViewportView(tb_Emprestimos);
 		frmTelaPrincipal.getContentPane().setLayout(null);
@@ -454,7 +481,6 @@ public class Principal {
 		frmTelaPrincipal.getContentPane().add(txt_Servidor_Busca);
 		frmTelaPrincipal.getContentPane().add(btnBuscar);
 
-		JButton btn_Detalhar = new JButton("Detalhar Emprestimo");
 		btn_Detalhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -511,10 +537,10 @@ public class Principal {
 		JButton btn_Relatorios = new JButton("  Relatórios");
 		btn_Relatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
+
 				control_Rel.abretelaRelatorios();
 				getFrmTelaPrincipal().dispose();
-				
+
 			}
 		});
 		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 20));

@@ -93,7 +93,7 @@ public class EditarServidor {
 		frmEditarServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarServidor.setTitle("Cadastro de Servidor");
 		frmEditarServidor.setBounds(100, 100, 600, 350);
-		frmEditarServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmEditarServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		lblNewLabel = new JLabel("Editar Servidor");
 		lblNewLabel.setBounds(94, 39, 414, 55);
@@ -178,8 +178,9 @@ public class EditarServidor {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.fecharSistema();
-				getFrmEditarServidor().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmEditarServidor().dispose();
+				}
 
 			}
 		});

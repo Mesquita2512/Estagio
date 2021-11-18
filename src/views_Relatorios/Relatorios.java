@@ -102,15 +102,16 @@ public class Relatorios {
 		frmTelaRelatorios.setBackground(Color.PINK);
 		frmTelaRelatorios.setTitle("Relatórios");
 		frmTelaRelatorios.setBounds(100, 100, 800, 450);
-		frmTelaRelatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaRelatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaRelatorios.getContentPane().setLayout(null);
 
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.abreTelaLogin();
-				getFrmTelaRelatorios().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaRelatorios().dispose();
+				}
 			}
 		});
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));

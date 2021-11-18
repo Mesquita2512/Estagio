@@ -1,13 +1,12 @@
 package view;
 
-
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import entity.Emprestimo;
 import entity.Material;
 
 public class Controla_views {
-	
 
 	public void abreTelaLogin() {
 		try {
@@ -18,7 +17,7 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaAtualizarSenha() {
 		try {
 			AtualizarSenha windowSenha = new AtualizarSenha();
@@ -55,7 +54,7 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaServidor() {
 
 		try {
@@ -99,46 +98,45 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaEditarEmprestimo(Emprestimo emprestimo) {
 		try {
-			
-			EditarEmprestimo EdtEmprestimo= new EditarEmprestimo();
+
+			EditarEmprestimo EdtEmprestimo = new EditarEmprestimo();
 			EdtEmprestimo.pegaEmprestimo(emprestimo);
 			EdtEmprestimo.getFrmEditarEmprestimo().setVisible(true);
 			EdtEmprestimo.getFrmEditarEmprestimo().setLocationRelativeTo(null);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaEditarMaterial(Material material) {
 		try {
-			
-			EditarMaterial EdtMaterial= new EditarMaterial();
+
+			EditarMaterial EdtMaterial = new EditarMaterial();
 			EdtMaterial.pegaMaterial(material);
 			EdtMaterial.getFrmEditarMaterial().setVisible(true);
 			EdtMaterial.getFrmEditarMaterial().setLocationRelativeTo(null);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaEditarServidor(entity.Servidor servidor) {
 		try {
-			
-			EditarServidor EdtServidor= new EditarServidor();
+
+			EditarServidor EdtServidor = new EditarServidor();
 			EdtServidor.pegaServidor(servidor);
 			EdtServidor.getFrmEditarServidor().setVisible(true);
 			EdtServidor.getFrmEditarServidor().setLocationRelativeTo(null);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
 
 	public void abreTelaDetalharEmprestimo(Emprestimo emprestimo, String quemChamou) {
 		try {
@@ -153,9 +151,21 @@ public class Controla_views {
 		}
 	}
 
-	public void fecharSistema() {
-		System.setProperty("siape", "0");
-		abreTelaLogin();
+	public boolean fecharSistema() {
+
+		int confirma = JOptionPane.showConfirmDialog(null, "Deseja realmente fazer LOGOUT?");
+		if (confirma == JOptionPane.YES_OPTION) {
+			System.setProperty("siape", "0");
+			abreTelaLogin();
+			return true;
+		}else {
+			return false;
+		}
+
+	}
+
+	public void fecharTudo() {
+
 	}
 
 }

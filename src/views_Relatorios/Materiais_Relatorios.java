@@ -105,6 +105,7 @@ public class Materiais_Relatorios {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaMateriais_Relatorios = new JFrame();
 		frmTelaMateriais_Relatorios.getContentPane().setBackground(new Color(224, 255, 255));
@@ -112,7 +113,7 @@ public class Materiais_Relatorios {
 		frmTelaMateriais_Relatorios.setBackground(Color.PINK);
 		frmTelaMateriais_Relatorios.setTitle("Relatório Materiais");
 		frmTelaMateriais_Relatorios.setBounds(100, 100, 700, 600);
-		frmTelaMateriais_Relatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaMateriais_Relatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaMateriais_Relatorios.getContentPane().setLayout(null);
 
 		JButton btn_Voltar = new JButton("Voltar");
@@ -131,8 +132,9 @@ public class Materiais_Relatorios {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.abreTelaLogin();
-				getFrmTelaMateriais_Relatorios().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaMateriais_Relatorios().dispose();
+				}
 			}
 		});
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -152,11 +154,19 @@ public class Materiais_Relatorios {
 		tb_Materiais = new JTable();
 		tb_Materiais.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null, null, null},
 			},
 			new String[] {
 				"C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Estoque", "Qtd Emprestado", "Estado Conserva\u00E7\u00E3o", "Status"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tb_Materiais.getColumnModel().getColumn(0).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(60);
 		tb_Materiais.getColumnModel().getColumn(1).setResizable(false);

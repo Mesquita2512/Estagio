@@ -142,6 +142,7 @@ public class Emprestimo_Relatorios {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaRelatorioEmprestimo = new JFrame();
 		frmTelaRelatorioEmprestimo.getContentPane().setBackground(new Color(224, 255, 255));
@@ -151,7 +152,7 @@ public class Emprestimo_Relatorios {
 		frmTelaRelatorioEmprestimo.setBackground(Color.PINK);
 		frmTelaRelatorioEmprestimo.setTitle("Relatatórios de Empréstimos");
 		frmTelaRelatorioEmprestimo.setBounds(100, 100, 800, 700);
-		frmTelaRelatorioEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaRelatorioEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		JLabel lblNewLabel = new JLabel(filtro);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
@@ -170,8 +171,9 @@ public class Emprestimo_Relatorios {
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				control_View.abreTelaLogin();
-				getFrmTelaRelatorioEmprestimo().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmTelaRelatorioEmprestimo().dispose();
+				}
 
 			}
 		});
@@ -246,9 +248,16 @@ public class Emprestimo_Relatorios {
 			new String[] {
 				"C\u00F3digo", "Entregue por", "Entregue a", "Material", "Qtd", "Data", "Hora", "Observa\u00E7\u00F5es"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tbEmprestimo.getColumnModel().getColumn(0).setResizable(false);
-		tbEmprestimo.getColumnModel().getColumn(0).setPreferredWidth(31);
+		tbEmprestimo.getColumnModel().getColumn(0).setPreferredWidth(45);
 		tbEmprestimo.getColumnModel().getColumn(1).setPreferredWidth(110);
 		tbEmprestimo.getColumnModel().getColumn(2).setPreferredWidth(110);
 		tbEmprestimo.getColumnModel().getColumn(3).setPreferredWidth(100);

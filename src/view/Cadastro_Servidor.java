@@ -102,7 +102,7 @@ public class Cadastro_Servidor {
 		frmCadastroServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmCadastroServidor.setTitle("Cadastro de Servidor");
 		frmCadastroServidor.setBounds(100, 100, 600, 450);
-		frmCadastroServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCadastroServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		lblNewLabel = new JLabel("Cadastro de Servidor");
 		lblNewLabel.setBounds(94, 39, 414, 55);
@@ -325,8 +325,9 @@ public class Cadastro_Servidor {
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.fecharSistema();
-				getFrmCasdastroServidor().dispose();
+				if (control_View.fecharSistema() == true) {
+					getFrmCasdastroServidor().dispose();
+				}
 
 			}
 		});
