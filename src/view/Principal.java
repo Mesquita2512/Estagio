@@ -128,20 +128,20 @@ public class Principal {
 		frmTelaPrincipal.setForeground(new Color(169, 169, 169));
 		frmTelaPrincipal.setBackground(new Color(169, 169, 169));
 		frmTelaPrincipal.setTitle("Tela Principal");
-		frmTelaPrincipal.setBounds(100, 100, 750, 480);
+		frmTelaPrincipal.setBounds(100, 100, 810, 480);
 		frmTelaPrincipal.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		JLabel lblMaterialservidor = new JLabel("Material");
-		lblMaterialservidor.setBounds(233, 49, 45, 21);
-		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMaterialservidor.setBounds(53, 49, 61, 21);
+		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		txt_Material_Busca = new JTextField();
-		txt_Material_Busca.setBounds(296, 48, 106, 23);
+		txt_Material_Busca.setBounds(125, 48, 106, 23);
 		txt_Material_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material_Busca.setColumns(10);
 
 		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(623, 47, 88, 25);
+		btnBuscar.setBounds(517, 47, 88, 25);
 		btnBuscar.setBackground(new Color(0, 206, 209));
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscar.addActionListener(new ActionListener() {
@@ -242,29 +242,17 @@ public class Principal {
 			}
 		});
 
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setBounds(74, 24, 54, 61);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				control_View.abreTelaCadastroEmprestimo();
-				getFrmTelaPrincipal().dispose();
-
-			}
-		});
-		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
-
 		JLabel lblServidor = new JLabel("Servidor");
-		lblServidor.setBounds(428, 49, 61, 21);
-		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblServidor.setBounds(295, 49, 61, 21);
+		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		txt_Servidor_Busca = new JTextField();
-		txt_Servidor_Busca.setBounds(499, 48, 106, 23);
+		txt_Servidor_Busca.setBounds(368, 48, 106, 23);
 		txt_Servidor_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Servidor_Busca.setColumns(10);
 
 		JButton btn_Sair = new JButton("Logout");
-		btn_Sair.setBounds(623, 333, 88, 25);
+		btn_Sair.setBounds(673, 333, 88, 25);
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -278,10 +266,10 @@ public class Principal {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 
 		JScrollPane sp_Empretimos = new JScrollPane();
-		sp_Empretimos.setBounds(25, 103, 686, 208);
+		sp_Empretimos.setBounds(53, 92, 708, 219);
 
 		JButton btn_Editar = new JButton("Editar Emprestimo");
-		btn_Editar.setBounds(234, 333, 177, 25);
+		btn_Editar.setBounds(274, 333, 177, 25);
 		btn_Editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -317,7 +305,7 @@ public class Principal {
 		btn_Editar.setBackground(new Color(189, 183, 107));
 
 		JButton btn_Devolver = new JButton("Devolver Material");
-		btn_Devolver.setBounds(25, 333, 191, 25);
+		btn_Devolver.setBounds(58, 333, 191, 25);
 		btn_Devolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -474,7 +462,6 @@ public class Principal {
 		frmTelaPrincipal.getContentPane().add(btn_Devolver);
 		frmTelaPrincipal.getContentPane().add(btn_Editar);
 		frmTelaPrincipal.getContentPane().add(btn_Sair);
-		frmTelaPrincipal.getContentPane().add(btnNewButton);
 		frmTelaPrincipal.getContentPane().add(lblMaterialservidor);
 		frmTelaPrincipal.getContentPane().add(txt_Material_Busca);
 		frmTelaPrincipal.getContentPane().add(lblServidor);
@@ -502,14 +489,19 @@ public class Principal {
 		});
 		btn_Detalhar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Detalhar.setBackground(new Color(143, 188, 143));
-		btn_Detalhar.setBounds(428, 333, 177, 25);
+		btn_Detalhar.setBounds(473, 333, 177, 25);
 		frmTelaPrincipal.getContentPane().add(btn_Detalhar);
+		
+		JLabel lblConsultarEmprstimos = new JLabel("Consultar Empréstimos");
+		lblConsultarEmprstimos.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblConsultarEmprstimos.setBounds(53, 11, 541, 21);
+		frmTelaPrincipal.getContentPane().add(lblConsultarEmprstimos);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmTelaPrincipal.setJMenuBar(menuBar);
 
-		JButton btn_Servidor = new JButton("  Servidores");
-		btn_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JButton btn_Servidor = new JButton("Servidores");
+		btn_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn_Servidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -518,10 +510,23 @@ public class Principal {
 
 			}
 		});
+		
+				JButton btnNewButton = new JButton("Empréstimos");
+				btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				menuBar.add(btnNewButton);
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						control_View.abreTelaCadastroEmprestimo();
+						getFrmTelaPrincipal().dispose();
+
+					}
+				});
+				btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 		btn_Servidor.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_ServidorPQ.png")));
 		menuBar.add(btn_Servidor);
 
-		JButton btn_Materiais = new JButton("  Materiais");
+		JButton btn_Materiais = new JButton("Materiais");
 		btn_Materiais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -530,11 +535,11 @@ public class Principal {
 
 			}
 		});
-		btn_Materiais.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btn_Materiais.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn_Materiais.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		menuBar.add(btn_Materiais);
 
-		JButton btn_Relatorios = new JButton("  Relatórios");
+		JButton btn_Relatorios = new JButton("Relatórios");
 		btn_Relatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -543,12 +548,12 @@ public class Principal {
 
 			}
 		});
-		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btn_Relatorios.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn_Relatorios.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_Relatorios.png")));
 		menuBar.add(btn_Relatorios);
 
-		JButton btn_Sobre = new JButton("  Sobre    ");
-		btn_Sobre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JButton btn_Sobre = new JButton("Sobre    ");
+		btn_Sobre.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn_Sobre.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
 		menuBar.add(btn_Sobre);
 	}

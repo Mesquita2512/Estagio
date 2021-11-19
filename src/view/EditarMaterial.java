@@ -150,22 +150,33 @@ public class EditarMaterial {
 				int qtdCarateres = 0;
 				int qtdPontos = 0;
 
-				material.setDescricao(txt_Descricao.getText());
-
-				if (txt_Quantidade.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "informe um valor válido");
+				// tratando a descrição
+				String descricao = txt_Descricao.getText().trim();
+				if (descricao.equals("")) {
+					JOptionPane.showMessageDialog(null, "Informe A descrição do material");
+					txt_Descricao.setText("");
 					return;
-				} else {
-					material.setQtd(Integer.parseInt(txt_Quantidade.getText()));
-					txt_Quantidade.setText("");
 				}
 
-				if (txt_Val_aprox.getText().equals("")) {
-					material.setVal_estimado(0);
-					txt_Val_aprox.setText("");
+				// tratando a quantidade
+				int quant = Integer.parseInt(txt_Quantidade.getText().trim());
+				// verifica se a quantidade é menor ou igual a zero
+				if (quant <= 0) {
+					JOptionPane.showMessageDialog(null, "A quantidade de material deve ser superior a zero!!!");
+					txt_Quantidade.setText("");
+					return;
+				}
 
-					// Tratar o double para nao ter mais de um ponto
-				} else if (txt_Val_aprox.getText().contains(".")) {
+				// tratando o valor aproximado
+				String valAprox = txt_Val_aprox.getText().trim();
+				if (valAprox.equals("")) {
+					JOptionPane.showMessageDialog(null, "O valor do material é obrigatório");
+					txt_Val_aprox.setText("");
+					return;
+				}
+
+				// Tratar o double para nao ter mais de um ponto
+				if (txt_Val_aprox.getText().contains(".")) {
 
 					while (qtdCarateres < txt_Val_aprox.getText().length()) {
 						if (txt_Val_aprox.getText().substring(qtdCarateres, qtdCarateres + 1).equals(".")) {
@@ -176,31 +187,35 @@ public class EditarMaterial {
 					}
 					if (qtdPontos > 1) {
 						JOptionPane.showMessageDialog(null, "Informe um valor válido");
+						txt_Val_aprox.setText("");
 						return;
 					}
 
 				}
 
-				else {
-
-					material.setVal_estimado(Double.parseDouble(txt_Val_aprox.getText()));
-					txt_Val_aprox.setText("");
+				// tratando o campo de observações
+				String estCons = txt_Est_conservacao.getText().trim();
+				if (estCons.equals("")) {
+					JOptionPane.showMessageDialog(null, "O estado de conservação do material é obrigatório");
+					txt_Est_conservacao.setText("");
+					return;
 				}
 
-				material.setEst_conservacao(txt_Est_conservacao.getText());
+				material.setDescricao(descricao.toUpperCase());
+				material.setQtd(Integer.parseInt(txt_Quantidade.getText()));
+				material.setVal_estimado(Double.parseDouble(txt_Val_aprox.getText()));
+				material.setEst_conservacao(estCons.toUpperCase());
 
-				if (material.getDescricao().equalsIgnoreCase("")) {
-					txt_Quantidade.setText(material.getQtd() + "");
-					JOptionPane.showMessageDialog(null, "A descrição do material deve ser informada");
-				} else {
+				mDao.atualizar(material);
+				txt_Descricao.setText("");
+				txt_Quantidade.setText("");
+				txt_Est_conservacao.setText("");
+				txt_Val_aprox.setText("");
+				material = new Material();
 
-					mDao.atualizar(material);
-					control_View.abreTelaMateriais();
-					getFrmEditarMaterial().dispose();
-					material = new Material();
-					JOptionPane.showMessageDialog(null, "Material Atualizado com sucesso!!!");
-					
-				}
+				getFrmEditarMaterial().dispose();
+				control_View.abreTelaMateriais();
+				JOptionPane.showMessageDialog(null, "Material Editado com sucesso!!!");
 
 			}
 		});

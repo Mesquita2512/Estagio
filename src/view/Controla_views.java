@@ -3,6 +3,7 @@ package view;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import entity.Admin;
 import entity.Emprestimo;
 import entity.Material;
 
@@ -18,9 +19,9 @@ public class Controla_views {
 		}
 	}
 
-	public void abreTelaAtualizarSenha() {
+	public void abreTelaConfirmerSenha() {
 		try {
-			AtualizarSenha windowSenha = new AtualizarSenha();
+			ConfirmerSenha windowSenha = new ConfirmerSenha();
 			windowSenha.getFrmTelaAtualizarSenha().setVisible(true);
 			windowSenha.getFrmTelaAtualizarSenha().setLocationRelativeTo(null);
 		} catch (Exception e) {
@@ -59,6 +60,19 @@ public class Controla_views {
 
 		try {
 			Servidor servView = new Servidor();
+			servView.getFrmTelaServidor().setVisible(true);
+			servView.getFrmTelaServidor().setLocationRelativeTo(null);
+			servView.setListaServidor(servView.sDao.getListaServidor());
+			servView.listarServidores();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void abreTelaAdministrador() {
+
+		try {
+			Administrador servView = new Administrador();
 			servView.getFrmTelaServidor().setVisible(true);
 			servView.getFrmTelaServidor().setLocationRelativeTo(null);
 			servView.setListaServidor(servView.sDao.getListaServidor());
@@ -132,6 +146,19 @@ public class Controla_views {
 			EdtServidor.pegaServidor(servidor);
 			EdtServidor.getFrmEditarServidor().setVisible(true);
 			EdtServidor.getFrmEditarServidor().setLocationRelativeTo(null);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void abreTelaEditarAdmin(Admin admin) {
+		try {
+
+			EditarAdmin EdtAdm = new EditarAdmin();
+			EdtAdm.pegaAdmin(admin);
+			EdtAdm.getFrmEditarAdmin().setVisible(true);
+			EdtAdm.getFrmEditarAdmin().setLocationRelativeTo(null);
 
 		} catch (Exception e) {
 			e.printStackTrace();

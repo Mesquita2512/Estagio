@@ -6,13 +6,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -96,8 +94,10 @@ public class Materiais {
 		lblNewLabel.setBounds(25, 22, 534, 25);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
-		JButton btn_AdicionarMaterial = new JButton("");
-		btn_AdicionarMaterial.setBounds(54, 65, 54, 61);
+		JButton btn_AdicionarMaterial = new JButton("Adicionar");
+		btn_AdicionarMaterial.setBackground(new Color(34, 139, 34));
+		btn_AdicionarMaterial.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_AdicionarMaterial.setBounds(25, 342, 139, 25);
 		btn_AdicionarMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -105,15 +105,15 @@ public class Materiais {
 				getFrmTelaMaterias().dispose();
 			}
 		});
-		btn_AdicionarMaterial.setIcon(new ImageIcon(Materiais.class.getResource("/imagens/Icon_AdicionarPQ.png")));
+		btn_AdicionarMaterial.setIcon(null);
 
 		txt_Material = new JTextField();
-		txt_Material.setBounds(199, 74, 254, 23);
+		txt_Material.setBounds(93, 61, 254, 23);
 		txt_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material.setColumns(10);
 
 		JLabel lblMaterialservidor = new JLabel("Material");
-		lblMaterialservidor.setBounds(136, 75, 45, 21);
+		lblMaterialservidor.setBounds(25, 62, 45, 21);
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btn_Buscar = new JButton("Buscar");
@@ -179,12 +179,12 @@ public class Materiais {
 
 			}
 		});
-		btn_Buscar.setBounds(471, 73, 88, 25);
+		btn_Buscar.setBounds(357, 60, 88, 25);
 		btn_Buscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Buscar.setBackground(new Color(0, 206, 209));
 
 		JScrollPane sp_Materiais = new JScrollPane();
-		sp_Materiais.setBounds(25, 132, 534, 186);
+		sp_Materiais.setBounds(25, 109, 534, 209);
 
 		JButton btn_Editar = new JButton("Editar");
 		btn_Editar.addActionListener(new ActionListener() {
@@ -210,26 +210,12 @@ public class Materiais {
 
 			}
 		});
-		btn_Editar.setBounds(25, 342, 111, 25);
+		btn_Editar.setBounds(174, 342, 130, 25);
 		btn_Editar.setBackground(new Color(0, 191, 255));
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JButton btn_Sair = new JButton("Logout");
-		btn_Sair.setBounds(471, 342, 88, 25);
-		btn_Sair.setBackground(new Color(255, 69, 0));
-		btn_Sair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (control_View.fecharSistema() == true) {
-					getFrmTelaMaterias().dispose();
-				}
-
-			}
-		});
-		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
-
 		JButton btn_Voltar = new JButton("Voltar");
-		btn_Voltar.setBounds(357, 342, 96, 25);
+		btn_Voltar.setBounds(463, 342, 96, 25);
 		btn_Voltar.setBackground(new Color(240, 230, 140));
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -241,7 +227,7 @@ public class Materiais {
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JButton btn_Arquivar = new JButton("Arquivar/Desarquivar");
+		JButton btn_Arquivar = new JButton("Ativar/Inativar");
 		btn_Arquivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String capta = "";
@@ -282,7 +268,7 @@ public class Materiais {
 
 			}
 		});
-		btn_Arquivar.setBounds(156, 342, 179, 25);
+		btn_Arquivar.setBounds(314, 342, 139, 25);
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Arquivar.setBackground(new Color(255, 248, 220));
 
@@ -293,7 +279,7 @@ public class Materiais {
 				{null, "", null, null, null, null, null},
 			},
 			new String[] {
-				"Id", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserv", "Status"
+				"C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserva\u00E7\u00E3o", "Status"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -304,7 +290,7 @@ public class Materiais {
 			}
 		});
 		tb_Materiais.getColumnModel().getColumn(0).setResizable(false);
-		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(45);
+		tb_Materiais.getColumnModel().getColumn(0).setPreferredWidth(50);
 		tb_Materiais.getColumnModel().getColumn(1).setPreferredWidth(185);
 		tb_Materiais.getColumnModel().getColumn(2).setResizable(false);
 		tb_Materiais.getColumnModel().getColumn(2).setPreferredWidth(55);
@@ -320,7 +306,6 @@ public class Materiais {
 		frmTelaMaterias.getContentPane().add(btn_Editar);
 		frmTelaMaterias.getContentPane().add(btn_Arquivar);
 		frmTelaMaterias.getContentPane().add(btn_Voltar);
-		frmTelaMaterias.getContentPane().add(btn_Sair);
 		frmTelaMaterias.getContentPane().add(lblNewLabel);
 		frmTelaMaterias.getContentPane().add(btn_AdicionarMaterial);
 		frmTelaMaterias.getContentPane().add(lblMaterialservidor);

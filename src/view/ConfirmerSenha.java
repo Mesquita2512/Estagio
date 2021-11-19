@@ -12,8 +12,10 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class AtualizarSenha {
+public class ConfirmerSenha {
 
 	private JFrame frmTelaAtualizarSenha;
 	Admin adm = new Admin();
@@ -21,7 +23,6 @@ public class AtualizarSenha {
 	Controla_views control_View = new Controla_views();
 
 	int siape;
-	private JPasswordField txt_Senha_conf;
 	private JPasswordField txt_Senha;
 
 	/**
@@ -32,7 +33,7 @@ public class AtualizarSenha {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AtualizarSenha windowLogin = new AtualizarSenha();
+					ConfirmerSenha windowLogin = new ConfirmerSenha();
 					windowLogin.frmTelaAtualizarSenha.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +45,7 @@ public class AtualizarSenha {
 	/**
 	 * Create the application.
 	 */
-	public AtualizarSenha() {
+	public ConfirmerSenha() {
 		initialize();
 	}
 
@@ -56,71 +57,50 @@ public class AtualizarSenha {
 		frmTelaAtualizarSenha.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaAtualizarSenha.setResizable(false);
 		frmTelaAtualizarSenha.setBackground(Color.PINK);
-		frmTelaAtualizarSenha.setTitle("Materiais");
+		frmTelaAtualizarSenha.setTitle("Confirmação");
 		frmTelaAtualizarSenha.setBounds(100, 100, 300, 200);
 		frmTelaAtualizarSenha.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaAtualizarSenha.getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Atualização de senha");
+		JLabel lblNewLabel = new JLabel("Confirmação de senha");
 		lblNewLabel.setBounds(32, 11, 196, 17);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		frmTelaAtualizarSenha.getContentPane().add(lblNewLabel);
 
-		JLabel lblNovaSenha = new JLabel("Nova Senha");
+		JLabel lblNovaSenha = new JLabel("Senha");
 		lblNovaSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNovaSenha.setBounds(32, 50, 92, 17);
+		lblNovaSenha.setBounds(32, 65, 92, 17);
 		frmTelaAtualizarSenha.getContentPane().add(lblNovaSenha);
 
-		JLabel lblConfirmaoDeSenha = new JLabel("Confirmação");
-		lblConfirmaoDeSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblConfirmaoDeSenha.setBounds(32, 87, 77, 17);
-		frmTelaAtualizarSenha.getContentPane().add(lblConfirmaoDeSenha);
-
-		JButton btn_Atualizar = new JButton("Atualizar");
-		btn_Atualizar.addActionListener(new ActionListener() {
+		JButton btn_Confirmar = new JButton("Confirmar");
+		btn_Confirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					
-					String senha = new String(txt_Senha.getPassword());
-					String senhaConf = new String(txt_Senha_conf.getPassword());
-					String result = senha.replaceAll("\\s+","");
-					senha.trim();
-					
-					if(!senha.equals(senhaConf)) {
-						JOptionPane.showMessageDialog(null, "As senhas não conferem!!!");
-						return;
-					}
-					if (senha.equals("") && senhaConf.equals("")) {
-						JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
-						return;
-					}
-					
-					if (result.equals(senhaConf)) {
+				String siape = System.getProperty("siape");
+				adm = aDao.buscarPorSiape(Integer.parseInt(siape));
+				String confirme = adm.getSenha();
+				String senha = new String(txt_Senha.getPassword());
+				String result = senha.replaceAll("\\s+", "");
+				senha.trim();
 
-						String siape = System.getProperty("siape");
-						adm = aDao.buscarPorSiape(Integer.parseInt(siape));
-						
-						adm.setSenha(result);
-						aDao.atualizar(adm);
+				if (senha.equals("")) {
+					JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
+					return;
+				}
 
-						JOptionPane.showMessageDialog(null, "Sua senha foi atualizada com sucesso!!!");
-						getFrmTelaAtualizarSenha().dispose();
-						control_View.abreTelaServidor();
+				if (result.equals(confirme)) {
 
-					}
+					control_View.abreTelaAdministrador();
+					getFrmTelaAtualizarSenha().dispose();
 
-					else {
-
-						JOptionPane.showMessageDialog(null, "As senhas não conferem");
-						txt_Senha.setText("");
-						txt_Senha_conf.setText("");
-						return;
-					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Esta não é a senha do Adminitrador atual");
+				}
 
 			}
 		});
-		btn_Atualizar.setBackground(new Color(34, 139, 34));
-		btn_Atualizar.setBounds(32, 122, 110, 23);
-		frmTelaAtualizarSenha.getContentPane().add(btn_Atualizar);
+		btn_Confirmar.setBackground(new Color(34, 139, 34));
+		btn_Confirmar.setBounds(32, 122, 110, 23);
+		frmTelaAtualizarSenha.getContentPane().add(btn_Confirmar);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -134,15 +114,18 @@ public class AtualizarSenha {
 		btnCancelar.setBackground(new Color(240, 230, 140));
 		btnCancelar.setBounds(152, 122, 115, 23);
 		frmTelaAtualizarSenha.getContentPane().add(btnCancelar);
-		
-		txt_Senha_conf = new JPasswordField();
-		txt_Senha_conf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txt_Senha_conf.setBounds(118, 87, 144, 20);
-		frmTelaAtualizarSenha.getContentPane().add(txt_Senha_conf);
-		
+
 		txt_Senha = new JPasswordField();
+		txt_Senha.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_Confirmar.doClick();
+				}
+			}
+		});
 		txt_Senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txt_Senha.setBounds(118, 50, 144, 20);
+		txt_Senha.setBounds(118, 63, 144, 20);
 		frmTelaAtualizarSenha.getContentPane().add(txt_Senha);
 	}
 

@@ -19,9 +19,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class Cadastro_Servidor {
+public class EditarAdmin {
 
-	private JFrame frmCadastroServidor;
+	private JFrame frmEditarAdmin;
 	private JTextField txt_Nom_Servidor;
 	private JTextField txt_Siape_Servidor;
 	private JTextField txt_Email_Servidor;
@@ -53,8 +53,8 @@ public class Cadastro_Servidor {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cadastro_Servidor window = new Cadastro_Servidor();
-					window.frmCadastroServidor.setVisible(true);
+					EditarAdmin window = new EditarAdmin();
+					window.frmEditarAdmin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,42 +72,51 @@ public class Cadastro_Servidor {
 	/**
 	 * Create the application.
 	 */
-	public Cadastro_Servidor() {
+	public EditarAdmin() {
 		initialize();
 		txt_Siape_Servidor.setDocument(new Numeros());
-		frmCadastroServidor.getContentPane().setLayout(null);
-		frmCadastroServidor.getContentPane().add(lblNewLabel);
-		frmCadastroServidor.getContentPane().add(ln_Nome_Servidor);
-		frmCadastroServidor.getContentPane().add(lb_Siape_Servidor);
-		frmCadastroServidor.getContentPane().add(txt_Nom_Servidor);
-		frmCadastroServidor.getContentPane().add(txt_Siape_Servidor);
-		frmCadastroServidor.getContentPane().add(lb_Email_Servidor);
-		frmCadastroServidor.getContentPane().add(txt_Email_Servidor);
-		frmCadastroServidor.getContentPane().add(lb_Senha_Conf);
-		frmCadastroServidor.getContentPane().add(btn_Salvar);
-		frmCadastroServidor.getContentPane().add(lb_Senha);
-		frmCadastroServidor.getContentPane().add(confirme_Servidor_Admin);
-		frmCadastroServidor.getContentPane().add(btn_Limpar);
-		frmCadastroServidor.getContentPane().add(btn_Voltar);
-		frmCadastroServidor.getContentPane().add(btn_Sair);
-		frmCadastroServidor.getContentPane().add(txt_Senha);
-		frmCadastroServidor.getContentPane().add(txt_Senha_conf);
+		frmEditarAdmin.getContentPane().setLayout(null);
+		frmEditarAdmin.getContentPane().add(lblNewLabel);
+		frmEditarAdmin.getContentPane().add(ln_Nome_Servidor);
+		frmEditarAdmin.getContentPane().add(lb_Siape_Servidor);
+		frmEditarAdmin.getContentPane().add(txt_Nom_Servidor);
+		frmEditarAdmin.getContentPane().add(txt_Siape_Servidor);
+		frmEditarAdmin.getContentPane().add(lb_Email_Servidor);
+		frmEditarAdmin.getContentPane().add(txt_Email_Servidor);
+		frmEditarAdmin.getContentPane().add(lb_Senha_Conf);
+		frmEditarAdmin.getContentPane().add(btn_Salvar);
+		frmEditarAdmin.getContentPane().add(lb_Senha);
+		frmEditarAdmin.getContentPane().add(confirme_Servidor_Admin);
+		frmEditarAdmin.getContentPane().add(btn_Limpar);
+		frmEditarAdmin.getContentPane().add(btn_Voltar);
+		frmEditarAdmin.getContentPane().add(btn_Sair);
+		frmEditarAdmin.getContentPane().add(txt_Senha);
+		frmEditarAdmin.getContentPane().add(txt_Senha_conf);
 	}
 
+	public void pegaAdmin(Admin admin) {
+
+		txt_Siape_Servidor.setText(admin.getSiape() + "");
+		txt_Nom_Servidor.setText(admin.getNome());
+		txt_Email_Servidor.setText(admin.getEmail());
+
+		this.admin = admin;
+
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmCadastroServidor = new JFrame();
-		frmCadastroServidor.getContentPane().setBackground(new Color(240, 255, 255));
-		frmCadastroServidor.setTitle("Cadastro de Servidor");
-		frmCadastroServidor.setBounds(100, 100, 600, 450);
-		frmCadastroServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frmEditarAdmin = new JFrame();
+		frmEditarAdmin.getContentPane().setBackground(new Color(240, 255, 255));
+		frmEditarAdmin.setTitle("Editar Administradores");
+		frmEditarAdmin.setBounds(100, 100, 600, 450);
+		frmEditarAdmin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		lblNewLabel = new JLabel("Cadastro de Servidor");
+		lblNewLabel = new JLabel("Editar Administradores");
 		lblNewLabel.setBounds(94, 39, 414, 55);
 		lblNewLabel.setForeground(new Color(0, 0, 139));
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
 
 		ln_Nome_Servidor = new JLabel("Nome *");
 		ln_Nome_Servidor.setBounds(94, 165, 48, 17);
@@ -131,7 +140,7 @@ public class Cadastro_Servidor {
 		lb_Senha_Conf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lb_Senha_Conf.setVisible(false);
 
-		confirme_Servidor_Admin = new JRadioButton("O servidor \u00E9 usu\u00E1rio do sistema?");
+		confirme_Servidor_Admin = new JRadioButton("Deseja alterar a senha?");
 		confirme_Servidor_Admin.setBounds(243, 240, 265, 25);
 		confirme_Servidor_Admin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
@@ -141,6 +150,7 @@ public class Cadastro_Servidor {
 		txt_Nom_Servidor.setColumns(10);
 
 		txt_Siape_Servidor = new JTextField();
+		txt_Siape_Servidor.setEditable(false);
 		txt_Siape_Servidor.setBounds(154, 121, 354, 23);
 		txt_Siape_Servidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Siape_Servidor.setColumns(10);
@@ -164,6 +174,7 @@ public class Cadastro_Servidor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (confirme_Servidor_Admin.isSelected()) {
 					txt_Senha.setVisible(true);
 					txt_Senha_conf.setVisible(true);
@@ -183,21 +194,17 @@ public class Cadastro_Servidor {
 			}
 		});
 
-		btn_Salvar = new JButton("Salvar");
+		btn_Salvar = new JButton("Atualizar");
 		btn_Salvar.setBounds(94, 360, 129, 25);
 		btn_Salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				
 				//verica o nome do servidor
 				String nome = getTxt_Nom_Servidodr().getText().trim();
 				if (nome.equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o nome do Servidor");
 					txt_Nom_Servidor.setText("");
-					return;
-				}
-				
-				if (getTxt_Siape_Servidor().getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe o Siape do Servidor");
 					return;
 				}
 				
@@ -215,12 +222,6 @@ public class Cadastro_Servidor {
 					return;
 				}
 
-				//verifica se existe um servidor com o siape informado
-				if (buscaServSiapeCadastro(Integer.parseInt(txt_Siape_Servidor.getText())) != null) {
-					JOptionPane.showMessageDialog(null,
-							"Já existe um Administrador/Servidor cadastrado com este Siape");
-					return;
-				}
 
 				if (confirme_Servidor_Admin.isSelected()) {
 
@@ -233,13 +234,12 @@ public class Cadastro_Servidor {
 
 					if (senha.equals(senhaConf)) {
 						admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
-						admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
 						admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
 						admin.setSenha(new String(txt_Senha.getPassword()).trim());
 
-						aDao.salvar(admin);
+						aDao.atualizar(admin);
 
-						JOptionPane.showMessageDialog(null, "Novo Administrador salvo com sucesso!!!");
+						JOptionPane.showMessageDialog(null, "Administrador atualizado com sucesso!!!");
 
 						txt_Nom_Servidor.setText("");
 						txt_Siape_Servidor.setText("");
@@ -266,23 +266,28 @@ public class Cadastro_Servidor {
 					}
 
 				} else {
-					servidor.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
-					servidor.setSiape(Integer.parseInt(txt_Siape_Servidor.getText().trim()));
-					servidor.setEmail(txt_Email_Servidor.getText().trim().toUpperCase());
+					admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
+					admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
 
-					sDao.salvar(servidor);
+					aDao.atualizar(admin);
 
-					JOptionPane.showMessageDialog(null, "Servidor salvo com sucesso!!!");
+					JOptionPane.showMessageDialog(null, "Administrador atualizado com sucesso!!!");
 
 					txt_Nom_Servidor.setText("");
 					txt_Siape_Servidor.setText("");
 					txt_Email_Servidor.setText("");
+					txt_Senha.setText("");
+					txt_Senha_conf.setText("");
+
+					txt_Senha.setVisible(false);
+					txt_Senha_conf.setVisible(false);
+					lb_Senha.setVisible(false);
+					lb_Senha_Conf.setVisible(false);
+
+					confirme_Servidor_Admin.setSelected(false);
+					
 
 				}
-				txt_Senha.setVisible(false);
-				txt_Senha_conf.setVisible(false);
-				lb_Senha.setVisible(false);
-				lb_Senha_Conf.setVisible(false);
 
 			}
 		});
@@ -315,8 +320,8 @@ public class Cadastro_Servidor {
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				control_View.abreTelaServidor();
-				getFrmCasdastroServidor().dispose();
+				control_View.abreTelaAdministrador();
+				getFrmEditarAdmin().dispose();
 
 			}
 		});
@@ -329,7 +334,7 @@ public class Cadastro_Servidor {
 			public void actionPerformed(ActionEvent e) {
 
 				if (control_View.fecharSistema() == true) {
-					getFrmCasdastroServidor().dispose();
+					getFrmEditarAdmin().dispose();
 				}
 
 			}
@@ -338,12 +343,14 @@ public class Cadastro_Servidor {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 	}
 
-	public JFrame getFrmCasdastroServidor() {
-		return frmCadastroServidor;
+
+
+	public JFrame getFrmEditarAdmin() {
+		return frmEditarAdmin;
 	}
 
-	public void setFrmCasdastroServidor(JFrame frmCasdastroServidor) {
-		this.frmCadastroServidor = frmCasdastroServidor;
+	public void setFrmEditarAdmin(JFrame frmEditarAdmin) {
+		this.frmEditarAdmin = frmEditarAdmin;
 	}
 
 	public JTextField getTxt_Nom_Servidodr() {

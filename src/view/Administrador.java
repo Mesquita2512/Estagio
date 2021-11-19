@@ -14,25 +14,23 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import dao.AdminDao;
 import dao.ServidorDao;
 import entity.Admin;
-
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Servidor {
+public class Administrador {
 
 	private JFrame frmTelaServidor;
 
 	Controla_views control_View = new Controla_views();
 	private JTextField txt_buscarServidor;
-	JButton btn_Editar = new JButton("Editar");
 
 	Controla_views control = new Controla_views();
 	private JTable tb_Servidor;
+	JButton btn_Editar = new JButton("Editar");
 
 	private List<entity.Servidor> listaServidor;
 	entity.Servidor serv = new entity.Servidor();
@@ -48,7 +46,7 @@ public class Servidor {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Servidor windowServidor = new Servidor();
+					Administrador windowServidor = new Administrador();
 					windowServidor.frmTelaServidor.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,7 +73,7 @@ public class Servidor {
 				admin1 = "Servidor";
 			}
 
-			if (admin1 == "Servidor") {
+			if (admin1 == "Administrador") {
 				tabelaBd.addRow(new Object[] { serv.getSiape(), serv.getNome(), serv.getEmail(), admin1,
 						serv.isStatusAtivo() });
 
@@ -91,7 +89,7 @@ public class Servidor {
 	/**
 	 * Create the application.
 	 */
-	public Servidor() {
+	public Administrador() {
 		initialize();
 	}
 
@@ -104,7 +102,7 @@ public class Servidor {
 		frmTelaServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaServidor.setResizable(false);
 		frmTelaServidor.setBackground(Color.PINK);
-		frmTelaServidor.setTitle("Servidor");
+		frmTelaServidor.setTitle("Admistradores");
 		frmTelaServidor.setBounds(100, 100, 620, 420);
 		frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaServidor.getContentPane().setLayout(null);
@@ -117,6 +115,7 @@ public class Servidor {
 		tb_Servidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
 				if(arg0.getClickCount() == 2) {
 					btn_Editar.doClick();
 				}
@@ -146,13 +145,13 @@ public class Servidor {
 		JButton btn_Voltar = new JButton("Voltar");
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				control.abreTelaPrincipal();
+				control.abreTelaServidor();
 				getFrmTelaServidor().dispose();
 			}
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
-		btn_Voltar.setBounds(512, 335, 77, 25);
+		btn_Voltar.setBounds(349, 335, 106, 25);
 		frmTelaServidor.getContentPane().add(btn_Voltar);
 
 		JButton btn_Arquivar = new JButton("Ativar/Inativar");
@@ -206,7 +205,7 @@ public class Servidor {
 		});
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Arquivar.setBackground(new Color(255, 248, 220));
-		btn_Arquivar.setBounds(234, 335, 125, 25);
+		btn_Arquivar.setBounds(166, 335, 173, 25);
 		frmTelaServidor.getContentPane().add(btn_Arquivar);
 
 		btn_Editar.addActionListener(new ActionListener() {
@@ -220,12 +219,12 @@ public class Servidor {
 				} else {
 					capta = tb_Servidor.getValueAt(tb_Servidor.getSelectedRow(), 0).toString();
 					int captaId = Integer.parseInt(capta);
-					serv = sDao.buscarPorSiape(captaId);
+					adm = aDao.buscarPorSiape(captaId);
 
 					if (serv.isStatusAtivo() == "Inativo") {
 						JOptionPane.showMessageDialog(null, "Não é possível editar um servidor inativo");
 					} else {
-						control_View.abreTelaEditarServidor(serv);
+						control_View.abreTelaEditarAdmin(adm);
 						getFrmTelaServidor().dispose();
 					}
 
@@ -235,7 +234,7 @@ public class Servidor {
 		});
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Editar.setBackground(new Color(0, 191, 255));
-		btn_Editar.setBounds(135, 335, 89, 25);
+		btn_Editar.setBounds(30, 335, 126, 25);
 		frmTelaServidor.getContentPane().add(btn_Editar);
 
 		JButton btn_Buscar = new JButton("Buscar");
@@ -269,53 +268,36 @@ public class Servidor {
 		});
 		btn_Buscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Buscar.setBackground(new Color(0, 206, 209));
-		btn_Buscar.setBounds(369, 67, 88, 25);
+		btn_Buscar.setBounds(379, 67, 88, 25);
 		frmTelaServidor.getContentPane().add(btn_Buscar);
 
 		txt_buscarServidor = new JTextField();
 		txt_buscarServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_buscarServidor.setColumns(10);
-		txt_buscarServidor.setBounds(117, 68, 230, 23);
+		txt_buscarServidor.setBounds(139, 68, 230, 23);
 		frmTelaServidor.getContentPane().add(txt_buscarServidor);
 
-		JLabel lblServidor = new JLabel("Servidor");
+		JLabel lblServidor = new JLabel("Administrador");
 		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblServidor.setBounds(30, 69, 77, 21);
+		lblServidor.setBounds(30, 69, 95, 21);
 		frmTelaServidor.getContentPane().add(lblServidor);
 
-		JButton btn_AdicionarServidor = new JButton("Adicionar");
-		btn_AdicionarServidor.setBackground(new Color(34, 139, 34));
-		btn_AdicionarServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_AdicionarServidor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				control.abreTelaCadastroServidor();
-				getFrmTelaServidor().dispose();
-
-			}
-		});
-		btn_AdicionarServidor.setIcon(null);
-		btn_AdicionarServidor.setBounds(30, 335, 95, 25);
-		frmTelaServidor.getContentPane().add(btn_AdicionarServidor);
-
-		JLabel lblControleServidor = new JLabel("Controle Servidor");
+		JLabel lblControleServidor = new JLabel("Controle Administradores");
 		lblControleServidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblControleServidor.setBounds(30, 21, 175, 25);
+		lblControleServidor.setBounds(30, 21, 253, 25);
 		frmTelaServidor.getContentPane().add(lblControleServidor);
-
-		JButton btn_Administradores = new JButton("Administradores");
-		btn_Administradores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				control_View.abreTelaConfirmerSenha();
+		
+		JButton btn_Sair = new JButton("Logout");
+		btn_Sair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				control_View.abreTelaLogin();
 				getFrmTelaServidor().dispose();
-
 			}
 		});
-		btn_Administradores.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_Administradores.setBackground(new Color(135, 206, 250));
-		btn_Administradores.setBounds(369, 335, 133, 25);
-		frmTelaServidor.getContentPane().add(btn_Administradores);
+		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_Sair.setBackground(new Color(255, 69, 0));
+		btn_Sair.setBounds(465, 335, 124, 25);
+		frmTelaServidor.getContentPane().add(btn_Sair);
 
 	}
 

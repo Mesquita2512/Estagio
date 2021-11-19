@@ -134,26 +134,37 @@ public class EditarServidor {
 
 			public void actionPerformed(ActionEvent e) {
 
-				if (getTxt_Nom_Servidodr().getText().equals("")) {
+				//verica o nome do servidor
+				String nome = getTxt_Nom_Servidodr().getText().trim();
+				if (nome.equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o nome do Servidor");
+					txt_Nom_Servidor.setText("");
 					return;
-
 				}
 
-				if (getTxt_Email_Servidor().getText().equals("") || !getTxt_Email_Servidor().getText().contains("@")) {
+				//verifica o email do Servidor
+				String email = getTxt_Email_Servidor().getText().trim();
+				int position = email.indexOf("@");
+				// Verifica se o email tem texto antes e depois do "@" considera 3 caracteres
+				// antes e 5 depois
+				try {
+					email.substring(position + 1, position + 6);
+					email.substring(position - 3, position - 1);
+
+				} catch (Exception r) {
 					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor no formato Maria@maria.com");
 					return;
-
-				} else {
-					servidor.setNome(txt_Nom_Servidor.getText().trim());
-					servidor.setEmail(txt_Email_Servidor.getText().trim());
+				}
+				
+					servidor.setNome(nome.toUpperCase());
+					servidor.setEmail(email.toUpperCase());
 
 					sDao.atualizar(servidor);
 					getFrmEditarServidor().dispose();
 					control_View.abreTelaServidor();
 					JOptionPane.showMessageDialog(null, "Servidor atualizado com sucesso!!!");
 
-				}
+				
 
 			}
 		});
