@@ -14,6 +14,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
 
 public class ConfirmerSenha {
 
@@ -54,13 +57,27 @@ public class ConfirmerSenha {
 	 */
 	private void initialize() {
 		frmTelaAtualizarSenha = new JFrame();
+		frmTelaAtualizarSenha.setIconImage(Toolkit.getDefaultToolkit().getImage(ConfirmerSenha.class.getResource("/imagens/Icon_Fundo.jpg")));
 		frmTelaAtualizarSenha.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaAtualizarSenha.setResizable(false);
 		frmTelaAtualizarSenha.setBackground(Color.PINK);
 		frmTelaAtualizarSenha.setTitle("Confirmação");
 		frmTelaAtualizarSenha.setBounds(100, 100, 300, 200);
-		frmTelaAtualizarSenha.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaAtualizarSenha.getContentPane().setLayout(null);
+		
+		frmTelaAtualizarSenha.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+				
+				if(conf == JOptionPane.YES_OPTION) {
+					frmTelaAtualizarSenha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}else {
+					frmTelaAtualizarSenha.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+		});
 
 		JLabel lblNewLabel = new JLabel("Confirmação de senha");
 		lblNewLabel.setBounds(32, 11, 196, 17);

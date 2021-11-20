@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -22,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
 
 public class Relatorios {
 
@@ -97,13 +100,27 @@ public class Relatorios {
 	 */
 	private void initialize() {
 		frmTelaRelatorios = new JFrame();
+		frmTelaRelatorios.setIconImage(Toolkit.getDefaultToolkit().getImage(Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
 		frmTelaRelatorios.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaRelatorios.setResizable(false);
 		frmTelaRelatorios.setBackground(Color.PINK);
 		frmTelaRelatorios.setTitle("Relatórios");
 		frmTelaRelatorios.setBounds(100, 100, 800, 450);
-		frmTelaRelatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaRelatorios.getContentPane().setLayout(null);
+
+		frmTelaRelatorios.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaRelatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaRelatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {

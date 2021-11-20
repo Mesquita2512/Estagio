@@ -7,14 +7,18 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import dao.MaterialDao;
 import entity.Material;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.Toolkit;
 
 public class Materiais_Relatorios {
 
@@ -108,13 +112,27 @@ public class Materiais_Relatorios {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaMateriais_Relatorios = new JFrame();
+		frmTelaMateriais_Relatorios.setIconImage(Toolkit.getDefaultToolkit().getImage(Materiais_Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
 		frmTelaMateriais_Relatorios.getContentPane().setBackground(new Color(224, 255, 255));
 		frmTelaMateriais_Relatorios.setResizable(false);
 		frmTelaMateriais_Relatorios.setBackground(Color.PINK);
 		frmTelaMateriais_Relatorios.setTitle("Relatório Materiais");
 		frmTelaMateriais_Relatorios.setBounds(100, 100, 700, 600);
-		frmTelaMateriais_Relatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaMateriais_Relatorios.getContentPane().setLayout(null);
+
+		frmTelaMateriais_Relatorios.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaMateriais_Relatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaMateriais_Relatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JButton btn_Voltar = new JButton("Voltar");
 		btn_Voltar.addActionListener(new ActionListener() {
@@ -152,17 +170,11 @@ public class Materiais_Relatorios {
 		frmTelaMateriais_Relatorios.getContentPane().add(scrollPane);
 
 		tb_Materiais = new JTable();
-		tb_Materiais.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Estoque", "Qtd Emprestado", "Estado Conserva\u00E7\u00E3o", "Status"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false
-			};
+		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+				new String[] { "C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Estoque", "Qtd Emprestado",
+						"Estado Conserva\u00E7\u00E3o", "Status" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
+
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}

@@ -31,6 +31,11 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Cadastro_Emprestimo extends JFrame {
 
@@ -144,12 +149,26 @@ public class Cadastro_Emprestimo extends JFrame {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmNovoEmprestimo = new JFrame();
+		frmNovoEmprestimo.setIconImage(Toolkit.getDefaultToolkit().getImage(Cadastro_Emprestimo.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 		frmNovoEmprestimo.getContentPane().setBackground(new Color(240, 255, 255));
 		frmNovoEmprestimo.setResizable(false);
 		frmNovoEmprestimo.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 45));
 		frmNovoEmprestimo.setTitle("Novo Emprestimo");
 		frmNovoEmprestimo.setBounds(100, 100, 800, 500);
-		frmNovoEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmNovoEmprestimo.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+				
+				if(conf == JOptionPane.YES_OPTION) {
+					frmNovoEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}else {
+					frmNovoEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+		});
 
 		lblCadastrarEmprstimo = new JLabel("Cadastrar Empr\u00E9stimo");
 		lblCadastrarEmprstimo.setBounds(43, 20, 706, 55);
@@ -177,6 +196,14 @@ public class Cadastro_Emprestimo extends JFrame {
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txt_Material = new JTextField();
+		txt_Material.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_BuscarTodos.doClick();
+				}
+			}
+		});
 		txt_Material.setBounds(139, 103, 129, 23);
 		txt_Material.setEnabled(true);
 		txt_Material.setEditable(true);
@@ -189,6 +216,14 @@ public class Cadastro_Emprestimo extends JFrame {
 		txt_Quantidade.setColumns(10);
 
 		txt_EntregueA = new JTextField();
+		txt_EntregueA.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() ==  KeyEvent.VK_ENTER) {
+					btnBuscarServidores.doClick();
+				}
+			}
+		});
 		txt_EntregueA.setBounds(139, 243, 129, 23);
 		txt_EntregueA.setEditable(true);
 		txt_EntregueA.setFont(new Font("Tahoma", Font.PLAIN, 14));

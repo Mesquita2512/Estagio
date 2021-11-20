@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -17,6 +19,9 @@ import javax.swing.table.DefaultTableModel;
 import dao.MaterialDao;
 import entity.Material;
 import javax.swing.ListSelectionModel;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Materiais {
 
@@ -27,6 +32,8 @@ public class Materiais {
 	int siape;
 	private JTextField txt_Material;
 	private JTable tb_Materiais;
+
+	JButton btn_Buscar = new JButton("Buscar");
 
 	private List<entity.Material> listaMaterial;
 	entity.Material mate = new entity.Material();
@@ -83,12 +90,26 @@ public class Materiais {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaMaterias = new JFrame();
+		frmTelaMaterias.setIconImage(Toolkit.getDefaultToolkit().getImage(Materiais.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		frmTelaMaterias.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaMaterias.setResizable(false);
 		frmTelaMaterias.setBackground(Color.PINK);
 		frmTelaMaterias.setTitle("Materiais");
 		frmTelaMaterias.setBounds(100, 100, 600, 420);
-		frmTelaMaterias.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmTelaMaterias.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaMaterias.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaMaterias.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JLabel lblNewLabel = new JLabel("Controle Materiais");
 		lblNewLabel.setBounds(25, 22, 534, 25);
@@ -108,6 +129,14 @@ public class Materiais {
 		btn_AdicionarMaterial.setIcon(null);
 
 		txt_Material = new JTextField();
+		txt_Material.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_Buscar.doClick();
+				}
+			}
+		});
 		txt_Material.setBounds(93, 61, 254, 23);
 		txt_Material.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material.setColumns(10);
@@ -116,7 +145,6 @@ public class Materiais {
 		lblMaterialservidor.setBounds(25, 62, 45, 21);
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		JButton btn_Buscar = new JButton("Buscar");
 		btn_Buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -274,17 +302,11 @@ public class Materiais {
 
 		tb_Materiais = new JTable();
 		tb_Materiais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tb_Materiais.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, "", null, null, null, null, null},
-			},
-			new String[] {
-				"C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)", "Est Conserva\u00E7\u00E3o", "Status"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false
-			};
+		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, "", null, null, null, null, null }, },
+				new String[] { "C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)",
+						"Est Conserva\u00E7\u00E3o", "Status" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false };
+
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}

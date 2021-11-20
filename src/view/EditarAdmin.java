@@ -16,8 +16,11 @@ import entity.Servidor;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Toolkit;
 
 public class EditarAdmin {
 
@@ -62,13 +65,7 @@ public class EditarAdmin {
 		});
 	}
 
-	// Verifica se Existe Servidor cadastrado com o Siape informado
-	public Servidor buscaServSiapeCadastro(long siape) {
-		Servidor servidor = new Servidor();
-		servidor = sDao.buscarPorSiape(siape);
-		return servidor;
-	}
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -93,6 +90,14 @@ public class EditarAdmin {
 		frmEditarAdmin.getContentPane().add(txt_Senha);
 		frmEditarAdmin.getContentPane().add(txt_Senha_conf);
 	}
+	
+	// Verifica se Existe Servidor cadastrado com o Siape informado
+		public Servidor buscaServSiapeCadastro(long siape) {
+			Servidor servidor = new Servidor();
+			servidor = sDao.buscarPorSiape(siape);
+			return servidor;
+		}
+
 
 	public void pegaAdmin(Admin admin) {
 
@@ -108,10 +113,24 @@ public class EditarAdmin {
 	 */
 	private void initialize() {
 		frmEditarAdmin = new JFrame();
+		frmEditarAdmin.setIconImage(Toolkit.getDefaultToolkit().getImage(EditarAdmin.class.getResource("/imagens/Icon_AdminPQ.png")));
 		frmEditarAdmin.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarAdmin.setTitle("Editar Administradores");
 		frmEditarAdmin.setBounds(100, 100, 600, 450);
-		frmEditarAdmin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmEditarAdmin.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+				
+				if(conf == JOptionPane.YES_OPTION) {
+					frmEditarAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}else {
+					frmEditarAdmin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+		});
 
 		lblNewLabel = new JLabel("Editar Administradores");
 		lblNewLabel.setBounds(94, 39, 414, 55);

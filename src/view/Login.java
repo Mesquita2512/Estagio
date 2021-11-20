@@ -85,7 +85,6 @@ public class Login {
 		frmTelaLogin = new JFrame();
 		frmTelaLogin
 				.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagens/Icon_Fundo.jpg")));
-		
 		frmTelaLogin.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaLogin.setResizable(false);
 		frmTelaLogin.setBackground(Color.PINK);

@@ -15,9 +15,12 @@ import dao.MaterialDao;
 import entity.Material;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Toolkit;
 
 public class Cadastro_Materiais {
 
@@ -66,10 +69,24 @@ public class Cadastro_Materiais {
 	 */
 	private void initialize() {
 		frmCadastroDeMateriais = new JFrame();
+		frmCadastroDeMateriais.setIconImage(Toolkit.getDefaultToolkit().getImage(Cadastro_Materiais.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		frmCadastroDeMateriais.getContentPane().setBackground(new Color(240, 255, 255));
 		frmCadastroDeMateriais.setTitle("Cadastro de Materiais");
 		frmCadastroDeMateriais.setBounds(100, 100, 600, 400);
-		frmCadastroDeMateriais.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmCadastroDeMateriais.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+				
+				if(conf == JOptionPane.YES_OPTION) {
+					frmCadastroDeMateriais.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}else {
+					frmCadastroDeMateriais.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+		});
 
 		JLabel lblNewLabel = new JLabel("Cadastro de material");
 		lblNewLabel.setForeground(new Color(0, 0, 139));

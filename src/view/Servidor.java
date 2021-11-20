@@ -22,6 +22,11 @@ import entity.Admin;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Servidor {
 
@@ -29,7 +34,9 @@ public class Servidor {
 
 	Controla_views control_View = new Controla_views();
 	private JTextField txt_buscarServidor;
+
 	JButton btn_Editar = new JButton("Editar");
+	JButton btn_Buscar = new JButton("Buscar");
 
 	Controla_views control = new Controla_views();
 	private JTable tb_Servidor;
@@ -101,12 +108,27 @@ public class Servidor {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaServidor = new JFrame();
+		frmTelaServidor.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Servidor.class.getResource("/imagens/Icon_ServidorPQ.png")));
 		frmTelaServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaServidor.setResizable(false);
 		frmTelaServidor.setBackground(Color.PINK);
 		frmTelaServidor.setTitle("Servidor");
-		frmTelaServidor.setBounds(100, 100, 620, 420);
-		frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frmTelaServidor.setBounds(100, 100, 625, 420);
+
+		frmTelaServidor.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 		frmTelaServidor.getContentPane().setLayout(null);
 
 		JScrollPane sp_Materiais = new JScrollPane();
@@ -117,7 +139,7 @@ public class Servidor {
 		tb_Servidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(arg0.getClickCount() == 2) {
+				if (arg0.getClickCount() == 2) {
 					btn_Editar.doClick();
 				}
 			}
@@ -144,6 +166,7 @@ public class Servidor {
 		sp_Materiais.setViewportView(tb_Servidor);
 
 		JButton btn_Voltar = new JButton("Voltar");
+		btn_Voltar.setBounds(512, 335, 77, 25);
 		btn_Voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				control.abreTelaPrincipal();
@@ -152,10 +175,10 @@ public class Servidor {
 		});
 		btn_Voltar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Voltar.setBackground(new Color(240, 230, 140));
-		btn_Voltar.setBounds(512, 335, 77, 25);
 		frmTelaServidor.getContentPane().add(btn_Voltar);
 
 		JButton btn_Arquivar = new JButton("Ativar/Inativar");
+		btn_Arquivar.setBounds(234, 335, 125, 25);
 		btn_Arquivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -206,8 +229,8 @@ public class Servidor {
 		});
 		btn_Arquivar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Arquivar.setBackground(new Color(255, 248, 220));
-		btn_Arquivar.setBounds(234, 335, 125, 25);
 		frmTelaServidor.getContentPane().add(btn_Arquivar);
+		btn_Editar.setBounds(135, 335, 89, 25);
 
 		btn_Editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -235,10 +258,9 @@ public class Servidor {
 		});
 		btn_Editar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Editar.setBackground(new Color(0, 191, 255));
-		btn_Editar.setBounds(135, 335, 89, 25);
 		frmTelaServidor.getContentPane().add(btn_Editar);
 
-		JButton btn_Buscar = new JButton("Buscar");
+		btn_Buscar.setBounds(369, 67, 88, 25);
 		btn_Buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -269,21 +291,29 @@ public class Servidor {
 		});
 		btn_Buscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Buscar.setBackground(new Color(0, 206, 209));
-		btn_Buscar.setBounds(369, 67, 88, 25);
 		frmTelaServidor.getContentPane().add(btn_Buscar);
 
 		txt_buscarServidor = new JTextField();
+		txt_buscarServidor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_Buscar.doClick();
+				}
+			}
+		});
+		txt_buscarServidor.setBounds(117, 68, 230, 23);
 		txt_buscarServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_buscarServidor.setColumns(10);
-		txt_buscarServidor.setBounds(117, 68, 230, 23);
 		frmTelaServidor.getContentPane().add(txt_buscarServidor);
 
 		JLabel lblServidor = new JLabel("Servidor");
-		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblServidor.setBounds(30, 69, 77, 21);
+		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		frmTelaServidor.getContentPane().add(lblServidor);
 
 		JButton btn_AdicionarServidor = new JButton("Adicionar");
+		btn_AdicionarServidor.setBounds(30, 335, 95, 25);
 		btn_AdicionarServidor.setBackground(new Color(34, 139, 34));
 		btn_AdicionarServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_AdicionarServidor.addActionListener(new ActionListener() {
@@ -295,18 +325,18 @@ public class Servidor {
 			}
 		});
 		btn_AdicionarServidor.setIcon(null);
-		btn_AdicionarServidor.setBounds(30, 335, 95, 25);
 		frmTelaServidor.getContentPane().add(btn_AdicionarServidor);
 
 		JLabel lblControleServidor = new JLabel("Controle Servidor");
-		lblControleServidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblControleServidor.setBounds(30, 21, 175, 25);
+		lblControleServidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		frmTelaServidor.getContentPane().add(lblControleServidor);
 
 		JButton btn_Administradores = new JButton("Administradores");
+		btn_Administradores.setBounds(369, 335, 133, 25);
 		btn_Administradores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				control_View.abreTelaConfirmerSenha();
 				getFrmTelaServidor().dispose();
 
@@ -314,7 +344,6 @@ public class Servidor {
 		});
 		btn_Administradores.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Administradores.setBackground(new Color(135, 206, 250));
-		btn_Administradores.setBounds(369, 335, 133, 25);
 		frmTelaServidor.getContentPane().add(btn_Administradores);
 
 	}

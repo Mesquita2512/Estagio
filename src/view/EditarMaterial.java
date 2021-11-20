@@ -13,8 +13,11 @@ import dao.MaterialDao;
 import entity.Material;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class EditarMaterial {
 
@@ -97,10 +100,24 @@ public class EditarMaterial {
 	 */
 	private void initialize() {
 		frmEditarMaterial = new JFrame();
+		frmEditarMaterial.setIconImage(Toolkit.getDefaultToolkit().getImage(EditarMaterial.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		frmEditarMaterial.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarMaterial.setTitle("Cadastro de Materiais");
 		frmEditarMaterial.setBounds(100, 100, 600, 450);
-		frmEditarMaterial.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		frmEditarMaterial.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmEditarMaterial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmEditarMaterial.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		lblNewLabel = new JLabel("Editar material");
 		lblNewLabel.setBounds(73, 29, 290, 55);

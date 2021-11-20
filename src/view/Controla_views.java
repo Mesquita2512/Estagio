@@ -1,8 +1,6 @@
 package view;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-
 import entity.Admin;
 import entity.Emprestimo;
 import entity.Material;
@@ -20,6 +18,7 @@ public class Controla_views {
 	}
 
 	public void abreTelaConfirmerSenha() {
+		
 		try {
 			ConfirmerSenha windowSenha = new ConfirmerSenha();
 			windowSenha.getFrmTelaAtualizarSenha().setVisible(true);
@@ -28,7 +27,7 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void abreTelaPrincipal() {
 		try {
 
@@ -168,7 +167,6 @@ public class Controla_views {
 	public void abreTelaDetalharEmprestimo(Emprestimo emprestimo, String quemChamou) {
 		try {
 			DetalharEmprestimo windowDetalhar = new DetalharEmprestimo();
-			windowDetalhar.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			windowDetalhar.pegaEmprestimo(emprestimo);
 			windowDetalhar.setVisible(true);
 			windowDetalhar.setLocationRelativeTo(null);

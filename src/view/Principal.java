@@ -37,6 +37,8 @@ import entity.Material;
 import views_Relatorios.Controla_Relatorios;
 
 import javax.swing.ListSelectionModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Principal {
 
@@ -65,6 +67,7 @@ public class Principal {
 	private JTable tb_Emprestimos;
 	private JTable table;
 	JButton btn_Detalhar = new JButton("Detalhar Emprestimo");
+	JButton btnBuscar = new JButton("Buscar");
 
 	/**
 	 * Launch the application.
@@ -151,11 +154,18 @@ public class Principal {
 		lblMaterialservidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		txt_Material_Busca = new JTextField();
+		txt_Material_Busca.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnBuscar.doClick();
+				}
+			}
+		});
 		txt_Material_Busca.setBounds(125, 48, 106, 23);
 		txt_Material_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Material_Busca.setColumns(10);
 
-		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBounds(517, 47, 88, 25);
 		btnBuscar.setBackground(new Color(0, 206, 209));
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -262,6 +272,14 @@ public class Principal {
 		lblServidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		txt_Servidor_Busca = new JTextField();
+		txt_Servidor_Busca.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnBuscar.doClick();
+				}
+			}
+		});
 		txt_Servidor_Busca.setBounds(368, 48, 106, 23);
 		txt_Servidor_Busca.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_Servidor_Busca.setColumns(10);

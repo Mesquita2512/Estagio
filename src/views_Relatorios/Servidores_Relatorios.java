@@ -7,14 +7,18 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import dao.ServidorDao;
 import entity.Servidor;
+import java.awt.Toolkit;
 
 public class Servidores_Relatorios {
 
@@ -58,7 +62,7 @@ public class Servidores_Relatorios {
 		if (filtroServ == "inativos") {
 			filtro = filtro + " inativos";
 		}
-		
+
 		initialize();
 	}
 
@@ -105,14 +109,28 @@ public class Servidores_Relatorios {
 	 */
 	private void initialize() {
 		frmTelaServidores_Relatorios = new JFrame();
+		frmTelaServidores_Relatorios.setIconImage(Toolkit.getDefaultToolkit().getImage(Servidores_Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
 		frmTelaServidores_Relatorios.getContentPane().setBackground(new Color(224, 255, 255));
 		frmTelaServidores_Relatorios.setResizable(false);
 		frmTelaServidores_Relatorios.setBackground(Color.PINK);
 		frmTelaServidores_Relatorios.setTitle("Relatório Servidores");
 		frmTelaServidores_Relatorios.setBounds(100, 100, 600, 600);
-		frmTelaServidores_Relatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaServidores_Relatorios.getContentPane().setLayout(null);
 		frmTelaServidores_Relatorios.setLocationRelativeTo(null);
+
+		frmTelaServidores_Relatorios.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaServidores_Relatorios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaServidores_Relatorios.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
@@ -151,25 +169,18 @@ public class Servidores_Relatorios {
 		frmTelaServidores_Relatorios.getContentPane().add(scrollPane);
 
 		tb_Servidores = new JTable();
-		tb_Servidores
-				.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"C\u00F3digo", "Nome", "Email", "Status"
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		tb_Servidores.setModel(
+				new DefaultTableModel(new Object[][] {}, new String[] { "C\u00F3digo", "Nome", "Email", "Status" }) {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+					boolean[] columnEditables = new boolean[] { false, false, false, false };
+
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				});
 		tb_Servidores.getColumnModel().getColumn(0).setResizable(false);
 		tb_Servidores.getColumnModel().getColumn(1).setResizable(false);
 		tb_Servidores.getColumnModel().getColumn(1).setPreferredWidth(270);

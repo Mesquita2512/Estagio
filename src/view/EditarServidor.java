@@ -12,7 +12,10 @@ import entity.Servidor;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class EditarServidor {
 
@@ -90,10 +93,24 @@ public class EditarServidor {
 	 */
 	private void initialize() {
 		frmEditarServidor = new JFrame();
+		frmEditarServidor.setIconImage(Toolkit.getDefaultToolkit().getImage(EditarServidor.class.getResource("/imagens/Icon_ServidorPQ.png")));
 		frmEditarServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarServidor.setTitle("Cadastro de Servidor");
 		frmEditarServidor.setBounds(100, 100, 600, 350);
-		frmEditarServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmEditarServidor.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmEditarServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmEditarServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		lblNewLabel = new JLabel("Editar Servidor");
 		lblNewLabel.setBounds(94, 39, 414, 55);
@@ -134,7 +151,7 @@ public class EditarServidor {
 
 			public void actionPerformed(ActionEvent e) {
 
-				//verica o nome do servidor
+				// verica o nome do servidor
 				String nome = getTxt_Nom_Servidodr().getText().trim();
 				if (nome.equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o nome do Servidor");
@@ -142,7 +159,7 @@ public class EditarServidor {
 					return;
 				}
 
-				//verifica o email do Servidor
+				// verifica o email do Servidor
 				String email = getTxt_Email_Servidor().getText().trim();
 				int position = email.indexOf("@");
 				// Verifica se o email tem texto antes e depois do "@" considera 3 caracteres
@@ -155,16 +172,14 @@ public class EditarServidor {
 					JOptionPane.showMessageDialog(null, "Informe o Email do Servidor no formato Maria@maria.com");
 					return;
 				}
-				
-					servidor.setNome(nome.toUpperCase());
-					servidor.setEmail(email.toUpperCase());
 
-					sDao.atualizar(servidor);
-					getFrmEditarServidor().dispose();
-					control_View.abreTelaServidor();
-					JOptionPane.showMessageDialog(null, "Servidor atualizado com sucesso!!!");
+				servidor.setNome(nome.toUpperCase());
+				servidor.setEmail(email.toUpperCase());
 
-				
+				sDao.atualizar(servidor);
+				getFrmEditarServidor().dispose();
+				control_View.abreTelaServidor();
+				JOptionPane.showMessageDialog(null, "Servidor atualizado com sucesso!!!");
 
 			}
 		});

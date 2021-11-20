@@ -18,12 +18,15 @@ import entity.Servidor;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Toolkit;
 
 public class EditarEmprestimo extends JFrame {
 
@@ -145,12 +148,26 @@ public class EditarEmprestimo extends JFrame {
 
 	private void initialize() {
 		frmEditarEmprestimo = new JFrame();
+		frmEditarEmprestimo.setIconImage(Toolkit.getDefaultToolkit().getImage(EditarEmprestimo.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 		frmEditarEmprestimo.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarEmprestimo.setResizable(false);
 		frmEditarEmprestimo.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 45));
 		frmEditarEmprestimo.setTitle("Novo Emprestimo");
 		frmEditarEmprestimo.setBounds(100, 100, 600, 500);
-		frmEditarEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		frmEditarEmprestimo.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmEditarEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmEditarEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		lblCadastrarEmprstimo = new JLabel("Editar Empréstimo");
 		lblCadastrarEmprstimo.setBounds(43, 11, 435, 43);

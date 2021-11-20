@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JRadioButton;
@@ -16,8 +18,11 @@ import entity.Servidor;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Toolkit;
 
 public class Cadastro_Servidor {
 
@@ -99,10 +104,25 @@ public class Cadastro_Servidor {
 	 */
 	private void initialize() {
 		frmCadastroServidor = new JFrame();
+		frmCadastroServidor.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(Cadastro_Servidor.class.getResource("/imagens/Icon_ServidorPQ.png")));
 		frmCadastroServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmCadastroServidor.setTitle("Cadastro de Servidor");
 		frmCadastroServidor.setBounds(100, 100, 600, 450);
-		frmCadastroServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmCadastroServidor.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmCadastroServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmCadastroServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		lblNewLabel = new JLabel("Cadastro de Servidor");
 		lblNewLabel.setBounds(94, 39, 414, 55);
@@ -131,7 +151,7 @@ public class Cadastro_Servidor {
 		lb_Senha_Conf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lb_Senha_Conf.setVisible(false);
 
-		confirme_Servidor_Admin = new JRadioButton("O servidor \u00E9 usu\u00E1rio do sistema?");
+		confirme_Servidor_Admin = new JRadioButton("O servidor é usuário do sistema?");
 		confirme_Servidor_Admin.setBounds(243, 240, 265, 25);
 		confirme_Servidor_Admin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
@@ -188,20 +208,20 @@ public class Cadastro_Servidor {
 		btn_Salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				//verica o nome do servidor
+				// verica o nome do servidor
 				String nome = getTxt_Nom_Servidodr().getText().trim();
 				if (nome.equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o nome do Servidor");
 					txt_Nom_Servidor.setText("");
 					return;
 				}
-				
+
 				if (getTxt_Siape_Servidor().getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o Siape do Servidor");
 					return;
 				}
-				
-				//verifica o email do Servidor
+
+				// verifica o email do Servidor
 				String email = getTxt_Email_Servidor().getText().trim();
 				int position = email.indexOf("@");
 				// Verifica se o email tem texto antes e depois do "@" considera 3 caracteres
@@ -215,7 +235,7 @@ public class Cadastro_Servidor {
 					return;
 				}
 
-				//verifica se existe um servidor com o siape informado
+				// verifica se existe um servidor com o siape informado
 				if (buscaServSiapeCadastro(Integer.parseInt(txt_Siape_Servidor.getText())) != null) {
 					JOptionPane.showMessageDialog(null,
 							"Já existe um Administrador/Servidor cadastrado com este Siape");
@@ -232,28 +252,48 @@ public class Cadastro_Servidor {
 					}
 
 					if (senha.equals(senhaConf)) {
-						admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
-						admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
-						admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
-						admin.setSenha(new String(txt_Senha.getPassword()).trim());
 
-						aDao.salvar(admin);
+						JPasswordField password = new JPasswordField(10);
+						password.setEchoChar('*');
+						JLabel rotulo = new JLabel("Confirme sua senha de Administrador");
+						JPanel entUsuario = new JPanel();
+						entUsuario.add(rotulo);
+						entUsuario.add(password);
+						JOptionPane.showMessageDialog(null, entUsuario, "Acesso restrito", JOptionPane.PLAIN_MESSAGE);
+						String senha1 = new String(password.getPassword());
 
-						JOptionPane.showMessageDialog(null, "Novo Administrador salvo com sucesso!!!");
+						String siape = System.getProperty("siape");
+						Admin adm = new Admin();
+						adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 
-						txt_Nom_Servidor.setText("");
-						txt_Siape_Servidor.setText("");
-						txt_Email_Servidor.setText("");
-						txt_Senha.setText("");
-						txt_Senha_conf.setText("");
+						if (adm.getSenha().equals(senha1)) {
 
-						txt_Senha.setVisible(false);
-						txt_Senha_conf.setVisible(false);
-						lb_Senha.setVisible(false);
-						lb_Senha_Conf.setVisible(false);
+							admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
+							admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
+							admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
+							admin.setSenha(new String(txt_Senha.getPassword()).trim());
 
-						confirme_Servidor_Admin.setSelected(false);
-						return;
+							aDao.salvar(admin);
+
+							JOptionPane.showMessageDialog(null, "Novo Administrador salvo com sucesso!!!");
+
+							txt_Nom_Servidor.setText("");
+							txt_Siape_Servidor.setText("");
+							txt_Email_Servidor.setText("");
+							txt_Senha.setText("");
+							txt_Senha_conf.setText("");
+
+							txt_Senha.setVisible(false);
+							txt_Senha_conf.setVisible(false);
+							lb_Senha.setVisible(false);
+							lb_Senha_Conf.setVisible(false);
+
+							confirme_Servidor_Admin.setSelected(false);
+
+						} else {
+							JOptionPane.showMessageDialog(null, "Sua senha de Administrador está incorreta!!!");
+							confirme_Servidor_Admin.setSelected(false);
+						}
 
 					}
 

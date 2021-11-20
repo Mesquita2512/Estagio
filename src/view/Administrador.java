@@ -20,6 +20,9 @@ import entity.Admin;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
 
 public class Administrador {
 
@@ -99,13 +102,27 @@ public class Administrador {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaServidor = new JFrame();
+		frmTelaServidor.setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagens/Icon_Fundo.jpg")));
 		frmTelaServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaServidor.setResizable(false);
 		frmTelaServidor.setBackground(Color.PINK);
 		frmTelaServidor.setTitle("Admistradores");
 		frmTelaServidor.setBounds(100, 100, 620, 420);
-		frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmTelaServidor.getContentPane().setLayout(null);
+
+		frmTelaServidor.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+				
+				if(conf == JOptionPane.YES_OPTION) {
+					frmTelaServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}else {
+					frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+		});
 
 		JScrollPane sp_Materiais = new JScrollPane();
 		sp_Materiais.setBounds(30, 103, 559, 214);

@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,11 +21,14 @@ import entity.Emprestimo;
 import views_Relatorios.Controla_Relatorios;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class DetalharEmprestimo extends JDialog {
 
@@ -36,14 +42,14 @@ public class DetalharEmprestimo extends JDialog {
 
 	Controla_views control_Views = new Controla_views();
 	Controla_Relatorios control_Rel = new Controla_Relatorios();
-	
+
 	Devolucao dev = new Devolucao();
 	DevolucaoDao dDao = new DevolucaoDao();
 	private List<Devolucao> listaDevolucao;
 
 	JScrollPane sp_Devolucao = new JScrollPane();
 	JLabel lblSemDevoluo = new JLabel("Sem Devolução");
-	
+
 	String quemchamou = "";
 
 	/**
@@ -52,7 +58,6 @@ public class DetalharEmprestimo extends JDialog {
 	public static void main(String[] args) {
 		try {
 			DetalharEmprestimo dialog = new DetalharEmprestimo();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,8 +67,9 @@ public class DetalharEmprestimo extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("serial")
 	public DetalharEmprestimo() {
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DetalharEmprestimo.class.getResource("/imagens/Icon_Devolver.png")));
 		setTitle("Detalhes do Emprétimo");
 		setForeground(new Color(240, 255, 255));
 		setBounds(100, 100, 800, 300);
@@ -72,6 +78,20 @@ public class DetalharEmprestimo extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+
+		addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					dispose();
+				} else {
+					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JLabel lblDetalhes = new JLabel("Detalhes do Empréstimo");
 		lblDetalhes.setForeground(new Color(60, 179, 113));
@@ -85,19 +105,30 @@ public class DetalharEmprestimo extends JDialog {
 		{
 			tb_emprestimo = new JTable();
 			tb_emprestimo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			tb_emprestimo.setModel(
-					new DefaultTableModel(
+			tb_emprestimo.setModel(new DefaultTableModel(
 				new Object[][] {
+					{null, null, null, null, null, null, null, null},
 				},
 				new String[] {
 					"C\u00F3digo", "Entregue por", "Entregue A", "Material", "Qtd Emprestada", "Data Entrega", "Hora Emprestimo", "Observa\u00E7\u00F5es"
 				}
-			));
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			tb_emprestimo.getColumnModel().getColumn(0).setResizable(false);
 			tb_emprestimo.getColumnModel().getColumn(0).setPreferredWidth(50);
 			tb_emprestimo.getColumnModel().getColumn(1).setPreferredWidth(100);
 			tb_emprestimo.getColumnModel().getColumn(2).setPreferredWidth(100);
 			tb_emprestimo.getColumnModel().getColumn(3).setPreferredWidth(140);
+			tb_emprestimo.getColumnModel().getColumn(4).setResizable(false);
 			tb_emprestimo.getColumnModel().getColumn(4).setPreferredWidth(60);
+			tb_emprestimo.getColumnModel().getColumn(5).setResizable(false);
+			tb_emprestimo.getColumnModel().getColumn(6).setResizable(false);
 			tb_emprestimo.getColumnModel().getColumn(7).setPreferredWidth(100);
 			sp_Empretimos.setViewportView(tb_emprestimo);
 		}
@@ -107,15 +138,28 @@ public class DetalharEmprestimo extends JDialog {
 			contentPanel.add(sp_Devolucao);
 			{
 				tb_Devolucao = new JTable();
-				tb_Devolucao.setModel(new DefaultTableModel(
+				tb_Devolucao.setModel(
+						new DefaultTableModel(
 					new Object[][] {
+						{null, null, null, null, null, null},
 					},
 					new String[] {
 						"C\u00F3digo", "Qtd Devolucao", "Data Devolucao", "Hora recebimento", "Quem recebeu", "Observa\u00E7\u00F5es"
 					}
-				));
+				) {
+					boolean[] columnEditables = new boolean[] {
+						false, false, false, false, false, false
+					};
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				});
+				tb_Devolucao.getColumnModel().getColumn(0).setResizable(false);
 				tb_Devolucao.getColumnModel().getColumn(0).setPreferredWidth(50);
+				tb_Devolucao.getColumnModel().getColumn(1).setResizable(false);
 				tb_Devolucao.getColumnModel().getColumn(1).setPreferredWidth(55);
+				tb_Devolucao.getColumnModel().getColumn(2).setResizable(false);
+				tb_Devolucao.getColumnModel().getColumn(3).setResizable(false);
 				tb_Devolucao.getColumnModel().getColumn(4).setPreferredWidth(150);
 				tb_Devolucao.getColumnModel().getColumn(5).setPreferredWidth(150);
 				sp_Devolucao.setViewportView(tb_Devolucao);
@@ -144,13 +188,13 @@ public class DetalharEmprestimo extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						if(quemchamou == "principal") {
+						if (quemchamou == "principal") {
 							dispose();
 							control_Views.abreTelaPrincipal();
-						}else {
+						} else {
 							dispose();
 						}
-						
+
 					}
 				});
 				okButton.setBackground(new Color(50, 205, 50));
@@ -162,10 +206,10 @@ public class DetalharEmprestimo extends JDialog {
 				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(quemchamou == "principal") {
+						if (quemchamou == "principal") {
 							dispose();
 							control_Views.abreTelaPrincipal();
-						}else {
+						} else {
 							dispose();
 						}
 					}

@@ -17,6 +17,8 @@ import dao.EmprestimoDao;
 import entity.Devolucao;
 import entity.Emprestimo;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +28,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Emprestimo_Relatorios {
 
@@ -35,7 +40,6 @@ public class Emprestimo_Relatorios {
 	Controla_Relatorios control_rel = new Controla_Relatorios();
 
 	String filtro = "";
-	
 
 	Emprestimo emp = new Emprestimo();
 	EmprestimoDao eDao = new EmprestimoDao();
@@ -128,8 +132,8 @@ public class Emprestimo_Relatorios {
 
 			// Adicinando o emprestimos na tabela
 			tabelaBd.addRow(new Object[] { emp.getId(), emp.getAdminEntrega().getNome(), emp.getServidor().getNome(),
-					emp.getMaterial().getDescricao(), emp.getQtdEmprestado(), data,
-					horaformatada, emp.getObsEntrega() });
+					emp.getMaterial().getDescricao(), emp.getQtdEmprestado(), data, horaformatada,
+					emp.getObsEntrega() });
 
 			val--;
 			inc++;
@@ -145,6 +149,8 @@ public class Emprestimo_Relatorios {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaRelatorioEmprestimo = new JFrame();
+		frmTelaRelatorioEmprestimo.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(Emprestimo_Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
 		frmTelaRelatorioEmprestimo.getContentPane().setBackground(new Color(224, 255, 255));
 		frmTelaRelatorioEmprestimo.setBackground(new Color(224, 255, 255));
 		frmTelaRelatorioEmprestimo.getContentPane().setLayout(null);
@@ -152,7 +158,20 @@ public class Emprestimo_Relatorios {
 		frmTelaRelatorioEmprestimo.setBackground(Color.PINK);
 		frmTelaRelatorioEmprestimo.setTitle("Relatatórios de Empréstimos");
 		frmTelaRelatorioEmprestimo.setBounds(100, 100, 800, 700);
-		frmTelaRelatorioEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmTelaRelatorioEmprestimo.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaRelatorioEmprestimo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaRelatorioEmprestimo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JLabel lblNewLabel = new JLabel(filtro);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
@@ -181,11 +200,11 @@ public class Emprestimo_Relatorios {
 		btn_Sair.setBackground(new Color(255, 69, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
-		
+
 		JButton btn_Detalhar = new JButton("Detalhar Emprestimo");
 		btn_Detalhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String capta = "";
 				if (tbEmprestimo.getSelectedRowCount() == 0) {
 					JOptionPane.showMessageDialog(null, "Selecione um Emprestimo da lista");
@@ -198,60 +217,56 @@ public class Emprestimo_Relatorios {
 					emp = eDao.buscarPorId(captaId);
 					control_View.abreTelaDetalharEmprestimo(emp, "relatorio");
 				}
-				
+
 			}
 		});
 		btn_Detalhar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Detalhar.setBackground(new Color(143, 188, 143));
 
 		GroupLayout groupLayout = new GroupLayout(frmTelaRelatorioEmprestimo.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap(347, Short.MAX_VALUE)
-							.addComponent(btn_Detalhar, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(25)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
-								.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE))))
-					.addGap(18))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(22)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 508, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_Detalhar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addContainerGap(347, Short.MAX_VALUE)
+								.addComponent(btn_Detalhar, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(25)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 751,
+												Short.MAX_VALUE)
+										.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE))))
+				.addGap(18)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup().addGap(22)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addGap(18)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 508, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btn_Voltar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btn_Detalhar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap()));
 
 		tbEmprestimo = new JTable();
+		tbEmprestimo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 2) {
+					btn_Detalhar.doClick();
+				}
+			}
+		});
 		tbEmprestimo.setBackground(new Color(224, 255, 255));
 		tbEmprestimo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbEmprestimo.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"C\u00F3digo", "Entregue por", "Entregue a", "Material", "Qtd", "Data", "Hora", "Observa\u00E7\u00F5es"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false, false
-			};
+				new Object[][] { { null, null, null, null, null, null, null, null }, }, new String[] { "C\u00F3digo",
+						"Entregue por", "Entregue a", "Material", "Qtd", "Data", "Hora", "Observa\u00E7\u00F5es" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false };
+
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
