@@ -17,6 +17,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
 
 public class Login {
 
@@ -80,13 +83,29 @@ public class Login {
 	 */
 	private void initialize() {
 		frmTelaLogin = new JFrame();
-		frmTelaLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTelaLogin
+				.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagens/Icon_Fundo.jpg")));
+		
 		frmTelaLogin.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaLogin.setResizable(false);
 		frmTelaLogin.setBackground(Color.PINK);
 		frmTelaLogin.setTitle("Tela Login");
 		frmTelaLogin.setBounds(100, 100, 400, 300);
-	
+
+		frmTelaLogin.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+				
+				if(conf == JOptionPane.YES_OPTION) {
+					frmTelaLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}else {
+					frmTelaLogin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+				
+			}
+		});
+
 		txtSiape = new JTextField(15);
 		txtSiape.addKeyListener(new KeyAdapter() {
 			@Override
@@ -96,11 +115,11 @@ public class Login {
 				}
 			}
 		});
-		txtSiape.setBounds(160, 119, 153, 20);
+		txtSiape.setBounds(160, 119, 167, 20);
 		txtSiape.setColumns(10);
 
 		btn_Entrar = new JButton("ENTRAR");
-		btn_Entrar.setBounds(67, 203, 246, 31);
+		btn_Entrar.setBounds(67, 203, 260, 31);
 		btn_Entrar.setBackground(new Color(0, 250, 154));
 
 		btn_Entrar.addKeyListener(new KeyAdapter() {
@@ -180,7 +199,7 @@ public class Login {
 		lblLogin.setFont(new Font("Times New Roman", Font.PLAIN, 21));
 
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(160, 154, 153, 20);
+		txtSenha.setBounds(160, 154, 167, 20);
 		txtSenha.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {

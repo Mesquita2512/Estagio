@@ -8,6 +8,8 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -129,7 +131,20 @@ public class Principal {
 		frmTelaPrincipal.setBackground(new Color(169, 169, 169));
 		frmTelaPrincipal.setTitle("Tela Principal");
 		frmTelaPrincipal.setBounds(100, 100, 810, 480);
-		frmTelaPrincipal.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmTelaPrincipal.addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
+					frmTelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				} else {
+					frmTelaPrincipal.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+
+			}
+		});
 
 		JLabel lblMaterialservidor = new JLabel("Material");
 		lblMaterialservidor.setBounds(53, 49, 61, 21);
@@ -491,7 +506,7 @@ public class Principal {
 		btn_Detalhar.setBackground(new Color(143, 188, 143));
 		btn_Detalhar.setBounds(473, 333, 177, 25);
 		frmTelaPrincipal.getContentPane().add(btn_Detalhar);
-		
+
 		JLabel lblConsultarEmprstimos = new JLabel("Consultar Empréstimos");
 		lblConsultarEmprstimos.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblConsultarEmprstimos.setBounds(53, 11, 541, 21);
@@ -510,19 +525,19 @@ public class Principal {
 
 			}
 		});
-		
-				JButton btnNewButton = new JButton("Empréstimos");
-				btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				menuBar.add(btnNewButton);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
 
-						control_View.abreTelaCadastroEmprestimo();
-						getFrmTelaPrincipal().dispose();
+		JButton btnNewButton = new JButton("Empréstimos");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		menuBar.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 
-					}
-				});
-				btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
+				control_View.abreTelaCadastroEmprestimo();
+				getFrmTelaPrincipal().dispose();
+
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_AdicionarPQ.png")));
 		btn_Servidor.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_ServidorPQ.png")));
 		menuBar.add(btn_Servidor);
 
