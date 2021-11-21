@@ -208,6 +208,7 @@ public class Cadastro_Servidor {
 		btn_Salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				
 				// verica o nome do servidor
 				String nome = getTxt_Nom_Servidodr().getText().trim();
 				if (nome.equals("")) {
@@ -216,6 +217,7 @@ public class Cadastro_Servidor {
 					return;
 				}
 
+				//verifica o siape nulo
 				if (getTxt_Siape_Servidor().getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o Siape do Servidor");
 					return;
@@ -242,12 +244,18 @@ public class Cadastro_Servidor {
 					return;
 				}
 
+				//verifica se será cadastrado um administrador
 				if (confirme_Servidor_Admin.isSelected()) {
 
 					String senha = new String(txt_Senha.getPassword());
 					String senhaConf = new String(txt_Senha_conf.getPassword());
 					if (senha.equals("") && senhaConf.equals("")) {
 						JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
+						return;
+					}
+					
+					if(senha.length() < 4) {
+						JOptionPane.showMessageDialog(null, "Sua senha deve ter pelos menos 4 caracteres!!!");
 						return;
 					}
 
@@ -265,13 +273,22 @@ public class Cadastro_Servidor {
 						String siape = System.getProperty("siape");
 						Admin adm = new Admin();
 						adm = aDao.buscarPorSiape(Integer.parseInt(siape));
+						String resultado = adm.gerarCodificacao(senha1);
 
-						if (adm.getSenha().equals(senha1)) {
+						if (adm.getSenha().equals(resultado)) {
 
 							admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
 							admin.setSiape(Integer.parseInt(txt_Siape_Servidor.getText()));
 							admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
-							admin.setSenha(new String(txt_Senha.getPassword()).trim());
+							
+							//trata a senha para nao conter espaço
+							String senhaf = new String(txt_Senha.getPassword());
+							if(senha.contains(" ")) {
+								JOptionPane.showMessageDialog(null, "Sua senha não pode conter espaços em branco");
+								return;
+							}
+							String result = senhaf.replaceAll("\\s+", "");
+							admin.setSenha(result);
 
 							aDao.salvar(admin);
 
@@ -291,8 +308,9 @@ public class Cadastro_Servidor {
 							confirme_Servidor_Admin.setSelected(false);
 
 						} else {
-							JOptionPane.showMessageDialog(null, "Sua senha de Administrador está incorreta!!!");
 							confirme_Servidor_Admin.setSelected(false);
+							JOptionPane.showMessageDialog(null, "Sua senha de Administrador está incorreta!!!");
+							
 						}
 
 					}

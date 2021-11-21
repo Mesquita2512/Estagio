@@ -32,5 +32,11 @@ public class Admin extends Servidor {
 	public String toString() {
 		return "Admin [senha=" + senha + ", siape=" + siape + ", nome=" + nome + ", email=" + email + "]";
 	}
+	
+	public String gerarCodificacao(String senhaCodifica) {
+		senhaCodifica = "kf"+senhaCodifica+"en";	
+		String codificada = senhaCodifica.hashCode()+"";
+		return codificada;
+	}
 
 }

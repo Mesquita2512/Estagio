@@ -65,7 +65,6 @@ public class EditarAdmin {
 		});
 	}
 
-	
 	/**
 	 * Create the application.
 	 */
@@ -90,14 +89,13 @@ public class EditarAdmin {
 		frmEditarAdmin.getContentPane().add(txt_Senha);
 		frmEditarAdmin.getContentPane().add(txt_Senha_conf);
 	}
-	
-	// Verifica se Existe Servidor cadastrado com o Siape informado
-		public Servidor buscaServSiapeCadastro(long siape) {
-			Servidor servidor = new Servidor();
-			servidor = sDao.buscarPorSiape(siape);
-			return servidor;
-		}
 
+	// Verifica se Existe Servidor cadastrado com o Siape informado
+	public Servidor buscaServSiapeCadastro(long siape) {
+		Servidor servidor = new Servidor();
+		servidor = sDao.buscarPorSiape(siape);
+		return servidor;
+	}
 
 	public void pegaAdmin(Admin admin) {
 
@@ -108,27 +106,29 @@ public class EditarAdmin {
 		this.admin = admin;
 
 	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmEditarAdmin = new JFrame();
-		frmEditarAdmin.setIconImage(Toolkit.getDefaultToolkit().getImage(EditarAdmin.class.getResource("/imagens/Icon_AdminPQ.png")));
+		frmEditarAdmin.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(EditarAdmin.class.getResource("/imagens/Icon_AdminPQ.png")));
 		frmEditarAdmin.getContentPane().setBackground(new Color(240, 255, 255));
 		frmEditarAdmin.setTitle("Editar Administradores");
 		frmEditarAdmin.setBounds(100, 100, 600, 450);
 
 		frmEditarAdmin.addWindowListener(new WindowAdapter() {
-			
+
 			public void windowClosing(WindowEvent e) {
-			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
-				
-				if(conf == JOptionPane.YES_OPTION) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
 					frmEditarAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				}else {
+				} else {
 					frmEditarAdmin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				}
-				
+
 			}
 		});
 
@@ -193,7 +193,7 @@ public class EditarAdmin {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (confirme_Servidor_Admin.isSelected()) {
 					txt_Senha.setVisible(true);
 					txt_Senha_conf.setVisible(true);
@@ -218,16 +218,16 @@ public class EditarAdmin {
 		btn_Salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-				//verica o nome do servidor
+
+				// verica o nome do servidor
 				String nome = getTxt_Nom_Servidodr().getText().trim();
 				if (nome.equals("")) {
 					JOptionPane.showMessageDialog(null, "Informe o nome do Servidor");
 					txt_Nom_Servidor.setText("");
 					return;
 				}
-				
-				//verifica o email do Servidor
+
+				// verifica o email do Servidor
 				String email = getTxt_Email_Servidor().getText().trim();
 				int position = email.indexOf("@");
 				// Verifica se o email tem texto antes e depois do "@" considera 3 caracteres
@@ -241,7 +241,6 @@ public class EditarAdmin {
 					return;
 				}
 
-
 				if (confirme_Servidor_Admin.isSelected()) {
 
 					String senha = new String(txt_Senha.getPassword());
@@ -250,11 +249,25 @@ public class EditarAdmin {
 						JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
 						return;
 					}
+					
+					if (senha.length() < 4) {
+						JOptionPane.showMessageDialog(null, "Sua senha deve ter pelos menos 4 caracteres!!!");
+						return;
+					}
 
 					if (senha.equals(senhaConf)) {
 						admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
 						admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
-						admin.setSenha(new String(txt_Senha.getPassword()).trim());
+						
+						//trata a senha para nao conter espaço
+						String senhaf = new String(txt_Senha.getPassword());
+						if(senha.contains(" ")) {
+							JOptionPane.showMessageDialog(null, "Sua senha não pode conter espaços em branco");
+							return;
+						}
+						
+						String resultado = admin.gerarCodificacao(senhaf);
+						admin.setSenha(resultado);
 
 						aDao.atualizar(admin);
 
@@ -304,7 +317,6 @@ public class EditarAdmin {
 					lb_Senha_Conf.setVisible(false);
 
 					confirme_Servidor_Admin.setSelected(false);
-					
 
 				}
 
@@ -361,8 +373,6 @@ public class EditarAdmin {
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Sair.setBackground(new Color(255, 69, 0));
 	}
-
-
 
 	public JFrame getFrmEditarAdmin() {
 		return frmEditarAdmin;

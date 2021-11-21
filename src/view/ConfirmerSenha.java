@@ -96,15 +96,14 @@ public class ConfirmerSenha {
 				adm = aDao.buscarPorSiape(Integer.parseInt(siape));
 				String confirme = adm.getSenha();
 				String senha = new String(txt_Senha.getPassword());
-				String result = senha.replaceAll("\\s+", "");
-				senha.trim();
+				String resultado = adm.gerarCodificacao(senha);
 
 				if (senha.equals("")) {
 					JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
 					return;
 				}
 
-				if (result.equals(confirme)) {
+				if (confirme.equals(resultado)) {
 
 					control_View.abreTelaAdministrador();
 					getFrmTelaAtualizarSenha().dispose();

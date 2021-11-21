@@ -23,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Administrador {
 
@@ -102,7 +104,8 @@ public class Administrador {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaServidor = new JFrame();
-		frmTelaServidor.setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagens/Icon_Fundo.jpg")));
+		frmTelaServidor.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagens/Icon_Fundo.jpg")));
 		frmTelaServidor.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaServidor.setResizable(false);
 		frmTelaServidor.setBackground(Color.PINK);
@@ -111,16 +114,16 @@ public class Administrador {
 		frmTelaServidor.getContentPane().setLayout(null);
 
 		frmTelaServidor.addWindowListener(new WindowAdapter() {
-			
+
 			public void windowClosing(WindowEvent e) {
-			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
-				
-				if(conf == JOptionPane.YES_OPTION) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
 					frmTelaServidor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				}else {
+				} else {
 					frmTelaServidor.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				}
-				
+
 			}
 		});
 
@@ -132,8 +135,8 @@ public class Administrador {
 		tb_Servidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				if(arg0.getClickCount() == 2) {
+
+				if (arg0.getClickCount() == 2) {
 					btn_Editar.doClick();
 				}
 			}
@@ -289,6 +292,14 @@ public class Administrador {
 		frmTelaServidor.getContentPane().add(btn_Buscar);
 
 		txt_buscarServidor = new JTextField();
+		txt_buscarServidor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_Buscar.doClick();
+				}
+			}
+		});
 		txt_buscarServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_buscarServidor.setColumns(10);
 		txt_buscarServidor.setBounds(139, 68, 230, 23);
@@ -303,12 +314,15 @@ public class Administrador {
 		lblControleServidor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblControleServidor.setBounds(30, 21, 253, 25);
 		frmTelaServidor.getContentPane().add(lblControleServidor);
-		
+
 		JButton btn_Sair = new JButton("Logout");
 		btn_Sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				control_View.abreTelaLogin();
-				getFrmTelaServidor().dispose();
+				if (control_View.fecharSistema() == true) {
+					control_View.abreTelaLogin();
+					getFrmTelaServidor().dispose();
+				}
+
 			}
 		});
 		btn_Sair.setFont(new Font("Tahoma", Font.PLAIN, 14));

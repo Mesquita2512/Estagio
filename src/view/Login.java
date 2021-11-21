@@ -140,7 +140,7 @@ public class Login {
 					return;
 				}
 
-				String verificaSenhaNula = new String(txtSenha.getPassword()).trim();
+				String verificaSenhaNula = new String(txtSenha.getPassword());
 
 				if (verificaSenhaNula.equals("")) {
 					JOptionPane.showMessageDialog(null, "Senha não pode ser nula!!!");
@@ -154,6 +154,8 @@ public class Login {
 				}
 
 				admin = adao.buscarPorSiape(siape1);
+				
+				String resultado = admin.gerarCodificacao(verificaSenhaNula);
 
 				if (admin == null) {
 					JOptionPane.showMessageDialog(null, "Siape Inválido!!!");
@@ -166,7 +168,7 @@ public class Login {
 					return;
 				}
 				if (admin.getSiape() == Integer.parseInt(txtSiape.getText())
-						&& admin.getSenha().equals(verificaSenhaNula)) {
+						&& admin.getSenha().equals(resultado)) {
 
 					String siape = String.valueOf(admin.getSiape());
 					System.setProperty("siape", siape);// Salva o Siape do Administrador para uso posterior
