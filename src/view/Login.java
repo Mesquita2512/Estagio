@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Toolkit;
+import javax.swing.JTextPane;
 
 public class Login {
 
@@ -32,10 +33,10 @@ public class Login {
 	Admin admin = new Admin();
 
 	int siape;
-	private JLabel lblLogin;
 	private JButton btn_Entrar;
 	private JLabel lblSiape;
 	private JLabel lblSenha;
+	private JTextPane txtTitulo;
 
 	/**
 	 * Launch the application.
@@ -62,12 +63,19 @@ public class Login {
 		initialize();
 		txtSiape.setDocument(new Numeros());
 		frmTelaLogin.getContentPane().setLayout(null);
-		frmTelaLogin.getContentPane().add(lblLogin);
 		frmTelaLogin.getContentPane().add(btn_Entrar);
 		frmTelaLogin.getContentPane().add(lblSiape);
 		frmTelaLogin.getContentPane().add(lblSenha);
 		frmTelaLogin.getContentPane().add(txtSiape);
 		frmTelaLogin.getContentPane().add(txtSenha);
+		
+		txtTitulo = new JTextPane();
+		txtTitulo.setContentType("text/html");
+		txtTitulo.setText("<html> <body> <p style = 'margin: 2px; text-align: justify; font-size: 15px;'>Sistema de Gerenciamento e Controle de Empréstimos de Materiais</p> </body> </html>\"</p> </body> </html>");
+		txtTitulo.setEditable(false);
+		txtTitulo.setBackground(new Color(240, 255, 255));
+		txtTitulo.setBounds(82, 11, 232, 96);
+		frmTelaLogin.getContentPane().add(txtTitulo);
 
 		try {
 			FabricaJpa.getEntityManagerFactory().createEntityManager();
@@ -92,16 +100,16 @@ public class Login {
 		frmTelaLogin.setBounds(100, 100, 400, 300);
 
 		frmTelaLogin.addWindowListener(new WindowAdapter() {
-			
+
 			public void windowClosing(WindowEvent e) {
-			int conf =	JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
-				
-				if(conf == JOptionPane.YES_OPTION) {
+				int conf = JOptionPane.showConfirmDialog(null, "Deseja sair do Sistema?");
+
+				if (conf == JOptionPane.YES_OPTION) {
 					frmTelaLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				}else {
+				} else {
 					frmTelaLogin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				}
-				
+
 			}
 		});
 
@@ -114,11 +122,12 @@ public class Login {
 				}
 			}
 		});
-		txtSiape.setBounds(160, 119, 167, 20);
+		txtSiape.setBounds(160, 119, 154, 20);
 		txtSiape.setColumns(10);
 
 		btn_Entrar = new JButton("ENTRAR");
-		btn_Entrar.setBounds(67, 203, 260, 31);
+		btn_Entrar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btn_Entrar.setBounds(82, 203, 232, 31);
 		btn_Entrar.setBackground(new Color(0, 250, 154));
 
 		btn_Entrar.addKeyListener(new KeyAdapter() {
@@ -154,8 +163,6 @@ public class Login {
 				}
 
 				admin = adao.buscarPorSiape(siape1);
-				
-				String resultado = admin.gerarCodificacao(verificaSenhaNula);
 
 				if (admin == null) {
 					JOptionPane.showMessageDialog(null, "Siape Inválido!!!");
@@ -167,8 +174,10 @@ public class Login {
 					JOptionPane.showMessageDialog(null, "Você nao pode acessar o sistema, consulte seu supervisor");
 					return;
 				}
-				if (admin.getSiape() == Integer.parseInt(txtSiape.getText())
-						&& admin.getSenha().equals(resultado)) {
+
+				String resultado = admin.gerarCodificacao(verificaSenhaNula);
+
+				if (admin.getSiape() == Integer.parseInt(txtSiape.getText()) && admin.getSenha().equals(resultado)) {
 
 					String siape = String.valueOf(admin.getSiape());
 					System.setProperty("siape", siape);// Salva o Siape do Administrador para uso posterior
@@ -185,22 +194,15 @@ public class Login {
 		});
 
 		lblSiape = new JLabel("Siape");
-		lblSiape.setBounds(67, 118, 34, 19);
+		lblSiape.setBounds(82, 123, 34, 19);
 		lblSiape.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		lblSenha = new JLabel("Senha");
-		lblSenha.setBounds(67, 153, 37, 19);
+		lblSenha.setBounds(82, 153, 37, 19);
 		lblSenha.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
-		lblLogin = new JLabel("");
-		lblLogin.setText(
-				"<html><p style=\"width:200px; text-align: justify\">Sistema de Gerenciamento e controle de empréstimos de materiais</p></html>");
-		lblLogin.setBounds(67, 11, 260, 96);
-		lblLogin.setForeground(new Color(72, 61, 139));
-		lblLogin.setFont(new Font("Times New Roman", Font.PLAIN, 21));
-
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(160, 154, 167, 20);
+		txtSenha.setBounds(160, 154, 154, 20);
 		txtSenha.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {

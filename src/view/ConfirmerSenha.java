@@ -99,7 +99,7 @@ public class ConfirmerSenha {
 				String resultado = adm.gerarCodificacao(senha);
 
 				if (senha.equals("")) {
-					JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
+					JOptionPane.showMessageDialog(null, "A senha não pode ser nula!!!");
 					return;
 				}
 

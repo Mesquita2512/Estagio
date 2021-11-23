@@ -586,6 +586,12 @@ public class Principal {
 		menuBar.add(btn_Relatorios);
 
 		JButton btn_Sobre = new JButton("Sobre    ");
+		btn_Sobre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				control_View.abreTelaSobre();
+				getFrmTelaPrincipal().dispose();
+			}
+		});
 		btn_Sobre.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn_Sobre.setIcon(new ImageIcon(Principal.class.getResource("/imagens/Icon_SobrePQ.png")));
 		menuBar.add(btn_Sobre);

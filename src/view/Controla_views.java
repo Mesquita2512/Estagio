@@ -18,7 +18,7 @@ public class Controla_views {
 	}
 
 	public void abreTelaConfirmerSenha() {
-		
+
 		try {
 			ConfirmerSenha windowSenha = new ConfirmerSenha();
 			windowSenha.getFrmTelaAtualizarSenha().setVisible(true);
@@ -27,7 +27,7 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaPrincipal() {
 		try {
 
@@ -67,7 +67,7 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaAdministrador() {
 
 		try {
@@ -150,7 +150,7 @@ public class Controla_views {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void abreTelaEditarAdmin(Admin admin) {
 		try {
 
@@ -183,13 +183,21 @@ public class Controla_views {
 			System.setProperty("siape", "0");
 			abreTelaLogin();
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 
 	}
 
-	public void fecharTudo() {
+	public void abreTelaSobre() {
+		try {
+			Sobre windowSobre = new Sobre();
+			windowSobre.getFrmSobre().setVisible(true);
+			windowSobre.getFrmSobre().setLocationRelativeTo(null);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 	}
 
