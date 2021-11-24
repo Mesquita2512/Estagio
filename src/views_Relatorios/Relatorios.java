@@ -14,6 +14,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -40,6 +42,9 @@ public class Relatorios {
 	JScrollPane spServidor = new JScrollPane();
 	JButton btn_Confirmar = new JButton("Confirmar");
 	JButton btnBuscarServidores = new JButton("buscar");
+
+	JDateChooser dcInicio = new JDateChooser(new Date());
+	JDateChooser dcFinal = new JDateChooser(new Date());
 
 	Controla_views control_View = new Controla_views();
 	Controla_Relatorios control_Rel = new Controla_Relatorios();
@@ -304,6 +309,31 @@ public class Relatorios {
 		JButton btn_GerarRelEmpData = new JButton("Gerar");
 		btn_GerarRelEmpData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// formatando a data de inicio
+				Date DataFormatada = dcInicio.getDate();
+				SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+				String dataInicio = formatador.format(DataFormatada);
+
+				// formatando a data final
+				Date DataFormatad = dcFinal.getDate();
+				SimpleDateFormat formatado = new SimpleDateFormat("dd/MM/yyyy");
+				String dataFinal = formatado.format(DataFormatad);
+
+				int indice = cbEmpData.getSelectedIndex();
+				if (indice == 0) {
+					control_Rel.abretelaRelatoriosEmprestimos("status todos" + "-" + dataInicio + "-" + dataFinal);
+					getFrmTelaRelatorios().dispose();
+				}
+				if (indice == 1) {
+					control_Rel
+							.abretelaRelatoriosEmprestimos("status em andamento" + "-" + dataInicio + "-" + dataFinal);
+					getFrmTelaRelatorios().dispose();
+				}
+				if (indice == 2) {
+					control_Rel.abretelaRelatoriosEmprestimos("status concluidos" + "-" + dataInicio + "-" + dataFinal);
+					getFrmTelaRelatorios().dispose();
+				}
 			}
 		});
 		btn_GerarRelEmpData.setForeground(Color.BLACK);
@@ -316,7 +346,7 @@ public class Relatorios {
 		btn_GerarRelEmpServ.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if(serv.getSiape() == 0) {
+				if (serv.getSiape() == 0) {
 					JOptionPane.showMessageDialog(null, "Realize a busca de um servidor");
 					return;
 				}
@@ -347,20 +377,18 @@ public class Relatorios {
 		lblNewLabel_1.setBounds(252, 209, 22, 14);
 		frmTelaRelatorios.getContentPane().add(lblNewLabel_1);
 
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBackground(new Color(240, 255, 255));
-		dateChooser.setBounds(272, 205, 101, 20);
-		frmTelaRelatorios.getContentPane().add(dateChooser);
+		dcInicio.setBackground(new Color(240, 255, 255));
+		dcInicio.setBounds(272, 205, 101, 20);
+		frmTelaRelatorios.getContentPane().add(dcInicio);
 
 		JLabel lblNewLabel_1_1 = new JLabel("até");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_1_1.setBounds(393, 208, 25, 14);
 		frmTelaRelatorios.getContentPane().add(lblNewLabel_1_1);
 
-		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBackground(new Color(240, 255, 255));
-		dateChooser_1.setBounds(417, 206, 99, 20);
-		frmTelaRelatorios.getContentPane().add(dateChooser_1);
+		dcFinal.setBackground(new Color(240, 255, 255));
+		dcFinal.setBounds(417, 206, 99, 20);
+		frmTelaRelatorios.getContentPane().add(dcFinal);
 
 		txt_NomeServ = new JTextField();
 		txt_NomeServ.addKeyListener(new KeyAdapter() {

@@ -110,8 +110,18 @@ public class Emprestimo_Relatorios {
 			}
 
 		} else {
-			//////////
+			carregarFiltroPorData(filtroEmp);
 		}
+	}
+	
+	public void carregarFiltroPorData(String filtroEmp) {
+		JOptionPane.showMessageDialog(null, filtroEmp);
+		
+	}
+	
+	public void carregarTabelaPorData(String filtroEmp) {
+		JOptionPane.showConfirmDialog(null, filtroEmp);
+		
 	}
 
 	public void carregarTabelaServidor(String filtroEmp) {

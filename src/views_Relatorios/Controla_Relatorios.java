@@ -41,6 +41,8 @@ public class Controla_Relatorios {
 			windowRelEmp.getFrmTelaRelatorioEmprestimo().setLocationRelativeTo(null);
 			if (filtroEmp.contains(":")) {
 				windowRelEmp.carregarTabelaServidor(filtroEmp);
+			} else if (filtroEmp.contains("-")) {
+				windowRelEmp.carregarFiltroPorData(filtroEmp);
 			} else {
 				windowRelEmp.carregaRelatorio(filtroEmp);
 			}
