@@ -22,6 +22,8 @@ import javax.swing.ListSelectionModel;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Materiais {
 
@@ -90,7 +92,8 @@ public class Materiais {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaMaterias = new JFrame();
-		frmTelaMaterias.setIconImage(Toolkit.getDefaultToolkit().getImage(Materiais.class.getResource("/imagens/Icon_MateriaisPQ.png")));
+		frmTelaMaterias.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Materiais.class.getResource("/imagens/Icon_MateriaisPQ.png")));
 		frmTelaMaterias.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaMaterias.setResizable(false);
 		frmTelaMaterias.setBackground(Color.PINK);
@@ -132,7 +135,7 @@ public class Materiais {
 		txt_Material.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btn_Buscar.doClick();
 				}
 			}
@@ -301,6 +304,14 @@ public class Materiais {
 		btn_Arquivar.setBackground(new Color(255, 248, 220));
 
 		tb_Materiais = new JTable();
+		tb_Materiais.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 2) {
+					btn_Editar.doClick();
+				}
+			}
+		});
 		tb_Materiais.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tb_Materiais.setModel(new DefaultTableModel(new Object[][] { { null, "", null, null, null, null, null }, },
 				new String[] { "C\u00F3digo", "Descri\u00E7\u00E3o", "Qtd Est", "Qtd Emp", "(R$)",

@@ -5,17 +5,17 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import view.Controla_views;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import dao.DevolucaoDao;
 import dao.EmprestimoDao;
+import dao.ServidorDao;
 import entity.Devolucao;
 import entity.Emprestimo;
+import entity.Servidor;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -31,6 +31,7 @@ import javax.swing.ListSelectionModel;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextPane;
 
 public class Emprestimo_Relatorios {
 
@@ -40,6 +41,8 @@ public class Emprestimo_Relatorios {
 	Controla_Relatorios control_rel = new Controla_Relatorios();
 
 	String filtro = "";
+	Servidor serv = new Servidor();
+	ServidorDao sDao = new ServidorDao();
 
 	Emprestimo emp = new Emprestimo();
 	EmprestimoDao eDao = new EmprestimoDao();
@@ -80,9 +83,67 @@ public class Emprestimo_Relatorios {
 		}
 		if (filtroEmp == "status concluidos") {
 			filtro = "Relatório de todos os Empréstismos concluidos";
+		} else {
+			carregarFiltroPorServidor(filtroEmp);
 		}
 
 		initialize();
+	}
+
+	public void carregarFiltroPorServidor(String filtroEmp) {
+		if (filtroEmp.contains(":")) {
+			int position = filtroEmp.indexOf(":");
+			int tamString = filtroEmp.length();
+			String siape = filtroEmp.substring(position + 1, tamString);
+			String status = filtroEmp.substring(0, position);
+
+			serv = sDao.buscarPorSiape(Integer.parseInt(siape));
+
+			if (status.equals("status todos")) {
+				filtro = "Relatório de todos os Empréstismos realizados por " + serv.getNome().toLowerCase();
+			}
+			if (status.equals("status em andamento")) {
+				filtro = "Relatório de todos os Empréstismos em andamento de " + serv.getNome().toLowerCase();
+			}
+			if (status.equals("status concluidos")) {
+				filtro = "Relatório de todos os Empréstismos concluidos de " + serv.getNome().toLowerCase();
+			}
+
+		} else {
+			//////////
+		}
+	}
+
+	public void carregarTabelaServidor(String filtroEmp) {
+		if (filtroEmp.contains(":")) {
+			int position = filtroEmp.indexOf(":");
+			int tamString = filtroEmp.length();
+			String siape = filtroEmp.substring(position + 1, tamString);
+			String status = filtroEmp.substring(0, position);
+
+			int siap = Integer.parseInt(siape);
+
+			if (status.equals("status todos")) {
+				String filtro = "from Emprestimo where siape_Servidor = " + siap;
+				setListaEmprestimo(eDao.listarEmprestimoPorServidor(filtro));
+				carregar();
+
+			}
+			if (status.equals("status em andamento")) {
+				String filtro = "from Emprestimo where Qtd_Emprestada > Qtd_Tot_Devolvida AND siape_servidor = " + siap;
+				setListaEmprestimo(eDao.listarEmprestimoPorServidor(filtro));
+				carregar();
+
+			}
+			if (status.equals("status concluidos")) {
+				String filtro = "from Emprestimo where Qtd_Emprestada = Qtd_Tot_Devolvida AND siape_servidor = " + siap;
+				setListaEmprestimo(eDao.listarEmprestimoPorServidor(filtro));
+				carregar();
+			}
+
+		} else {
+			//////////
+		}
 	}
 
 	public void carregaRelatorio(String filtroEmp) {
@@ -151,7 +212,7 @@ public class Emprestimo_Relatorios {
 		frmTelaRelatorioEmprestimo = new JFrame();
 		frmTelaRelatorioEmprestimo.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(Emprestimo_Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
-		frmTelaRelatorioEmprestimo.getContentPane().setBackground(new Color(224, 255, 255));
+		frmTelaRelatorioEmprestimo.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaRelatorioEmprestimo.setBackground(new Color(224, 255, 255));
 		frmTelaRelatorioEmprestimo.getContentPane().setLayout(null);
 		frmTelaRelatorioEmprestimo.setResizable(false);
@@ -172,9 +233,6 @@ public class Emprestimo_Relatorios {
 
 			}
 		});
-
-		JLabel lblNewLabel = new JLabel(filtro);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
 
 		JButton btn_Voltar = new JButton("Voltar");
 		btn_Voltar.addActionListener(new ActionListener() {
@@ -223,6 +281,12 @@ public class Emprestimo_Relatorios {
 		btn_Detalhar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_Detalhar.setBackground(new Color(143, 188, 143));
 
+		JTextPane textPane = new JTextPane();
+		textPane.setEditable(false);
+		textPane.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		textPane.setText(filtro);
+		textPane.setBackground(new Color(240, 255, 255));
+
 		GroupLayout groupLayout = new GroupLayout(frmTelaRelatorioEmprestimo.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
 				.createSequentialGroup()
@@ -235,14 +299,13 @@ public class Emprestimo_Relatorios {
 								.addComponent(btn_Sair, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup().addGap(25)
 								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 751,
-												Short.MAX_VALUE)
-										.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE))))
+										.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+										.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE))))
 				.addGap(18)));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(22)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
+				.addGroup(groupLayout.createSequentialGroup().addGap(21)
+						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 508, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -260,7 +323,7 @@ public class Emprestimo_Relatorios {
 				}
 			}
 		});
-		tbEmprestimo.setBackground(new Color(224, 255, 255));
+		tbEmprestimo.setBackground(new Color(240, 255, 255));
 		tbEmprestimo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbEmprestimo.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null, null, null, null }, }, new String[] { "C\u00F3digo",

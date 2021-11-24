@@ -25,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Relatorios {
 
@@ -37,6 +39,7 @@ public class Relatorios {
 
 	JScrollPane spServidor = new JScrollPane();
 	JButton btn_Confirmar = new JButton("Confirmar");
+	JButton btnBuscarServidores = new JButton("buscar");
 
 	Controla_views control_View = new Controla_views();
 	Controla_Relatorios control_Rel = new Controla_Relatorios();
@@ -98,9 +101,11 @@ public class Relatorios {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmTelaRelatorios = new JFrame();
-		frmTelaRelatorios.setIconImage(Toolkit.getDefaultToolkit().getImage(Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
+		frmTelaRelatorios.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Relatorios.class.getResource("/imagens/Icon_Relatorios.png")));
 		frmTelaRelatorios.getContentPane().setBackground(new Color(240, 255, 255));
 		frmTelaRelatorios.setResizable(false);
 		frmTelaRelatorios.setBackground(Color.PINK);
@@ -293,10 +298,14 @@ public class Relatorios {
 
 		cbEmpServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbEmpServ.setBackground(new Color(224, 255, 255));
-		cbEmpServ.setBounds(526, 257, 128, 20);
+		cbEmpServ.setBounds(526, 252, 128, 25);
 		frmTelaRelatorios.getContentPane().add(cbEmpServ);
 
 		JButton btn_GerarRelEmpData = new JButton("Gerar");
+		btn_GerarRelEmpData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btn_GerarRelEmpData.setForeground(Color.BLACK);
 		btn_GerarRelEmpData.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_GerarRelEmpData.setBackground(new Color(0, 128, 128));
@@ -304,10 +313,33 @@ public class Relatorios {
 		frmTelaRelatorios.getContentPane().add(btn_GerarRelEmpData);
 
 		JButton btn_GerarRelEmpServ = new JButton("Gerar");
+		btn_GerarRelEmpServ.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if(serv.getSiape() == 0) {
+					JOptionPane.showMessageDialog(null, "Realize a busca de um servidor");
+					return;
+				}
+				int indice = cbEmpServ.getSelectedIndex();
+				if (indice == 0) {
+					control_Rel.abretelaRelatoriosEmprestimos("status todos" + ":" + serv.getSiape());
+					getFrmTelaRelatorios().dispose();
+				}
+				if (indice == 1) {
+					control_Rel.abretelaRelatoriosEmprestimos("status em andamento" + ":" + serv.getSiape());
+					getFrmTelaRelatorios().dispose();
+				}
+				if (indice == 2) {
+					control_Rel.abretelaRelatoriosEmprestimos("status concluidos" + ":" + serv.getSiape());
+					getFrmTelaRelatorios().dispose();
+				}
+
+			}
+		});
 		btn_GerarRelEmpServ.setForeground(Color.BLACK);
 		btn_GerarRelEmpServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_GerarRelEmpServ.setBackground(new Color(0, 128, 128));
-		btn_GerarRelEmpServ.setBounds(664, 255, 104, 25);
+		btn_GerarRelEmpServ.setBounds(664, 252, 104, 25);
 		frmTelaRelatorios.getContentPane().add(btn_GerarRelEmpServ);
 
 		JLabel lblNewLabel_1 = new JLabel("de");
@@ -316,6 +348,7 @@ public class Relatorios {
 		frmTelaRelatorios.getContentPane().add(lblNewLabel_1);
 
 		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBackground(new Color(240, 255, 255));
 		dateChooser.setBounds(272, 205, 101, 20);
 		frmTelaRelatorios.getContentPane().add(dateChooser);
 
@@ -325,17 +358,27 @@ public class Relatorios {
 		frmTelaRelatorios.getContentPane().add(lblNewLabel_1_1);
 
 		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBackground(new Color(240, 255, 255));
 		dateChooser_1.setBounds(417, 206, 99, 20);
 		frmTelaRelatorios.getContentPane().add(dateChooser_1);
 
 		txt_NomeServ = new JTextField();
+		txt_NomeServ.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnBuscarServidores.doClick();
+				}
+			}
+		});
+		txt_NomeServ.setBackground(new Color(240, 255, 255));
 		txt_NomeServ.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txt_NomeServ.setEditable(true);
 		txt_NomeServ.setColumns(10);
 		txt_NomeServ.setBounds(252, 252, 121, 23);
 		frmTelaRelatorios.getContentPane().add(txt_NomeServ);
 
-		JButton btnBuscarServidores = new JButton("buscar");
 		btnBuscarServidores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -374,9 +417,26 @@ public class Relatorios {
 		frmTelaRelatorios.getContentPane().add(spServidor);
 
 		tbServidor = new JTable();
+		tbServidor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 2) {
+					btn_Confirmar.doClick();
+				}
+			}
+		});
+		tbServidor.setBackground(new Color(240, 255, 255));
 		tbServidor.setRowSelectionAllowed(false);
 		tbServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tbServidor.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Siape", "Nome" }));
+		tbServidor
+				.setModel(new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Siape", "Nome" }) {
+					boolean[] columnEditables = new boolean[] { false, false };
+
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				});
+		tbServidor.getColumnModel().getColumn(0).setResizable(false);
 		tbServidor.getColumnModel().getColumn(1).setPreferredWidth(245);
 		spServidor.setViewportView(tbServidor);
 		btn_Confirmar.addActionListener(new ActionListener() {

@@ -99,5 +99,23 @@ public class EmprestimoDao {
 
 		return lista;
 	}
+	
+	// buscar todos os emprestimos por servidor com base num filtro, esta sendo usado na tela de emprestimos relatorios 
+	@SuppressWarnings("unchecked")
+	public List<Emprestimo> listarEmprestimoPorServidor(String filtro) {
+		EntityManager entityManager = FabricaJpa.getEntityManagerFactory().createEntityManager();
+		List<Emprestimo> lista;
+		try {
+
+			String jpql = filtro;
+			TypedQuery<Emprestimo> q = (TypedQuery<Emprestimo>) entityManager.createQuery(jpql);
+			lista = q.getResultList();
+		} catch (EntityExistsException | TransactionalException e) {
+			lista = null;
+			FabricaJpa.shutdown();
+		}
+
+		return lista;
+	}
 
 }

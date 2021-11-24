@@ -249,7 +249,7 @@ public class EditarAdmin {
 						JOptionPane.showMessageDialog(null, "As senhas não podem ser nulas!!!");
 						return;
 					}
-					
+
 					if (senha.length() < 4) {
 						JOptionPane.showMessageDialog(null, "Sua senha deve ter pelos menos 4 caracteres!!!");
 						return;
@@ -258,34 +258,23 @@ public class EditarAdmin {
 					if (senha.equals(senhaConf)) {
 						admin.setNome(txt_Nom_Servidor.getText().trim().toUpperCase());
 						admin.setEmail(txt_Email_Servidor.getText().toUpperCase().trim());
-						
-						//trata a senha para nao conter espaço
+
+						// trata a senha para nao conter espaço
 						String senhaf = new String(txt_Senha.getPassword());
-						if(senha.contains(" ")) {
+						if (senha.contains(" ")) {
 							JOptionPane.showMessageDialog(null, "Sua senha não pode conter espaços em branco");
 							return;
 						}
-						
+
 						String resultado = admin.gerarCodificacao(senhaf);
 						admin.setSenha(resultado);
 
 						aDao.atualizar(admin);
 
+						control_View.abreTelaAdministrador();
+						getFrmEditarAdmin().dispose();
+
 						JOptionPane.showMessageDialog(null, "Administrador atualizado com sucesso!!!");
-
-						txt_Nom_Servidor.setText("");
-						txt_Siape_Servidor.setText("");
-						txt_Email_Servidor.setText("");
-						txt_Senha.setText("");
-						txt_Senha_conf.setText("");
-
-						txt_Senha.setVisible(false);
-						txt_Senha_conf.setVisible(false);
-						lb_Senha.setVisible(false);
-						lb_Senha_Conf.setVisible(false);
-
-						confirme_Servidor_Admin.setSelected(false);
-						return;
 
 					}
 
@@ -303,20 +292,10 @@ public class EditarAdmin {
 
 					aDao.atualizar(admin);
 
+					control_View.abreTelaAdministrador();
+					getFrmEditarAdmin().dispose();
+
 					JOptionPane.showMessageDialog(null, "Administrador atualizado com sucesso!!!");
-
-					txt_Nom_Servidor.setText("");
-					txt_Siape_Servidor.setText("");
-					txt_Email_Servidor.setText("");
-					txt_Senha.setText("");
-					txt_Senha_conf.setText("");
-
-					txt_Senha.setVisible(false);
-					txt_Senha_conf.setVisible(false);
-					lb_Senha.setVisible(false);
-					lb_Senha_Conf.setVisible(false);
-
-					confirme_Servidor_Admin.setSelected(false);
 
 				}
 
