@@ -19,6 +19,7 @@ import entity.Servidor;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,6 +49,10 @@ public class Emprestimo_Relatorios {
 	EmprestimoDao eDao = new EmprestimoDao();
 	private List<Emprestimo> listaEmprestimo;
 
+	String dataInicial = "";
+	String dataFinal = "";
+	String status = "";
+
 	Devolucao dev = new Devolucao();
 	DevolucaoDao dDao = new DevolucaoDao();
 	private List<Devolucao> listaDevolucao;
@@ -75,13 +80,11 @@ public class Emprestimo_Relatorios {
 	 * Create the application.
 	 */
 	public Emprestimo_Relatorios(String filtroEmp) {
-		if (filtroEmp == "status todos") {
+		if (filtroEmp.equals("status todos")) {
 			filtro = "Relatório de todos os Empréstismos realizados";
-		}
-		if (filtroEmp == "status em andamento") {
+		} else if (filtroEmp.equals("status em andamento")) {
 			filtro = "Relatório de todos os Empréstismos em andamento";
-		}
-		if (filtroEmp == "status concluidos") {
+		} else if (filtroEmp.equals("status concluidos")) {
 			filtro = "Relatório de todos os Empréstismos concluidos";
 		} else {
 			carregarFiltroPorServidor(filtroEmp);
@@ -91,6 +94,7 @@ public class Emprestimo_Relatorios {
 	}
 
 	public void carregarFiltroPorServidor(String filtroEmp) {
+
 		if (filtroEmp.contains(":")) {
 			int position = filtroEmp.indexOf(":");
 			int tamString = filtroEmp.length();
@@ -113,15 +117,125 @@ public class Emprestimo_Relatorios {
 			carregarFiltroPorData(filtroEmp);
 		}
 	}
-	
+
 	public void carregarFiltroPorData(String filtroEmp) {
-		JOptionPane.showMessageDialog(null, filtroEmp);
-		
+
+		int position = filtroEmp.indexOf("-");
+		int tamString = filtroEmp.length();
+		dataInicial = filtroEmp.substring(position + 1, position + 11);
+		dataFinal = filtroEmp.substring(position + 12, tamString);
+		status = filtroEmp.substring(0, position);
+
+		if (status.equals("status todos")) {
+			filtro = "Relatório de todos os Empréstismos realizados de " + dataInicial + " a " + dataFinal;
+		}
+		if (status.equals("status em andamento")) {
+			filtro = "Relatório de todos os Empréstismos em andamento de " + dataInicial + " a " + dataFinal;
+		}
+		if (status.equals("status concluidos")) {
+			filtro = "Relatório de todos os Empréstismos concluidos de " + dataInicial + " a " + dataFinal;
+		}
+
 	}
-	
+
 	public void carregarTabelaPorData(String filtroEmp) {
-		JOptionPane.showConfirmDialog(null, filtroEmp);
-		
+
+		String filtrado = "from Emprestimo";
+		setListaEmprestimo(eDao.listarEmprestimoPorServidor(filtrado));
+
+		int val = getListaEmprestimo().size();
+
+		Date dataIni = null;
+		try {
+			dataIni = new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		Date dataFim = null;
+		try {
+			dataFim = new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		int position = filtroEmp.indexOf("-");
+		int tamString = filtroEmp.length();
+		dataInicial = filtroEmp.substring(position + 1, position + 11);
+		dataFinal = filtroEmp.substring(position + 12, tamString);
+		status = filtroEmp.substring(0, position);
+
+		if (status.equals("status todos")) {
+			while (val > 0) {
+				emp = getListaEmprestimo().get(val - 1);
+				Date dataEmp = emp.getDataEntrega();
+
+				// incrementa um dia a data
+				Calendar c = Calendar.getInstance();
+				c.setTime(dataFim);
+				c.add(Calendar.DATE, 1);
+				dataFim = c.getTime();
+
+				if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0) {
+					getListaEmprestimo().remove(val - 1);
+
+				}
+				val--;
+
+			}
+
+			carregar();
+		}
+
+		if (status.equals("status em andamento")) {
+			while (val > 0) {
+				emp = getListaEmprestimo().get(val - 1);
+				Date dataEmp = emp.getDataEntrega();
+
+				// incrementa um dia a data
+				Calendar c = Calendar.getInstance();
+				c.setTime(dataFim);
+				c.add(Calendar.DATE, 1);
+				dataFim = c.getTime();
+
+				if (emp.getQtdTotalDevolvida() < emp.getQtdEmprestado()) {
+
+				} else {
+					getListaEmprestimo().remove(val - 1);
+					if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0) {
+						getListaEmprestimo().remove(val - 1);
+
+					}
+				}
+				val--;
+			}
+			carregar();
+		}
+		if (status.equals("status concluidos")) {
+			while (val > 0) {
+				emp = getListaEmprestimo().get(val - 1);
+				Date dataEmp = emp.getDataEntrega();
+
+				// incrementa um dia a data
+				Calendar c = Calendar.getInstance();
+				c.setTime(dataFim);
+				c.add(Calendar.DATE, 1);
+				dataFim = c.getTime();
+				if (emp.getQtdEmprestado() == emp.getQtdTotalDevolvida()) {
+
+				} else {
+					getListaEmprestimo().remove(val - 1);
+					if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0) {
+						getListaEmprestimo().remove(val - 1);
+
+					}
+				}
+
+				val--;
+			}
+			carregar();
+		}
+
 	}
 
 	public void carregarTabelaServidor(String filtroEmp) {
@@ -151,21 +265,19 @@ public class Emprestimo_Relatorios {
 				carregar();
 			}
 
-		} else {
-			//////////
 		}
 	}
 
 	public void carregaRelatorio(String filtroEmp) {
-		if (filtroEmp == "status todos") {
+		if (filtroEmp.equals("status todos")) {
 			setListaEmprestimo(eDao.getListaEmprestimo());
 			carregar();
 		}
-		if (filtroEmp == "status em andamento") {
+		if (filtroEmp.equals("status em andamento")) {
 			setListaEmprestimo(eDao.listarEmprestimoEmAndamento());
 			carregar();
 		}
-		if (filtroEmp == "status concluidos") {
+		if (filtroEmp.equals("status concluidos")) {
 			setListaEmprestimo(eDao.listarEmprestimoConcluidos());
 			carregar();
 		}

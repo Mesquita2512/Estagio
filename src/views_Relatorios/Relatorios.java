@@ -320,18 +320,29 @@ public class Relatorios {
 				SimpleDateFormat formatado = new SimpleDateFormat("dd/MM/yyyy");
 				String dataFinal = formatado.format(DataFormatad);
 
+				Date hoje = new Date();
+
+				if (dataInicio.equals(dataFinal)) {
+					JOptionPane.showMessageDialog(null, "Data inicial e data final devem ser diferentes!!!");
+					return;
+				}
+				if (dcFinal.getDate().compareTo(hoje) > 0 || dcInicio.getDate().compareTo(hoje) > 0) {
+					JOptionPane.showMessageDialog(null, "Data Inválida, por favor informe outra data");
+					return;
+				}
+
 				int indice = cbEmpData.getSelectedIndex();
 				if (indice == 0) {
-					control_Rel.abretelaRelatoriosEmprestimos("status todos" + "-" + dataInicio + "-" + dataFinal);
+					control_Rel.abretelaRelatoriosEmprestimos("status todos" + "-" + dataInicio + "." + dataFinal);
 					getFrmTelaRelatorios().dispose();
 				}
 				if (indice == 1) {
 					control_Rel
-							.abretelaRelatoriosEmprestimos("status em andamento" + "-" + dataInicio + "-" + dataFinal);
+							.abretelaRelatoriosEmprestimos("status em andamento" + "-" + dataInicio + "." + dataFinal);
 					getFrmTelaRelatorios().dispose();
 				}
 				if (indice == 2) {
-					control_Rel.abretelaRelatoriosEmprestimos("status concluidos" + "-" + dataInicio + "-" + dataFinal);
+					control_Rel.abretelaRelatoriosEmprestimos("status concluidos" + "-" + dataInicio + "." + dataFinal);
 					getFrmTelaRelatorios().dispose();
 				}
 			}

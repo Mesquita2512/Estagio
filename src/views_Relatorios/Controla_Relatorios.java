@@ -41,10 +41,14 @@ public class Controla_Relatorios {
 			windowRelEmp.getFrmTelaRelatorioEmprestimo().setLocationRelativeTo(null);
 			if (filtroEmp.contains(":")) {
 				windowRelEmp.carregarTabelaServidor(filtroEmp);
-			} else if (filtroEmp.contains("-")) {
-				windowRelEmp.carregarFiltroPorData(filtroEmp);
+
+			}
+			if (filtroEmp.contains("-")) {
+				windowRelEmp.carregarTabelaPorData(filtroEmp);
+
 			} else {
 				windowRelEmp.carregaRelatorio(filtroEmp);
+
 			}
 
 		} catch (Exception e) {
