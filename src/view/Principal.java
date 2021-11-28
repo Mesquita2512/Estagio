@@ -376,7 +376,7 @@ public class Principal {
 							devolucao.setAdminRecebe(adm);
 							devolucao.setDataDevolucao(new Date());
 							devolucao.setLocalDate(c);
-							devolucao.setQtdDevolvida(emp.getQtdEmprestado());
+							devolucao.setQtdDevolvida(1);
 							devolucao.setObsDevolucao(obs);
 
 							dDao.salvar(devolucao);
@@ -389,9 +389,7 @@ public class Principal {
 							devolucao = new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
-							getFrmTelaPrincipal().dispose();
-							control_View.abreTelaPrincipal();
-
+							btnBuscar.doClick();
 						} else {
 							return;
 						}
@@ -445,8 +443,7 @@ public class Principal {
 							devolucao = new Devolucao();
 
 							JOptionPane.showMessageDialog(null, "Material devolvido com sucesso!!!");
-							getFrmTelaPrincipal().dispose();
-							control_View.abreTelaPrincipal();
+							btnBuscar.doClick();
 						}
 
 					}
