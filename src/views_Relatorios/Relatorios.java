@@ -321,13 +321,16 @@ public class Relatorios {
 				String dataFinal = formatado.format(DataFormatad);
 
 				Date hoje = new Date();
-
-				if (dataInicio.equals(dataFinal)) {
-					JOptionPane.showMessageDialog(null, "Data inicial e data final devem ser diferentes!!!");
-					return;
-				}
+				/*
+				 * if (dataInicio.equals(dataFinal)) { JOptionPane.showMessageDialog(null,
+				 * "Data inicial e data final devem ser diferentes!!!"); return; }
+				 */
 				if (dcFinal.getDate().compareTo(hoje) > 0 || dcInicio.getDate().compareTo(hoje) > 0) {
 					JOptionPane.showMessageDialog(null, "Data Inválida, por favor informe outra data");
+					return;
+				}
+				if (dcFinal.getDate().compareTo(dcInicio.getDate()) < 0) {
+					JOptionPane.showMessageDialog(null, "A data final não pode ser anterior a data inicial");
 					return;
 				}
 

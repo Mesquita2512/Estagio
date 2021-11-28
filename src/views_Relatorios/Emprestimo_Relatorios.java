@@ -40,6 +40,7 @@ public class Emprestimo_Relatorios {
 
 	Controla_views control_View = new Controla_views();
 	Controla_Relatorios control_rel = new Controla_Relatorios();
+	ConfigDate cd = new ConfigDate();
 
 	String filtro = "";
 	Servidor serv = new Servidor();
@@ -159,22 +160,15 @@ public class Emprestimo_Relatorios {
 			e.printStackTrace();
 		}
 
-		int position = filtroEmp.indexOf("-");
-		int tamString = filtroEmp.length();
-		dataInicial = filtroEmp.substring(position + 1, position + 11);
-		dataFinal = filtroEmp.substring(position + 12, tamString);
-		status = filtroEmp.substring(0, position);
+		dataFim = cd.confDatFim(dataFim);
+		dataIni = cd.confDatIni(dataIni);
 
 		if (status.equals("status todos")) {
+
 			while (val > 0) {
 				emp = getListaEmprestimo().get(val - 1);
 				Date dataEmp = emp.getDataEntrega();
-
-				// incrementa um dia a data
-				Calendar c = Calendar.getInstance();
-				c.setTime(dataFim);
-				c.add(Calendar.DATE, 1);
-				dataFim = c.getTime();
+				dataEmp = cd.confDataEmp(dataEmp);
 
 				if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0) {
 					getListaEmprestimo().remove(val - 1);
@@ -191,22 +185,14 @@ public class Emprestimo_Relatorios {
 			while (val > 0) {
 				emp = getListaEmprestimo().get(val - 1);
 				Date dataEmp = emp.getDataEntrega();
+				dataEmp = cd.confDataEmp(dataEmp);
 
-				// incrementa um dia a data
-				Calendar c = Calendar.getInstance();
-				c.setTime(dataFim);
-				c.add(Calendar.DATE, 1);
-				dataFim = c.getTime();
-
-				if (emp.getQtdTotalDevolvida() < emp.getQtdEmprestado()) {
-
-				} else {
+				if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0
+						|| (emp.getQtdTotalDevolvida() == emp.getQtdEmprestado())) {
 					getListaEmprestimo().remove(val - 1);
-					if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0) {
-						getListaEmprestimo().remove(val - 1);
 
-					}
 				}
+
 				val--;
 			}
 			carregar();
@@ -215,20 +201,12 @@ public class Emprestimo_Relatorios {
 			while (val > 0) {
 				emp = getListaEmprestimo().get(val - 1);
 				Date dataEmp = emp.getDataEntrega();
+				dataEmp = cd.confDataEmp(dataEmp);
 
-				// incrementa um dia a data
-				Calendar c = Calendar.getInstance();
-				c.setTime(dataFim);
-				c.add(Calendar.DATE, 1);
-				dataFim = c.getTime();
-				if (emp.getQtdEmprestado() == emp.getQtdTotalDevolvida()) {
-
-				} else {
+				if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0
+						|| (emp.getQtdEmprestado() > emp.getQtdTotalDevolvida())) {
 					getListaEmprestimo().remove(val - 1);
-					if (dataEmp.compareTo(dataFim) >= 0 || dataEmp.compareTo(dataIni) <= 0) {
-						getListaEmprestimo().remove(val - 1);
 
-					}
 				}
 
 				val--;
