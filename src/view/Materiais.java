@@ -279,8 +279,7 @@ public class Materiais {
 							mate = new Material();
 							JOptionPane.showMessageDialog(null, "Material arquivado com sucesso!!!");
 							// Abre nova Tela atualizando a lista
-							getFrmTelaMaterias().dispose();
-							control_View.abreTelaMateriais();
+							btn_Buscar.doClick();
 						}
 					} else {
 						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Desarquivar esse material?");
@@ -290,8 +289,8 @@ public class Materiais {
 							mate = new Material();
 							JOptionPane.showMessageDialog(null, "Material desarquivado com sucesso!!!");
 							// Abre nova Tela atualizando a lista
-							getFrmTelaMaterias().dispose();
-							control_View.abreTelaMateriais();
+							btn_Buscar.doClick();
+
 						}
 					}
 

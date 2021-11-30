@@ -207,8 +207,7 @@ public class Servidor {
 							serv = new entity.Servidor();
 							JOptionPane.showMessageDialog(null, "Servidor arquivado com sucesso!!!");
 							// Abre nova Tela atualizando a lista
-							getFrmTelaServidor().dispose();
-							control_View.abreTelaServidor();
+							btn_Buscar.doClick();
 						}
 					} else {
 						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Desarquivar esse Servidor?");
@@ -218,8 +217,7 @@ public class Servidor {
 							serv = new entity.Servidor();
 							JOptionPane.showMessageDialog(null, "Servidor desarquivado com sucesso!!!");
 							// Abre nova Tela atualizando a lista
-							getFrmTelaServidor().dispose();
-							control_View.abreTelaServidor();
+							btn_Buscar.doClick();
 						}
 					}
 

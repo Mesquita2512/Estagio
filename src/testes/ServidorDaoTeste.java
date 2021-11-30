@@ -9,7 +9,7 @@ public class ServidorDaoTeste {
 		Servidor servidor = new Servidor();
 		ServidorDao sDao = new ServidorDao();
 
-	//Teste Salvar Servidor, Atenção com o Siape que é a chave Primário...
+	//Teste Salvar Servidor, Atenï¿½ï¿½o com o Siape que ï¿½ a chave Primï¿½rio...
 		
 		servidor = new Servidor(2323, "Esther Mesquita", "ureadossecas@kbckbc.com", true);
 		sDao.salvar(servidor);

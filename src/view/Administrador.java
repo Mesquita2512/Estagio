@@ -35,6 +35,8 @@ public class Administrador {
 
 	Controla_views control = new Controla_views();
 	private JTable tb_Servidor;
+
+	JButton btn_Buscar = new JButton("Buscar");
 	JButton btn_Editar = new JButton("Editar");
 
 	private List<entity.Servidor> listaServidor;
@@ -201,10 +203,10 @@ public class Administrador {
 							serv.setStatusAtivo(false);
 							sDao.atualizar(serv);
 							serv = new entity.Servidor();
-							JOptionPane.showMessageDialog(null, "Servidor arquivado com sucesso!!!");
+							JOptionPane.showMessageDialog(null, "Administrador arquivado com sucesso!!!");
 							// Abre nova Tela atualizando a lista
-							getFrmTelaServidor().dispose();
-							control_View.abreTelaServidor();
+							btn_Buscar.doClick();
+							
 						}
 					} else {
 						int verifica = JOptionPane.showConfirmDialog(null, "Deseja Desarquivar esse Servidor?");
@@ -212,10 +214,9 @@ public class Administrador {
 							serv.setStatusAtivo(true);
 							sDao.atualizar(serv);
 							serv = new entity.Servidor();
-							JOptionPane.showMessageDialog(null, "Servidor desarquivado com sucesso!!!");
+							JOptionPane.showMessageDialog(null, "Administrador desarquivado com sucesso!!!");
 							// Abre nova Tela atualizando a lista
-							getFrmTelaServidor().dispose();
-							control_View.abreTelaServidor();
+							btn_Buscar.doClick();
 						}
 					}
 
@@ -233,16 +234,16 @@ public class Administrador {
 
 				String capta = "";
 				if (tb_Servidor.getSelectedRowCount() == 0) {
-					JOptionPane.showMessageDialog(null, "Selecione um Servidor da lista");
+					JOptionPane.showMessageDialog(null, "Selecione um Administrador da lista");
 				} else if (tb_Servidor.getSelectedRowCount() > 1) {
-					JOptionPane.showMessageDialog(null, "Selecione apenas um Servidor da lista");
+					JOptionPane.showMessageDialog(null, "Selecione apenas um Administrador da lista");
 				} else {
 					capta = tb_Servidor.getValueAt(tb_Servidor.getSelectedRow(), 0).toString();
 					int captaId = Integer.parseInt(capta);
 					adm = aDao.buscarPorSiape(captaId);
 
-					if (serv.isStatusAtivo() == "Inativo") {
-						JOptionPane.showMessageDialog(null, "Não é possível editar um servidor inativo");
+					if (adm.isStatusAtivo() == "Inativo") {
+						JOptionPane.showMessageDialog(null, "Não é possível editar um Administrador inativo");
 					} else {
 						control_View.abreTelaEditarAdmin(adm);
 						getFrmTelaServidor().dispose();
@@ -257,7 +258,6 @@ public class Administrador {
 		btn_Editar.setBounds(30, 335, 126, 25);
 		frmTelaServidor.getContentPane().add(btn_Editar);
 
-		JButton btn_Buscar = new JButton("Buscar");
 		btn_Buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
